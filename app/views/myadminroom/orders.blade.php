@@ -45,16 +45,18 @@
  
         <tbody>
 			@foreach($ords as $ord)
+            @foreach($usrs as $usr)
 			<tr>
 			    <td><input type="checkbox" name="my-checkbox" checked></td>
-                <td>{{(print_r($ord['username']));}}</td>
-                <td>{{(print_r($ord['surname']));}}</td>
-                <td>{{(print_r($ord['clikuha']));}}</td>
-                <td>{{(print_r($ord['email']));}}</td>
-                <td>{{(print_r($ord['mobile']));}}</td>
+                <td>{{(print_r($usr['username']));}}</td>
+                <td>{{(print_r($usr['first_name']));}}</td>
+                <td>{{(print_r($usr['last_name']));}}</td>
+                <td>{{(print_r($usr['email']));}}</td>
+                <td>{{(print_r($usr['mobile']));}}</td>
                 <td>{{(print_r($ord['service']));}}</td>
-				<td>{{(print_r($ord['date']));}}</td>
+				<td>{{(print_r($ord['date_start']));}}</td>
 			</tr>
+            @endforeach
 			@endforeach
         </tbody>
     </table>

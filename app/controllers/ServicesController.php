@@ -7,12 +7,21 @@ class ServicesController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+    public function getOrder() {
+        $services=Service::all(array('name'));
+        //return View::make('orders/index', compact('services'));
+        return View::make('orders/index', ['services' => $services]);
+    }
+
+
+	/*public function index()
 	{
 		$services = Service::all();
+        //$uss=User::all();
 
 		return View::make('services.index', compact('services'));
-	}
+        //return View::make('services.index', ['services' => $services]);
+	}*/
 
 	/**
 	 * Show the form for creating a new service

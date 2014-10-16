@@ -13,14 +13,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         'username'  => 'required|alpha_num',
 		
 		'mobile'  => 'required|alpha_num|unique:users',
+		
+		'first_name'  => 'alpha_num',
+		
+		'last_name'  => 'alpha_num',
 
-        'password'  => 'alpha_num|confirmed|min:6|',
-		
-		'surname'  => 'alpha_num',
-		
-		'clikuha'  => 'alpha_num',
-		
-		'comment' => 'required',
 
     );
 
@@ -38,7 +35,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	protected $hidden = array('password');
 
-    protected $fillable = array('username','surname','clikuha', 'email', 'mobile','password', 'service', 'comment', 'process');
+    protected $fillable = array('username','first_name','last_nname', 'email', 'mobile');
 
 	/**
 	 * Get the unique identifier for the user.
@@ -103,12 +100,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 
 
-    public function sendMail() {
+ /*   public function sendMail() {
         Mail::send('emails/activ',
             array('username' => $data),
             function ($message) {
                 $message->to($this->email)->subject('Спасибо!');
             }
         );
-}
+}*/
 }

@@ -18,23 +18,13 @@ class CreateUsersTable extends Migration {
 
             $table->string('email')->unique();
 
-            $table->string('password', 60);
-
             $table->string('username');
 			
-			$table->string('surname');
+			$table->string('first_name');
 			
-			$table->string('clikuha');
+			$table->string('last_name');
 			
             $table->integer('mobile')->unique();
-			
-			$table->date('date');
-			
-			$table->string('service');
-			
-			$table->string('comment');
-			
-			$table->string('process');
 
 			$table->string('remember_token')->nullable();
 

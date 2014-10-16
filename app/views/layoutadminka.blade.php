@@ -40,11 +40,8 @@
                 </div>
                 <div class="navbar-collapse collapse" id="order">
                     <ul class="nav navbar-nav">
-                        <li><a href="{{action('ServicesController@getOrder')}}">Отправить заказ</a></li>
+                        <li><a href="{{action('UsersController@getOrder')}}">Отправить заказ</a></li>
 
-	<li><a href="{{action('OrdersController@getService')}}">New</a></li>
-	 	<li><a href="{{action('OrdersController@adminOrders')}}">Orders</a></li>
-		 	<li><a href="{{action('OrdersController@adminClients')}}">Clients</a></li>
                     </ul>
             </div>
 		</div>

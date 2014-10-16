@@ -7,46 +7,14 @@ class UsersController extends BaseController {
         return View::make('index');
     }
 
-	public function getOrder() {
-	    $services=Service::find(1);
-		echo $services->shop;
-        $order = new Order();
-	    return View::make('orders/index', compact('services', 'order'));
-	}
-	
-	public function getDelete($id)  {
-	   
-	}
-	
-	public function getService() {
-        return View::make('myadminroom/create');
-	}
-	public function adminOrders() {
-	    $ords=User::all();
-		return View::make('myadminroom/orders', compact('ords'));
-	}
-	public function adminClients() {
-	    $clients=User::all();
-		$q=Input::get('username');
-		$cr=array();
-		if (strpos($q, '@')) {
-            $cr['email'] = $q;
-			$cofs=array();
-			$cofs=User::where('email','=', $cr)->first();
-			//print_r($cofs['mobile']);
-			return View::make('myadminroom/clients', compact('clients','cofs'));
-        } else {
-            $cr['username'] = $q;
-			$cofs=array();
-			$cofs=User::where('username','=', $cr)->first();
-			return View::make('myadminroom/clients', compact('clients','cofs'));
-
-        }
 
 
-		//return View::make('myadminroom/clients', compact('clients'));
-	}
-	
+
+    public function order() {
+        return $this->hasMany('Order', 'costumer');
+    }
+
+
 	public function Adminka() {
 	             return View::make('myadminroom/adminka');
 	}
@@ -62,22 +30,18 @@ class UsersController extends BaseController {
 
 	$priem=new User;
         $priem->fill(Input::all());
-		$mt='новый';
-		$priem->process=$mt;
         $priem->save();
 //	$rt=$priem->sendMail();
+        $date=date(Y,m,d);
     $ka=new Order;
-        $ka->service= Input::get('service');
-        $ka->comment= Input::get('comment');
+        $ka->fill(Input::all());
+        $ka->date_start=$date;
         $ka->save();
 //	$mm=$ka->sendMail();
     return Redirect::to('/');
     }
 
-	public function getServ() {
-	        return View::make('myadminroom/index');
-	}
-	
+
     public function getLogin() {
         return View::make('users/login');
     }

@@ -15,9 +15,19 @@ class CreateOrdersTable extends Migration {
 		Schema::create('orders', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->date('date');
-			$table->string('service');
-			$table->string('comment');
+
+            $table->string('date_start');
+
+            $table->string('date_end');
+
+            $table->string('service');
+
+            $table->string('comment');
+
+            $table->string('process');
+
+            $table->string('costumer');
+
 			$table->timestamps();
 		});
 	}

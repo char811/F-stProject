@@ -33,25 +33,25 @@ Route::controller('password', 'RemindersController');
 
 Route::get('/', 'UsersController@getIndex');
 Route::any('order', array('as' => 'order',
-        'uses' => 'UsersController@getOrder'
+        'uses' => 'ServicesController@getOrder'
     ));
 Route::post('form', array('as' => 'form',
         'uses' => 'UsersController@Record'
     ));
 Route::any('service', array('as' => 'service',
-        'uses' => 'UsersController@getService'
+        'uses' => 'OrdersController@getService'
     ));
 Route::post('newserv', array('as' => 'newserv',
         'uses' => 'ServicesController@store'
     ));
-Route::get('orders/index','UsersController@getOrder');
+Route::get('orders/index','ServicesController@getOrder');
 Route::get('myadminroom/adminka', 'UsersController@Adminka');
 Route::post('my', array('as' => 'my',
         'uses' => 'UsersController@postLogin'
     ));
-Route::get('myadminroom/index','UsersController@getServ');
-Route::get('myadminroom/orders','UsersController@adminOrders');
-Route::get('myadminroom/clients','UsersController@adminClients');
+Route::get('myadminroom/index','OrdersController@getServ');
+Route::get('myadminroom/orders','OrdersController@adminOrders');
+Route::get('myadminroom/clients','OrdersController@adminClients');
 Route::post(
     'myadminroom/clients',
     array(
@@ -59,7 +59,7 @@ Route::post(
         'uses' => 'UsersController@adminClients'
     )
 );
-Route::get('ad','UsersController@getDelete');
+Route::get('ad','OrdersController@getDelete');
 Route::get('services/index','ServicesController@create');
 /*
 Route::get('/create', 'CommsController@create');

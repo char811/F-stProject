@@ -14,7 +14,51 @@ class OrdersController extends \BaseController {
 		return View::make('orders.index', compact('orders'));
 	}
 
-	/**
+    public function user() {
+        return $this->belongsTo('User', 'username');
+    }
+
+    public function getDelete($id)  {
+
+    }
+
+    public function getService() {
+        return View::make('myadminroom/create');
+    }
+
+    public function getServ() {
+        return View::make('myadminroom/index');
+    }
+
+    public function adminOrders() {
+        $usrs=User::all();
+        $ords=Order::all();
+        return View::make('myadminroom/orders', compact('ords', 'usrs'));
+    }
+
+    public function adminClients() {
+        $clients=User::all();
+        $q=Input::get('username');
+        $cr=array();
+        if (strpos($q, '@')) {
+            $cr['email'] = $q;
+            $cofs=array();
+            $cofs=User::where('email','=', $cr)->first();
+            //print_r($cofs['mobile']);
+            return View::make('myadminroom/clients', compact('clients','cofs'));
+        } else {
+            $cr['username'] = $q;
+            $cofs=array();
+            $cofs=User::where('username','=', $cr)->first();
+            return View::make('myadminroom/clients', compact('clients','cofs'));
+
+        }
+
+
+        //return View::make('myadminroom/clients', compact('clients'));
+    }
+
+    /**
 	 * Show the form for creating a new order
 	 *
 	 * @return Response
