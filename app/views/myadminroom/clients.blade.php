@@ -31,6 +31,7 @@
 {{$all}}
 @endforeach
 </br>
+
 {{print_r($cofs['mobile']);}}
 
 @stop

@@ -11,3 +11,10 @@ $('div').load('greatess.php div', function(){              //подключае�
     });
 });
 });*/
+/*$(document).ready(function() {
+    $('#example').dataTable();
+} );*/
+
+    $(document).ready(function(){
+        $("#example").dataTable();
+    }});

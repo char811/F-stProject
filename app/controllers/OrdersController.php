@@ -18,13 +18,6 @@ class OrdersController extends \BaseController {
         return $this->belongsTo('User', 'username');
     }
 
-    public function getDelete($id)  {
-
-    }
-
-    public function getService() {
-        return View::make('myadminroom/create');
-    }
 
     public function getServ() {
         return View::make('myadminroom/index');
@@ -143,9 +136,9 @@ class OrdersController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		Order::destroy($id);
+        $kza = Order::find($id)->delete();
 
-		return Redirect::route('orders.index');
+		return View::make('orders.index');
 	}
 
 }

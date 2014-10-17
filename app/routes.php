@@ -35,8 +35,9 @@ Route::get('/', 'UsersController@getIndex');
 Route::any('order', array('as' => 'order',
         'uses' => 'ServicesController@getOrder'
     ));
+
 Route::post('form', array('as' => 'form',
-        'uses' => 'UsersController@Record'
+        'uses' => 'UsersController@Recordic'
     ));
 Route::any('service', array('as' => 'service',
         'uses' => 'OrdersController@getService'
@@ -49,9 +50,12 @@ Route::get('myadminroom/adminka', 'UsersController@Adminka');
 Route::post('my', array('as' => 'my',
         'uses' => 'UsersController@postLogin'
     ));
+Route::group(array('before' => 'auth'), function ()
+{
 Route::get('myadminroom/index','OrdersController@getServ');
 Route::get('myadminroom/orders','OrdersController@adminOrders');
 Route::get('myadminroom/clients','OrdersController@adminClients');
+});
 Route::post(
     'myadminroom/clients',
     array(
@@ -59,8 +63,14 @@ Route::post(
         'uses' => 'UsersController@adminClients'
     )
 );
-Route::get('ad','OrdersController@getDelete');
+Route::get('ad','OrdersController@destroy');
 Route::get('services/index','ServicesController@create');
+
+
+Route::filter('auth', function()
+{
+     if (!Auth::check()) return Redirect::to('/');
+});
 /*
 Route::get('/create', 'CommsController@create');
 

@@ -8,8 +8,6 @@ class UsersController extends BaseController {
     }
 
 
-
-
     public function order() {
         return $this->hasMany('Order', 'costumer');
     }
@@ -18,8 +16,10 @@ class UsersController extends BaseController {
 	public function Adminka() {
 	             return View::make('myadminroom/adminka');
 	}
-	
-	public function Record() {
+
+
+
+	public function Recordic() {
 	       $rules = User::$validation;
 
         $validation = Validator::make(Input::all(), $rules);
@@ -28,14 +28,21 @@ class UsersController extends BaseController {
             return Redirect::to('orders/index')->withErrors($validation)->withInput();
         }
 
-	$priem=new User;
-        $priem->fill(Input::all());
+	$priem=new User();
+        $priem->email=Input::get('email');
+        $priem->username=Input::get('username');
+        $priem->first_name=Input::get('first_name');
+        $priem->last_name=Input::get('last_name');
+        $priem->mobile=Input::get('mobile');
+      //  $priem->fill(Input::all());
         $priem->save();
 //	$rt=$priem->sendMail();
-        $date=date(Y,m,d);
-    $ka=new Order;
-        $ka->fill(Input::all());
+        $date=date("m,d.y");
+    $ka=new Order();
+       // $ka->fill(Input::all());
         $ka->date_start=$date;
+        $ka->service=Input::get('service');
+        $ka->comment=Input::get('comment');
         $ka->save();
 //	$mm=$ka->sendMail();
     return Redirect::to('/');
@@ -47,29 +54,37 @@ class UsersController extends BaseController {
     }
 
     public function postLogin() {
-		
-		
-		$name=(Input::get('us'));
-		$pas=(Input::get('password'));
-		$ab='rt54K7uY783Gj';
-		$bc='tik';
+		//$name=(Input::get('us'));
+		//$pas=(Input::get('password'));
+
+        $ab='rt54K7uY783Gj';
+        $bc='tik';
+ /*       $re = User::firstOrCreate(array('admin' => 'tik', 'password'=>'rt54K7uY783Gj'));
+        $re->password=Hash::make('$re->password');
+        $re->save;  */
+   /*     $re=User::first()->admin;
+		if(($re['admin'])==0){
+        $re->admin=$bc;
+        $re->password=$ab;
+        }
+/*
         if($ab==$pas && $bc==$name) {
           //Log::info("User [{$name['us']}] successfully logged in.");
  		    return Redirect::to('myadminroom/index');
 		} else {
 		  Log::info("User failed to login or password.");
-        }
+        }*/
   
           $creds = array(
-		    'username'  => Input::get('username'),
+		    'admin'  => Input::get('us'),
             'password' => Input::get('password'),
         ); 
 		
         if (Auth::attempt($creds, Input::has('remember'))) {
-            Log::info("User [{$creds['username']}] successfully logged in.");
- 		    return Redirect::to('/');
+            Log::info("User [{$creds['admin']}] successfully logged in.");
+ 		    return Redirect::to('myadminroom/index');
         } else {
-            Log::info("User [{$creds['username']}] failed to login.");
+            Log::info("User [{$creds['admin']}] failed to login.");
         }
 
 

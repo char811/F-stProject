@@ -18,10 +18,15 @@
         <link rel="stylesheet" href="/css/style.css">
 
 
-  		 	{{ HTML::script(URL::asset('styles/admin.js')) }}
+        <script src="bootstrap-table-master/src/extensions/export/bootstrap-table-export.js"></script>
+
+        <script type="text/javascript" src="ono/jquery.simplePagination.js"></script>
 
 
-<!-- DataTables CSS -->
+        <link type="text/css" rel="stylesheet" href="ono/simplePagination.css"/>
+
+
+        <!-- DataTables CSS -->
 <link rel="stylesheet" type="text/css" href="/DataTables-1.10.3/css/jquery.dataTables.css">
   
 <!-- jQuery -->
@@ -29,8 +34,9 @@
   
 <!-- DataTables -->
 <script type="text/javascript" charset="utf8" src="/DataTables-1.10.3/js/jquery.dataTables.js"></script>
-
-
+        <script type="text/javascript" src="styles/jquery.dataTables.js"></script>
+        {{ HTML::script(URL::asset('styles/jquery.dataTables.js')) }}
+        {{ HTML::script(URL::asset('styles/admin.js')) }}
  </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">

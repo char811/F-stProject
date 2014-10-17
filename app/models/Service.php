@@ -4,7 +4,7 @@ class Service extends \Eloquent {
 
 	// Add your validation rules here
   public static $valid = array(
-		'name'=>'required|alpha_num|unique:services',
+		'name'=>'alpha_num|unique:services',
 	);
 
 	// Don't forget to fill this array
@@ -15,6 +15,7 @@ class Service extends \Eloquent {
 	public static function serv() {
 
     $mays=Service::All();
+
 
 
 	return $mays;
