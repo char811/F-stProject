@@ -50,12 +50,12 @@ Route::get('myadminroom/adminka', 'UsersController@Adminka');
 Route::post('my', array('as' => 'my',
         'uses' => 'UsersController@postLogin'
     ));
-Route::group(array('before' => 'auth'), function ()
-{
+//Route::group(array('before' => 'auth'), function ()
+//{
 Route::get('myadminroom/index','OrdersController@getServ');
 Route::get('myadminroom/orders','OrdersController@adminOrders');
 Route::get('myadminroom/clients','OrdersController@adminClients');
-});
+//});
 Route::post(
     'myadminroom/clients',
     array(
@@ -63,14 +63,14 @@ Route::post(
         'uses' => 'UsersController@adminClients'
     )
 );
-Route::get('ad','OrdersController@destroy');
+Route::get('myadminroom/orders{ord}', array('as'=>'ad', 'uses'=> 'OrdersController@destroy'));
 Route::get('services/index','ServicesController@create');
+Route::get('process','OrdersController@getProcess');
 
-
-Route::filter('auth', function()
+/*Route::filter('auth', function()
 {
      if (!Auth::check()) return Redirect::to('/');
-});
+});*/
 /*
 Route::get('/create', 'CommsController@create');
 

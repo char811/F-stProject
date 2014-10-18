@@ -21,4 +21,14 @@ class Order extends \Eloquent {
 		Mail::send('emails/adminactiv',
 		    array(''=>
     }*/
+
+    public function getcostumer()
+    {
+        return $this->belongsTo('User', 'costumer');
+    }
+
+    public function getservice()
+    {
+        return $this->belongsTo('Service', 'service');
+    }
 }

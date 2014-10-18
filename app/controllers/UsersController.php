@@ -8,9 +8,6 @@ class UsersController extends BaseController {
     }
 
 
-    public function order() {
-        return $this->hasMany('Order', 'costumer');
-    }
 
 
 	public function Adminka() {
@@ -20,32 +17,33 @@ class UsersController extends BaseController {
 
 
 	public function Recordic() {
-	       $rules = User::$validation;
+	       $rules = Order::$validation;
 
         $validation = Validator::make(Input::all(), $rules);
 
-        if ($validation->fails()) {
+        if (!$validation->fails()) {
             return Redirect::to('orders/index')->withErrors($validation)->withInput();
         }
 
-	$priem=new User();
-        $priem->email=Input::get('email');
-        $priem->username=Input::get('username');
-        $priem->first_name=Input::get('first_name');
-        $priem->last_name=Input::get('last_name');
-        $priem->mobile=Input::get('mobile');
-      //  $priem->fill(Input::all());
-        $priem->save();
-//	$rt=$priem->sendMail();
-        $date=date("m,d.y");
-    $ka=new Order();
-       // $ka->fill(Input::all());
-        $ka->date_start=$date;
-        $ka->service=Input::get('service');
-        $ka->comment=Input::get('comment');
-        $ka->save();
-//	$mm=$ka->sendMail();
-    return Redirect::to('/');
+        $order=new Order();
+        $order->comment=Input::get('comment');
+        $service = Service::find(Input::get('service'));
+        $order->service = $service->id;
+
+	    //$user=new User();
+        $user = User::where('email', '=', Input::get('email'))->first();
+
+        if (!$user) $user = new User();
+        $user->email=Input::get('email');
+        $user->username=Input::get('username');
+        $user->first_name=Input::get('first_name');
+        $user->last_name=Input::get('last_name');
+        $user->mobile=Input::get('mobile');
+        $user->save();
+        $order->costumer = $user->id;
+        $order->save();
+
+        return Redirect::to('/');
     }
 
 
@@ -59,9 +57,10 @@ class UsersController extends BaseController {
 
         $ab='rt54K7uY783Gj';
         $bc='tik';
- /*       $re = User::firstOrCreate(array('admin' => 'tik', 'password'=>'rt54K7uY783Gj'));
-        $re->password=Hash::make('$re->password');
-        $re->save;  */
+
+       // $user=User::where('admin','=', I);
+       // $user = User::firstOrCreate(array('username' => $bc, 'password'=>Hash::make($ab)));
+       // $user->save();
    /*     $re=User::first()->admin;
 		if(($re['admin'])==0){
         $re->admin=$bc;
@@ -75,16 +74,16 @@ class UsersController extends BaseController {
 		  Log::info("User failed to login or password.");
         }*/
   
-          $creds = array(
-		    'admin'  => Input::get('us'),
+        $creds = array(
+		    'username'  => Input::get('username'),
             'password' => Input::get('password'),
         ); 
-		
+		//var_dump(Auth::validate($creds));var_dump($creds);die();
         if (Auth::attempt($creds, Input::has('remember'))) {
-            Log::info("User [{$creds['admin']}] successfully logged in.");
+            Log::info("User [{$creds['username']}] successfully logged in.");
  		    return Redirect::to('myadminroom/index');
         } else {
-            Log::info("User [{$creds['admin']}] failed to login.");
+            Log::info("User [{$creds['username']}] failed to login.");
         }
 
 

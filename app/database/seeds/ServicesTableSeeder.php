@@ -7,14 +7,11 @@ class ServicesTableSeeder extends Seeder {
 
 	public function run()
 	{
-		$faker = Faker::create();
-
-		foreach(range(1, 10) as $index)
-		{
-			Service::create([
-
-			]);
-		}
+			foreach(array(1,2,3,4) as $id){
+                Service::create(
+                    array('name'=>'service' . $id)
+                );
+            }
 	}
 
 }

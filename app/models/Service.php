@@ -16,8 +16,6 @@ class Service extends \Eloquent {
 
     $mays=Service::All();
 
-
-
 	return $mays;
 	}
 

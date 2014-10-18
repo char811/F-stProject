@@ -6,9 +6,10 @@ class UsersTableSeeder extends Seeder {
 	{
 		$users = array(
 			array(
-				'username' => 'habrahabr',
-				'email'	=> 'habrahabr@habr.com',
-				'password' => Hash::make('habr'),
+				'username' => 'krit',
+				'email'	=> 'krit@krit.com',
+                'mobile' => '123456',
+				//'password' => Hash::make('krit'),
 				'updated_at' => DB::raw('NOW()'),
 				'created_at' => DB::raw('NOW()'),
 				)

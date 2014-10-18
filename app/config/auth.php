@@ -27,6 +27,8 @@ return array(
 	| is often just the "User" model but you may use whatever you like.
 	|
 	*/
+  //  'username'=>'admin',
+
 
 	'model' => 'User',
 
@@ -59,6 +61,8 @@ return array(
 	*/
 
 	'reminder' => array(
+
+    //    'username' => 'admin.auth.reminder',
 
 		'email' => 'emails.auth.reminder',
 

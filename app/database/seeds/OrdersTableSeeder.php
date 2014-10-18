@@ -7,12 +7,14 @@ class OrdersTableSeeder extends Seeder {
 
 	public function run()
 	{
-		$faker = Faker::create();
-
-		foreach(range(1, 10) as $index)
+        $this->call('UsersTableSeeder');
+        $this->call('ServicesTableSeeder');
+		foreach(range(1, 3) as $index)
 		{
 			Order::create([
-
+                'costumer'=>User::all()->first()['id'],
+                'service'=>Service::all()[$index]->id,
+                'comment'=>'sdka' . $index
 			]);
 		}
 	}

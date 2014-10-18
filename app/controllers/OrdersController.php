@@ -19,14 +19,20 @@ class OrdersController extends \BaseController {
     }
 
 
+    public function getProcess() {
+
+    }
+
     public function getServ() {
         return View::make('myadminroom/index');
     }
+    public function getService() {
+        return View::make('myadminroom/create');
+    }
 
     public function adminOrders() {
-        $usrs=User::all();
-        $ords=Order::all();
-        return View::make('myadminroom/orders', compact('ords', 'usrs'));
+        $ords=Order::paginate(20);
+        return View::make('myadminroom/orders', compact('ords'));
     }
 
     public function adminClients() {
@@ -134,11 +140,11 @@ class OrdersController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy($ord)
 	{
-        $kza = Order::find($id)->delete();
-
-		return View::make('orders.index');
+        $kza = Order::where('id','=', $ord)->delete();
+        $ords=Order::paginate(20);
+        return View::make('myadminroom/orders', compact('ords'));
 	}
 
 }

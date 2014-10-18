@@ -26,6 +26,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var string
 	 */
+//    protected $username = 'admin';
+
 	protected $table = 'users';
 
     protected $hidden = array('password');
@@ -101,4 +103,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
             }
         );
 }*/
+
+    public function orders()
+    {
+        return $this->hasMany('Order');
+    }
 }
