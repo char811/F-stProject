@@ -22,17 +22,25 @@
 {{ Form::open(array('url' => action('UsersController@postLogin'), 'method' => 'post', 'role' => 'my', 'class' => 'form-horizontal')) }}
         <div class="col-sm-14">
             <label class="col-sm-8 control-label"> Имя </label> {{ Form::text('username', null, array('class' => 'form-control', 'placeholder' => 'Имя')) }}</div>
-        <div class="col-sm-14">
+      </br>  <div class="col-sm-14">
             <label class="col-sm-8 control-label"> Пароль </label> {{ Form::password('password', array('class' => 'form-control', 'placeholder' => 'Пароль')) }} </div>
         <div class="col-sm-30">
-            <label class="checkbox">
+            <label  class="swap" class="checkbox">
             {{ Form::checkbox('remember-me', 1) }} Запомнить!
-        </label></div>
+       </label></div>
         <div class="col-sm-14">
             <label class="col-sm-8 control-label"></label>{{ Form::submit('Вход', array('class' => 'btn btn-lg btn-primary btn-block')) }}</div>
 {{Form::close()}}
-    </div> 
+    </div>
 </div>
 
 </div>
+
+
+<style type="text/css">
+    label.swap {
+        left:70%;
+        position:relative;
+    }
+</style>
 @stop

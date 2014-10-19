@@ -6,7 +6,7 @@
 	"require": {
 		"laravel/framework": "4.2.*",
         "way/generators": "2.*",
-        "cartalyst/sentry": "2.0.*",
+        "cartalyst/sentry": "2.1.*",
         "rhumsaa/uuid": "~2.7",
         "jenssegers/agent": "~2.1",
         "bllim/datatables": "1.4.*",

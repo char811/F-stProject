@@ -16,7 +16,7 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-lg-10">
-                    <form role="form"  action="{{ action('OrdersController@postSearch') }}" method="post" class="form-search">
+                    <form role="uniform"  action="{{ action('OrdersController@postSearch') }}" method="post" class="form-search">
                         <div class="input-group input-group-sm">
                             <input type="text"  class="form-control" placeholder="Имя" name="email" required />
                              <span class="input-group-addon"><a href="{{URL::route('form') }}"><i class="glyphicon glyphicon-search"></i></a></span>
@@ -72,7 +72,7 @@
                 <td>
                     <a href="#modal" class="btn btn-info btn-sm" data-toggle="modal"
                        data-target="#basicModal"><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="{{URL::route('ad', array('id'=>$ord->id)) }}" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove-sign"></i></a>
+                    <a href="{{URL::route('ad', array('id'=>$ord->id)) }}" id="delete" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove-sign"></i></a>
                 </td>
             </tr>
 
@@ -98,5 +98,27 @@
     </div>
 </div>
 
+
+<script type="text/javascript">
+function () {
+        $('.delete').click(function () {
+            confirmBox("Вы уверены что хотите удалить?", function () {
+                $('#console').append('Удаляем<br />');
+                $('.confirm').hide();
+            });
+        });
+        $('.no').click(function () {
+            $('.confirm').hide();
+        });
+    };
+
+    function confirmBox(text, callback) {
+        var c = $('.confirm');
+        c.children('.confirm-text').text(text);
+        c.show();
+        $('document').off('click', '.Да');
+        $('document').on('click', '.Нет', callback);
+    }
+</script>
 
 @stop

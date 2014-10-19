@@ -1,7 +1,33 @@
 @extends('layoutt')
 
 @section('content')
-{{Form::open(array('url'=>action('UsersController@Recordic'), 'role'=>'form', 'method'=>'post', 'class' => 'form-horizontal')) }}
+<script type="text/javascript">
+    function val(form)
+    {
+        fail=valusername(form.username.value)  //вызываем функцию valname для проверки имени и если есть ошибки то записываем их в fail
+        fail+=valemail(form.email.value)   //вызываем очередную функцию проверяем ошибки и если есть прибавляем к уже существующим в fail+=
+        fail+=valmobile(form.mobile.value)
+        if(fail=="") return true
+        else {alert(fail); return false}
+    }
+    function valusername(field) {
+        if(/[^a-zA-Z0-9_-]/.test(field))      //test функция проверки в js проверяет значение имени в (field) похожая на функцию в php preg_match
+            return "Не то Имя"
+        return ""  }
+    function valemail(field) {
+        if(!((field.indexOf(".")>0)&&(field.indexOf("@")>0))||  //функция indexOf сверяет символ("@") либо символ точки с полем field(т.е. проверяет есть внесены ли они в field)
+            /[^a-zA-Z0-9.@_-]/.test(field))
+            return "Не правильный Эмейл"
+        return ""  }
+    function valmobile(field) {
+        if(/[^0-9_-]/.test(field))
+            return "Проблемы с Мобильным?"
+        return ""  }
+
+</script>
+
+
+{{Form::open(array('url'=>action('UsersController@Recordic'), 'role'=>'form', 'method'=>'post', 'onsubmit' => 'val(this); return true;', 'class' => 'form-horizontal')) }}
 </br>
 </br>
 </br>
@@ -22,6 +48,7 @@
 
     </div>
     @endif
+
 	
 <div class="jumbotron">
    <div class="container">
@@ -68,6 +95,5 @@
 </div>
 
 {{Form::close()}}
-
 
 @stop

