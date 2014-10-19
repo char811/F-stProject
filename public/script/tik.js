@@ -1,5 +1,5 @@
 ﻿
-$("#modal-callback input").popover();
+/*$("#modal-callback input").popover();
   $('#loading-example-btn').click(function () {
     var btn = $(this)
     btn.button('loading')
@@ -17,5 +17,8 @@ $(document).ready(function(){//ready()- выполнится после того
 		$(this).css("background-color", "");		//тут ничего не выставляем чтоб фон был прежним когда не наводим на элемент
 	});
 
+});*/
+$('document').ready(function(){
+    $('#modal').modal();
 });
 

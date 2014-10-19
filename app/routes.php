@@ -67,6 +67,11 @@ Route::get('myadminroom/orders{ord}', array('as'=>'ad', 'uses'=> 'OrdersControll
 Route::get('services/index','ServicesController@create');
 Route::get('process','OrdersController@getProcess');
 
+Route::post('form',array('as' => 'form',
+    'uses' => 'OrdersController@postSearch'
+));
+
+Route::any('form',array('as'=>'form', 'uses'=> 'OrdersController@postSearch'));
 /*Route::filter('auth', function()
 {
      if (!Auth::check()) return Redirect::to('/');

@@ -57,6 +57,13 @@ class OrdersController extends \BaseController {
         //return View::make('myadminroom/clients', compact('clients'));
     }
 
+    public function postSearch(){
+        $key=Input::get('email');
+        echo ($key);
+   //     $poisk=User::where('email','=',Input::get('key'))->first();
+     //   print_r($poisk['email']);
+    }
+
     /**
 	 * Show the form for creating a new order
 	 *
