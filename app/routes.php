@@ -40,7 +40,7 @@ Route::group(array('before' => 'ka'), function ()
 {
 
 Route::get('myadminroom/index','OrdersController@getServ');
-Route::get('myadminroom/orders','OrdersController@adminOrders');
+Route::any('myadminroom/orders','OrdersController@adminOrders');
 Route::get('myadminroom/clients','OrdersController@adminClients');
 
  Route::post('newserv', array('as' => 'newserv',

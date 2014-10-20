@@ -37,3 +37,8 @@ function confirmDelete() {
     }
 
 }
+
+function closeModal(modal_id) {
+    $('#basicModal' + modal_id).modal('hide');
+    return false;
+}

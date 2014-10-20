@@ -27,7 +27,7 @@
 </script>
 
 
-{{Form::open(array('url'=>action('UsersController@Recordic'), 'role'=>'form', 'method'=>'post',  'class' => 'form-horizontal')) }}
+{{Form::open(array('url'=>action('UsersController@Recordic'), 'role'=>'form',  'method'=>'post',  'class' => 'form-horizontal')) }}
 </br>
 </br>
 </br>

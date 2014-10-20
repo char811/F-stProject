@@ -31,12 +31,16 @@ class OrdersController extends \BaseController {
     }
 
     public function adminOrders() {
-        if($sort=Input::get('id')=='old'){
-        $ords=Order::OrderBy('created_at','asc')->paginate(20);
-            return View::make('myadminroom/orders', compact('ords'));}
-        else {
-        $ords=Order::OrderBy('created_at','desc')->paginate(20);
-        return View::make('myadminroom/orders', compact('ords'));}
+        $query = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
+        $term = '';
+        if ('POST' == Request::method() && $term = Request::get('email')){
+            $query = $query->whereHas('getcostumer', function($q) use ($term){
+               return $q->where('email', 'LIKE', '%' . $term . '%');
+            });
+        }
+
+        $ords = $query->paginate(50);
+        return View::make('myadminroom/orders', compact('ords', 'term'));
     }
 
     public function adminClients() {
@@ -60,10 +64,8 @@ class OrdersController extends \BaseController {
 
     public function myUpdate(){
         $q=Input::get('email');
-        echo $q;
-        print_r($q);
-var_dump($q);
-        //return View::make('myadminroom/update');
+
+        return View::make('myadminroom/update');
     }
 
     public function postSearch(){

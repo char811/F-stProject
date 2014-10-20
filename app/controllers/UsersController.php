@@ -17,7 +17,6 @@ class UsersController extends BaseController {
     public function myRecord(){
 
 
-
         return View::make('myadminroom/update');
     }
 
@@ -26,8 +25,16 @@ class UsersController extends BaseController {
 
         $validation = Validator::make(Input::all(), $rules);
 
-        if (!$validation->fails()) {
+        if ($validation->fails()) {
             return Redirect::to('orders/index')->withErrors($validation)->withInput();
+        }
+
+        $rules = Order::$validate;
+
+        $validate = Validator::make(Input::all(), $rules);
+
+        if ($validate->fails()) {
+            return Redirect::to('orders/index')->withErrors($validate)->withInput();
         }
 
         $order=new Order();
@@ -35,7 +42,6 @@ class UsersController extends BaseController {
         $service = Service::find(Input::get('service'));
         $order->service = $service->id;
 
-	    //$user=new User();
         $user = User::where('email', '=', Input::get('email'))->first();
 
         if (!$user) $user = new User();

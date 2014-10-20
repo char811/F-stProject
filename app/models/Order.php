@@ -5,7 +5,7 @@ class Order extends \Eloquent {
     protected $table = 'orders';
 
 	// Add your validation rules here
-    public static $validation = array(
+    public static $validate = array(
 		'service'=>'required|alpha|unique:orders',
 
         'comment' => 'required',

@@ -16,10 +16,12 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-lg-8">
-                    <form role="uniform" name="uni"  action="{{ action('OrdersController@postSearch') }}" method="post" class="form-search">
+                    <form role="uniform" name="uni"  action="{{ action('OrdersController@adminOrders') }}" method="post" class="form-search" id="orders_search">
                         <div class="input-group input-group-sm">
-                            <input type="text"  class="form-control" placeholder="Имя" name="email" required />
-                             <span class="input-group-addon"><a href="{{action('OrdersController@postSearch')}}"><i class="glyphicon glyphicon-search"></i></a></span>
+                             <input type="text"  class="form-control" placeholder="Имя" name="email" required value="{{ $term }}" />
+                             <span class="input-group-addon"><a href="#" onclick="$('#orders_search').submit();">
+                                     <i class="glyphicon glyphicon-search"></i></a>
+                             </span>
                         </div>
                     </form>
 
@@ -84,7 +86,7 @@
 
                 <td>
                     <a href="#modal" class="btn btn-info btn-sm" data-toggle="modal"
-                       data-target="#basicModal"><i class="glyphicon glyphicon-eye-open"></i></a>
+                       data-target="#basicModal{{$ord->id}}"><i class="glyphicon glyphicon-eye-open"></i></a>
                     <a href="{{URL::route('ad', array('id'=>$ord->id)) }}" onclick="return confirm('Подтвердите?')?true:false;" id="delete"  class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove-sign"></i></a>
                 </td>
             </tr>
@@ -99,7 +101,7 @@
 </div>
 
 @foreach($ords as $ord)
-<div class="modal" id="basicModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal" id="basicModal{{ $ord->id }}" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header"><button class="close" type="button" data-dismiss="modal">x</button>
@@ -108,9 +110,12 @@
             <div class="modal-body">
                 <h3>{{$ord->comment}}</h3>
             </div>
-            <div class="modal fade">
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-info btn-sm">Изменить</button>
+                <a class="btn" href="#" data-dismiss="modal">Отмена</a>
             </div>
         </div>
+
     </div>
 </div>
 @endforeach
