@@ -21,18 +21,17 @@
         <!-- DataTables JS -->
 
         {{ HTML::script(URL::asset('script/jquery-2.1.1.js')) }}
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
 
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
         {{ HTML::script(URL::asset('styles/bootstrap-3.2.0/dist/js/bootstrap.min.js')) }}
-        {{ HTML::script(URL::asset('script/tablesorter-master/js/jquery.tablesorter.min.js')) }}
+
         {{ HTML::script(URL::asset('script/bootstrap-table.js')) }}
 
         {{ HTML::script(URL::asset('script/admin.js')) }}
 
         {{ HTML::script(URL::asset('styles/bootstrap-3.2.0/js/button.js')) }}
         {{ HTML::script(URL::asset('styles/bootstrap-3.2.0/js/modal.js')) }}
-
+        {{ HTML::script(URL::asset('styles/bootstrap-3.2.0/js/dropdown.js')) }}
         {{ HTML::script(URL::asset('script/tik.js')) }}
 
         @show

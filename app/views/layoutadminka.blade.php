@@ -46,15 +46,12 @@
             </div>
 		</div>
 </div>
+
+  <div id="contact">
+      hello
+  </div>
+
 @yield('content')
             
     </body>
 </html>
-<script>
-
-$("body").click(function(e) {  
-    var clicked = $(e.target);  
-    clicked.append("<a href="admin.php">if you admin - enter or you just clever passing man</a>");
-  
-});  
-</script>

@@ -36,18 +36,6 @@
         </div>
 </div>
 @yield('content')
-            <div class="container">
-				<p class="text-success">
-				Still no news
-				</p>
-            </div>
+
     </body>
 </html>
-<script>
-
-$("body").click(function(e) {  
-    var clicked = $(e.target);  
-    clicked.append("<a href="admin.php">if you admin - enter or you just clever passing man</a>");
-  
-});  
-</script>

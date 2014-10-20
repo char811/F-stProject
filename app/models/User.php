@@ -38,7 +38,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 
 
-    protected $fillable = array('username','first_name','last_nname', 'email', 'mobile', 'admin', 'password');
+    protected $fillable = array('username','first_name','last_nname', 'email', 'mobile', 'admin', 'password', 'created_date');
 
 
     /**

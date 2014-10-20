@@ -66,5 +66,12 @@ Route::any('uniform',array('as'=>'uniform', 'uses'=> 'OrdersController@postSearc
 
 Route::post('exit', array('as'=>'exit', 'uses' => 'UsersController@getLogout'));
 
+Route::get('myadminroom/update', 'OrdersController@myUpdate');
+
+ Route::post('record', array('as' => 'record',
+        'uses' => 'UsersController@myRecord'
+));
+Route::get('myadminroom/orders{id}', array('as'=>'sort', 'uses'=> 'OrdersController@adminOrders'));
+
 });
 

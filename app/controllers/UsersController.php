@@ -14,10 +14,15 @@ class UsersController extends BaseController {
 	             return View::make('myadminroom/adminka');
 	}
 
+    public function myRecord(){
 
+
+
+        return View::make('myadminroom/update');
+    }
 
 	public function Recordic() {
-	       $rules = Order::$validation;
+	       $rules = User::$validation;
 
         $validation = Validator::make(Input::all(), $rules);
 
@@ -52,8 +57,6 @@ class UsersController extends BaseController {
     }
 
     public function postLogin() {
-		//$name=(Input::get('us'));
-		//$pas=(Input::get('password'));
 
         $ab='rt54K7uY783Gj';
         $bc='tik';
@@ -62,19 +65,7 @@ class UsersController extends BaseController {
         if(!$user){
         $user = User::firstOrCreate(array('username' => $bc, 'password'=>Hash::make($ab)));
         $user->save();}
-   /*     $re=User::first()->admin;
-		if(($re['admin'])==0){
-        $re->admin=$bc;
-        $re->password=$ab;
-        }
-/*
-        if($ab==$pas && $bc==$name) {
-          //Log::info("User [{$name['us']}] successfully logged in.");
- 		    return Redirect::to('myadminroom/index');
-		} else {
-		  Log::info("User failed to login or password.");
-        }*/
-  
+
         $creds = array(
 		    'username'  => Input::get('username'),
             'password' => Input::get('password'),
@@ -82,7 +73,7 @@ class UsersController extends BaseController {
 		//var_dump(Auth::validate($creds));var_dump($creds);die();
         if (Auth::attempt($creds, Input::has('remember'))) {
             Log::info("User [{$creds['username']}] successfully logged in.");
- 		    return Redirect::to('myadminroom/index');
+ 		    return Redirect::to('myadminroom/orders ');
         } else {
             Log::info("User [{$creds['username']}] failed to login.");
         }
@@ -98,48 +89,4 @@ class UsersController extends BaseController {
         return Redirect::to('myadminroom/adminka');
     }
 
-	
-	
-	
-public function kuka()
-	{
-
-$visitor_ip = $_SERVER['REMOTE_ADDR'];
-$date = date("Y-m-d");
-$res=Visit::where('date', '>=', '$date')->count();  
-
-
-if($res==0)
-{ $ky=Ip::where('ip_id','>=','0')->delete();
-  $wy=Visit::where('visit_id','>=','0')->delete();
-  $truk=new Ip;
-  $truk->ip_address=$visitor_ip;
-  $truk->save();
-  $kar=new Visit;
-  $kar->date=$date;
-  $kar->hosts=1;
-  $kar->views=1;
-  $kar->save();
-   }
-else
-   { 
-    $cur_ip=Ip::where('ip_address', '==', '$visitor_ip');
-	$cur_ip=count($cur_ip);
-	if($cur_ip>0)
-	{  
-	$af=Visit::where('date','==','$date')->update(['views'=>'views+1']);
-	//$af->save();
-	}
-	else 
-	{    $tr=new Ip;
-         $tr->ip_address=$visitor_ip;
-         $tr->save();
-         $red=new Visit;
-         $red->hosts+1;
-         $red->views+1;
-         $red->save();	
-	}
-    }
-		return;
-	}
-} 
+}

@@ -1,33 +1,8 @@
-@extends('layoutt')
+@extends('layoutadmin')
 
 @section('content')
-<script type="text/javascript">
-    function val(form)
-    {
-        fail=valusername(form.username.value)
-        fail+=valemail(form.email.value)
-        fail+=valmobile(form.mobile.value)
-        if(fail=="") return true
-        else {event.preventDefault(); alert(fail);  }
-    }
-    function valusername(field) {
-        if(/[^a-zA-Z0-9_-]/.test(field))
-            return "Не то Имя"
-        return ""  }
-    function valemail(field) {
-        if(!((field.indexOf(".")>0)&&(field.indexOf("@")>0))||
-            /[^a-zA-Z0-9.@_-]/.test(field))
-            return "Не правильный Эмейл"
-        return ""  }
-    function valmobile(field) {
-        if(/[^0-9_-]/.test(field))
-            return "Проблемы с Мобильным?"
-        return ""  }
 
-</script>
-
-
-{{Form::open(array('url'=>action('UsersController@Recordic'), 'role'=>'form', 'method'=>'post',  'class' => 'form-horizontal')) }}
+{{Form::open(array('url'=>action('UsersController@myRecord'), 'role'=>'record', 'method'=>'post', 'onsubmit' => 'val(this)', 'class' => 'form-horizontal')) }}
 </br>
 </br>
 </br>

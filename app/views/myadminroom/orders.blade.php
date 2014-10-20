@@ -15,17 +15,30 @@
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="row">
-                <div class="col-lg-10">
-                    <form role="uniform"  action="{{ action('OrdersController@postSearch') }}" method="post" class="form-search">
+                <div class="col-lg-8">
+                    <form role="uniform" name="uni"  action="{{ action('OrdersController@postSearch') }}" method="post" class="form-search">
                         <div class="input-group input-group-sm">
                             <input type="text"  class="form-control" placeholder="Имя" name="email" required />
-                             <span class="input-group-addon"><a href="{{URL::route('form') }}"><i class="glyphicon glyphicon-search"></i></a></span>
+                             <span class="input-group-addon"><a href="{{action('OrdersController@postSearch')}}"><i class="glyphicon glyphicon-search"></i></a></span>
                         </div>
                     </form>
+
+
+
                 </div>
                 <div class="col-lg-2">
-                    <a class="btn btn-success btn-sm pull-right" href=""><i class="glyphicon glyphicon-plus"></i></a>
+                    <a class="btn btn-success btn-sm pull-right" href="{{ action('OrdersController@myUpdate') }}" onclick="document.form.uni.submit(); "><i class="glyphicon glyphicon-plus"></i></a>
+
                 </div>
+
+                <ul class="nav nav-pills">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle"  data-toggle="dropdown" href="#">Сортировка<b class="caret"></b></a>
+                        <ul id="menu1" class="dropdown-menu">
+                            <li><a href="{{URL::route('sort', array('id'=>'last')) }}">Старые данные</a></li>
+                            <li><a href="{{ action('OrdersController@adminOrders') }}"?id='old'>Новые данные</a></li>
+                        </ul></li>
+                </ul>
             </div>
 
         </div>
@@ -67,12 +80,12 @@
                 <td>{{$ord->getcostumer()->first()->email}}</td>
                 <td>{{$ord->getcostumer()->first()->mobile}}</td>
                 <td>{{$ord->getservice()->first()->name}}</td>
-				<td>{{$ord->date_start}}</td>
+				<td>{{$ord->created_at}}</td>
 
                 <td>
                     <a href="#modal" class="btn btn-info btn-sm" data-toggle="modal"
                        data-target="#basicModal"><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="{{URL::route('ad', array('id'=>$ord->id)) }}" id="delete" class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove-sign"></i></a>
+                    <a href="{{URL::route('ad', array('id'=>$ord->id)) }}" onclick="return confirm('Подтвердите?')?true:false;" id="delete"  class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove-sign"></i></a>
                 </td>
             </tr>
 
@@ -80,9 +93,12 @@
         </tbody>
     </table>
         </div>
+
     {{$ords->links()}}
+
 </div>
 
+@foreach($ords as $ord)
 <div class="modal" id="basicModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -97,28 +113,6 @@
         </div>
     </div>
 </div>
-
-
-<script type="text/javascript">
-function () {
-        $('.delete').click(function () {
-            confirmBox("Вы уверены что хотите удалить?", function () {
-                $('#console').append('Удаляем<br />');
-                $('.confirm').hide();
-            });
-        });
-        $('.no').click(function () {
-            $('.confirm').hide();
-        });
-    };
-
-    function confirmBox(text, callback) {
-        var c = $('.confirm');
-        c.children('.confirm-text').text(text);
-        c.show();
-        $('document').off('click', '.Да');
-        $('document').on('click', '.Нет', callback);
-    }
-</script>
+@endforeach
 
 @stop
