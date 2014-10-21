@@ -49,12 +49,9 @@
     <table  id="example"  class="table table-striped table-bordered"  data-height="400" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" width="100%" cellspacing="0">
         <thead>
             <tr>
-                <th>Имя</th>
-                <th>Фамилия</th>
-                <th>Отчество</th>
                 <th>Эмейл</th>
-                <th>Мобильный</th>
                 <th>Услуга</th>
+                <th>Процесс</th>
 				<th>Дата</th>
                 <th></th>
             </tr>
@@ -62,12 +59,9 @@
  
         <tfoot>
             <tr>
-                <th>Имя</th>
-                <th>Фамилия</th>
-                <th>Отчество</th>
                 <th>Эмейл</th>
-                <th>Мобильный</th>
                 <th>Услуга</th>
+                <th>Процесс</th>
 				<th>Дата</th>
                 <th></th>
             </tr>
@@ -76,12 +70,9 @@
         <tbody>
             @foreach($ords as $ord)
 			<tr>
-                <td>{{$ord->getcostumer()->first()->username}}</td>
-                <td>{{$ord->getcostumer()->first()->first_name}}</td>
-                <td>{{$ord->getcostumer()->first()->last_name}}</td>
                 <td>{{$ord->getcostumer()->first()->email}}</td>
-                <td>{{$ord->getcostumer()->first()->mobile}}</td>
                 <td>{{$ord->getservice()->first()->name}}</td>
+                <td>{{$ord->process}}</td>
 				<td>{{$ord->created_at}}</td>
 
                 <td>
