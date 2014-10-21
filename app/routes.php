@@ -24,7 +24,7 @@ Route::any('service', array('as' => 'service',
     ));
 
 Route::get('orders/index','ServicesController@getOrder');
-Route::get('myadminroom/adminka', 'UsersController@Adminka');
+Route::get('admin', 'UsersController@Adminka');
 Route::post('my', array('as' => 'my',
         'uses' => 'UsersController@postLogin'
     ));
@@ -40,38 +40,46 @@ Route::group(array('before' => 'ka'), function ()
 {
 
 Route::get('myadminroom/index','OrdersController@getServ');
-Route::any('myadminroom/orders','OrdersController@adminOrders');
-Route::get('myadminroom/clients','OrdersController@adminClients');
 
  Route::post('newserv', array('as' => 'newserv',
         'uses' => 'ServicesController@store'
 ));
 
-Route::post(
-    'myadminroom/clients',
-    array(
-        'as' => 'myadminroom/clients',
-        'uses' => 'UsersController@adminClients'
-    )
-);
-Route::get('myadminroom/orders{ord}', array('as'=>'ad', 'uses'=> 'OrdersController@destroy'));
 Route::get('services/index','ServicesController@create');
 Route::get('process','OrdersController@getProcess');
 
-Route::post('uniform',array('as' => 'uniform',
-    'uses' => 'OrdersController@postSearch'
-));
-
-Route::any('uniform',array('as'=>'uniform', 'uses'=> 'OrdersController@postSearch'));
-
 Route::post('exit', array('as'=>'exit', 'uses' => 'UsersController@getLogout'));
 
-Route::get('myadminroom/update', 'OrdersController@myUpdate');
+Route::get('myadminroom/adminRecord', 'OrdersController@adminRecord');
 
  Route::post('record', array('as' => 'record',
         'uses' => 'UsersController@myRecord'
 ));
-Route::get('myadminroom/orders{id}', array('as'=>'sort', 'uses'=> 'OrdersController@adminOrders'));
 
+Route::post(
+        'myadminroom/clients',
+        array(
+            'as' => 'myadminroom/clients',
+            'uses' => 'UsersController@adminClients'
+        )
+);
+
+Route::any('myadminroom/orders','OrdersController@adminOrders');
+Route::any('myadminroom/clients','OrdersController@adminClients');
+
+Route::get('myadminroom/orders{ord}', array('as'=>'orderdelete', 'uses'=> 'OrdersController@orderDestroy'));
+Route::get('myadminroom/clients{client}', array('as'=>'clientdelete', 'uses'=> 'OrdersController@clientDestroy'));
+Route::get('myadminroom/orders{id}', array('as'=>'sortorder', 'uses'=> 'OrdersController@adminOrders'));
+Route::get('myadminroom/clients{id}', array('as'=>'sortclient', 'uses'=> 'OrdersController@adminClients'));
+
+Route::post('myadminroom/orderchange', array('as'=>'orderchange', 'uses'=>'OrdersController@orderChange'));
+Route::post('myadminroom/clientchange', array('as'=>'clientchange', 'uses'=>'OrdersController@clientChange'));
+
+Route::post('orderUpdate', array('as' => 'orderUpdate',
+    'uses' => 'OrdersController@postorderChange'
+));
+Route::post('clientUpdate', array('as' => 'clientUpdate',
+    'uses' => 'OrdersController@postclientChange'
+));
 });
 

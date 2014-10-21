@@ -36,12 +36,24 @@
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/public/">Mysite.ru</a>
+                    <a class="navbar-brand" href="/public/">Сайт</a>
                 </div>
                 <div class="navbar-collapse collapse" id="order">
                     <ul class="nav navbar-nav">
-                        <li><a href="{{action('ServicesController@getOrder')}}">Отправить заказ</a></li>
 
+                    @if(Auth::check())
+                    <li><a href="{{action('OrdersController@getService')}}">Новые услуги</a></li>
+                    <li><a href="{{action('OrdersController@adminOrders')}}">Заказы</a></li>
+                    <li><a href="{{action('OrdersController@adminClients')}}">Клиенты</a></li>
+                    </ul>
+
+                    <form class="navbar-form navbar-right" role="exit" action="{{ action('UsersController@getLogout') }}" method="post">
+                        <button class="btn btn-success">Выйти</button>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#"><strong>{{ Auth::user()->username }}</strong></a></li>
+                    </ul>
+                    @endif
                     </ul>
             </div>
 		</div>

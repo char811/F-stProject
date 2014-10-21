@@ -11,14 +11,43 @@ class UsersController extends BaseController {
 
 
 	public function Adminka() {
-	             return View::make('myadminroom/adminka');
+	             return View::make('admin');
 	}
 
     public function myRecord(){
 
+        $rules = User::$validation;
 
+        $validation = Validator::make(Input::all(), $rules);
+
+        if ($validation->fails()) {
+            return Redirect::to('/')->withErrors($validation)->withInput();
+        }
+
+        $order=new Order();
+        $order->comment=Input::get('comment');
+        $order->process=Input::get('process');
+        $service = Service::find(Input::get('service'));
+        $order->service = $service->id;
+
+        $user = User::where('email', '=', Input::get('email'))->first();
+
+        if (!$user) $user = new User();
+        $user->email=Input::get('email');
+        $user->username=Input::get('username');
+        $user->first_name=Input::get('first_name');
+        $user->last_name=Input::get('last_name');
+        $user->mobile=Input::get('mobile');
+        $user->save();
+        $order->costumer = $user->id;
+        $order->save();
         return View::make('myadminroom/update');
     }
+
+
+
+
+
 
 	public function Recordic() {
 	       $rules = User::$validation;
@@ -26,19 +55,15 @@ class UsersController extends BaseController {
         $validation = Validator::make(Input::all(), $rules);
 
         if ($validation->fails()) {
-            return Redirect::to('orders/index')->withErrors($validation)->withInput();
+            return Redirect::to('/')->withErrors($validation)->withInput();
         }
 
-        $rules = Order::$validate;
 
-        $validate = Validator::make(Input::all(), $rules);
-
-        if ($validate->fails()) {
-            return Redirect::to('orders/index')->withErrors($validate)->withInput();
-        }
 
         $order=new Order();
         $order->comment=Input::get('comment');
+        $proc='Новый';
+        $order->process=$proc;
         $service = Service::find(Input::get('service'));
         $order->service = $service->id;
 
@@ -92,7 +117,7 @@ class UsersController extends BaseController {
 
     public function getLogout() {
         Auth::logout();
-        return Redirect::to('myadminroom/adminka');
+        return Redirect::to('admin');
     }
 
 }

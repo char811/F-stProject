@@ -26,12 +26,8 @@
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/public/">Mysite.ru</a>
-                </div>
-                <div class="navbar-collapse collapse" id="order">
-                    <ul class="nav navbar-nav">
-                        <li><a href="{{action('ServicesController@getOrder')}}">Отправить заказ</a></li>
-                    </ul>
+                    <a class="navbar-brand" href="/public/">Сайт</a>
+               </div>
             </div>
         </div>
 </div>

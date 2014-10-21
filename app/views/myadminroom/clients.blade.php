@@ -1,7 +1,6 @@
 @extends('layoutadmin')
 
 @section('title')
-Вход
 @stop
 
 @section('headExtra')
@@ -10,87 +9,108 @@
 
 @section('content')
 </br></br></br>
-<div class="container">
-    @if (Session::has('alert'))
-        <div class="alert alert-danger">
-            <p>{{ Session::get('alert') }}
-        </div>
-    @endif
 
-    <div class="container">
-        <div class="panel panel-default">
+  <div class="container">
+       <div class="panel panel-default">
             <div class="panel-body">
-                <div class="row">
-                    <div class="col-lg-10">
-    <form class="form-search">
-    {{ Form::model(null, array('route' => array('myadminroom/clients'))) }}
-    {{ Form::text('username', null, array( 'placeholder' => 'Search order...', 'class'=>'input-medium search-query')) }}
-    {{ Form::submit('',array('class'=>'glyphicon glyphicon-search')) }}
-    {{ Form::close() }}
-    </form>
-</div>
-</div> </div>
+                 <div class="row">
+                     <div class="col-lg-8">
+                         <form role="searchclient" action="{{ action('OrdersController@adminClients') }}" method="post" class="form-search" id="clients_search">
+                             <div class="input-group input-group-sm">
+                                <input type="text"  class="form-control" placeholder="Имя" name="email" required value="{{ $term }}" />
+                                <span class="input-group-addon"><a href="#" onclick="$('#clients_search').submit();">
+                                <i class="glyphicon glyphicon-search"></i></a>
+                                </span>
+                             </div>
+                         </form>
+                      </div>
+                      <div class="col-lg-2">
+                           <a class="btn btn-success btn-sm pull-right" href="{{ action('OrdersController@adminRecord') }}"><i class="glyphicon glyphicon-plus"></i></a>
+                      </div>
+                       <ul class="nav nav-pills">
+                       <li class="dropdown">
+                            <a class="dropdown-toggle"  data-toggle="dropdown" href="#">Сортировка<b class="caret"></b></a>
+                            <ul id="menu1" class="dropdown-menu">
+                            <li><a href="{{action('OrdersController@adminClients') }}?id=old">Старые данные</a></li>
+                            <li><a href="{{ action('OrdersController@adminClients') }}?id=new">Новые данные</a></li>
+                            </ul>
+                       </li>
+                       </ul>
+                 </div>
 
-        </div>
-    </div>
-
-@if($cofs['mobile']!=1)
-<div class="container">
-    <div class="row">
+             </div>
+       </div>
+       <div class="row">
         <table  id="example"  class="table table-striped table-bordered"  data-height="400" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" width="100%" cellspacing="0">
-            <thead>
-            <tr>
-                <th>Имя</th>
-                <th>Фамилия</th>
-                <th>Отчество</th>
-                <th>Эмейл</th>
-                <th>Мобильный</th>
-                <th>Услуга</th>
-                <th></th>
-            </tr>
-            </thead>
+              <thead>
+                     <tr>
+                          <th>Имя</th>
+                          <th>Фамилия</th>
+                          <th>Отчество</th>
+                          <th>Эмейл</th>
+                          <th>Мобильный</th>
+                          <th>Дата</th>
+                          <th></th>
+                     </tr>
+               </thead>
 
-            <tfoot>
-            <tr>
-                <th>Имя</th>
-                <th>Фамилия</th>
-                <th>Отчество</th>
-                <th>Эмейл</th>
-                <th>Мобильный</th>
-                <th>Услуга</th>
-                <th></th>
-            </tr>
-            </tfoot>
+               <tfoot>
+                      <tr>
+                            <th>Имя</th>
+                            <th>Фамилия</th>
+                            <th>Отчество</th>
+                            <th>Эмейл</th>
+                            <th>Мобильный</th>
+                            <th>Дата</th>
+                            <th></th>
+                      </tr>
+                </tfoot>
 
-            <tbody>
-            <tr>
+               <tbody>
+               @foreach($clients as $client)
+                       <tr>
+                           <td>{{$client->getcostumer()->first()->username}}</td>
+                           <td>{{$client->getcostumer()->first()->first_name}}</td>
+                           <td>{{$client->getcostumer()->first()->last_name}}</td>
+                           <td>{{$client->getcostumer()->first()->email}}</td>
+                           <td>{{$client->getcostumer()->first()->mobile}}</td>
+                           <td>{{$client->created_at}}</td>
 
-                <td>{{$cofs['username']}}</td>
-                <td>{{$cofs['first_name']}}</td>
-                <td>{{$cofs['last_name']}}</td>
-                <td>{{$cofs['email']}}</td>
-                <td>{{$cofs['mobile']}}</td>
-            </tr>
+                           <td>
+                              <a href="#modal" class="btn btn-info btn-sm" data-toggle="modal"
+                                    data-target="#basicModal{{$client->id}}"><i class="glyphicon glyphicon-eye-open"></i></a>
+                              <a href="{{URL::route('clientdelete', array('id'=>$client->id)) }}" onclick="return confirm('Подтвердите?')?true:false;" id="delete"  class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove-sign"></i></a>
+                           </td>
+                      </tr>
 
-            </tbody>
+               @endforeach
+               </tbody>
         </table>
-    </div>
-    </div>
+        </div>
 
-<div class="modal" id="basicModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
+{{$clients->links()}}
+
+ </div>
+
+@foreach($clients as $client)
+<div class="modal" id="basicModal{{ $client->id }}" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+            <div class="modal-content">
             <div class="modal-header"><button class="close" type="button" data-dismiss="modal">x</button>
-                <h4 class="modal-title" id="myModalLabel">My</h4>
+            <h4 class="modal-title" id="myModalLabel">{{$client->getservice()->first()->name}}</h4>
             </div>
             <div class="modal-body">
-                <h3>that</h3>
+            <h3>{{$client->comment}}</h3>
             </div>
-            <div class="modal fade">
-            </div>
-        </div>
-    </div>
+               <div class="modal-footer">
+                   <form role="clientUpdate" action="{{ action('OrdersController@clientChange') }}" method="post" class="form-search">
+               <button type="submit" class="btn btn-info btn-sm" required value="{{ $client->id }}">Изменить</button>
+               <a class="btn" href="#" data-dismiss="modal">Отмена</a>
+                       </form>
+               </div>
+           </div>
+      </div>
 </div>
+@endforeach
 
-@endif
 @stop

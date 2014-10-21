@@ -16,7 +16,7 @@
         <div class="panel-body">
             <div class="row">
                 <div class="col-lg-8">
-                    <form role="uniform" name="uni"  action="{{ action('OrdersController@adminOrders') }}" method="post" class="form-search" id="orders_search">
+                    <form role="searchorder" name="uni"  action="{{ action('OrdersController@adminOrders') }}" method="post" class="form-search" id="orders_search">
                         <div class="input-group input-group-sm">
                              <input type="text"  class="form-control" placeholder="Имя" name="email" required value="{{ $term }}" />
                              <span class="input-group-addon"><a href="#" onclick="$('#orders_search').submit();">
@@ -29,7 +29,7 @@
 
                 </div>
                 <div class="col-lg-2">
-                    <a class="btn btn-success btn-sm pull-right" href="{{ action('OrdersController@myUpdate') }}" onclick="document.form.uni.submit(); "><i class="glyphicon glyphicon-plus"></i></a>
+                    <a class="btn btn-success btn-sm pull-right" href="{{ action('OrdersController@adminRecord') }}" onclick="document.form.uni.submit(); "><i class="glyphicon glyphicon-plus"></i></a>
 
                 </div>
 
@@ -37,8 +37,8 @@
                     <li class="dropdown">
                         <a class="dropdown-toggle"  data-toggle="dropdown" href="#">Сортировка<b class="caret"></b></a>
                         <ul id="menu1" class="dropdown-menu">
-                            <li><a href="{{URL::route('sort', array('id'=>'last')) }}">Старые данные</a></li>
-                            <li><a href="{{ action('OrdersController@adminOrders') }}"?id='old'>Новые данные</a></li>
+                            <li><a href="{{action('OrdersController@adminOrders') }}?id=old">Старые данные</a></li>
+                            <li><a href="{{ action('OrdersController@adminOrders') }}?id=new">Новые данные</a></li>
                         </ul></li>
                 </ul>
             </div>
@@ -87,7 +87,7 @@
                 <td>
                     <a href="#modal" class="btn btn-info btn-sm" data-toggle="modal"
                        data-target="#basicModal{{$ord->id}}"><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="{{URL::route('ad', array('id'=>$ord->id)) }}" onclick="return confirm('Подтвердите?')?true:false;" id="delete"  class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove-sign"></i></a>
+                    <a href="{{URL::route('orderdelete', array('id'=>$ord->id)) }}" onclick="return confirm('Подтвердите?')?true:false;" id="delete"  class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove-sign"></i></a>
                 </td>
             </tr>
 
@@ -111,8 +111,10 @@
                 <h3>{{$ord->comment}}</h3>
             </div>
             <div class="modal-footer">
+                <form role="orderUpdate" action="{{ action('OrdersController@orderChange') }}" method="post" class="form-search">
                 <button type="submit" class="btn btn-info btn-sm">Изменить</button>
                 <a class="btn" href="#" data-dismiss="modal">Отмена</a>
+                </form>
             </div>
         </div>
 

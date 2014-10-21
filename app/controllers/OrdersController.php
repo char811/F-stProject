@@ -39,57 +39,64 @@ class OrdersController extends \BaseController {
             });
         }
 
-        $ords = $query->paginate(50);
+        $ords = $query->paginate(5);
         return View::make('myadminroom/orders', compact('ords', 'term'));
     }
 
     public function adminClients() {
-        $clients=User::all();
-        $q=Input::get('username');
-        $cr=array();
-        if (strpos($q, '@')) {
-            $cr['email'] = $q;
-            $cofs=array();
-            $cofs=User::where('email','=', $cr)->first();
-            return View::make('myadminroom/clients', compact('clients','cofs'));
-        } else {
-            $cr['username'] = $q;
-            $cofs=array();
-            $cofs=User::where('username','=', $cr)->first();
-            return View::make('myadminroom/clients', compact('clients','cofs'));
-
+        $query = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
+        $term = '';
+        if ('POST' == Request::method() && $term = Request::get('email')){
+            $query = $query->whereHas('getcostumer', function($q) use ($term){
+                return $q->where('email', 'LIKE', '%' . $term . '%');
+            });
         }
-        //return View::make('myadminroom/clients', compact('clients'));
+
+        $clients = $query->paginate(5);
+            return View::make('myadminroom/clients', compact('clients','term'));
+
     }
 
-    public function myUpdate(){
+
+    public function adminRecord(){
         $q=Input::get('email');
 
-        return View::make('myadminroom/update');
+        return View::make('myadminroom/adminRecord');
     }
 
-    public function postSearch(){
-        $key=Input::get('email');
-        echo ($key);
-   //     $poisk=User::where('email','=',Input::get('key'))->first();
-     //   print_r($poisk['email']);
+    public function orderChange()
+    {
+       //$ch=Input::get('order');
+     // var_dump($ch);
+        //$chan='';
+       // if ('POST' == Request::method() && $chan = Request::get('email')){
+        return View::make('myadminroom/orderchange');
     }
 
-    /**
-	 * Show the form for creating a new order
-	 *
-	 * @return Response
-	 */
-	public function create()
+    public function clientChange()
+    {
+        $ch=Input::get('client');
+        var_dump($ch);
+        //$chan='';
+        // if ('POST' == Request::method() && $chan = Request::get('email')){
+         return View::make('myadminroom/clientchange');
+    }
+
+    public function postorderChange(){
+        return View::make('myadminroom/orders');
+    }
+
+    public function postclientChange(){
+        return View::make('myadminroom/clients');
+    }
+
+
+    public function create()
 	{
 		return View::make('orders.create');
 	}
 
-	/**
-	 * Store a newly created order in storage.
-	 *
-	 * @return Response
-	 */
+
 	public function store()
 	{
 		$validator = Validator::make($data = Input::all(), Order::$rules);
@@ -158,11 +165,34 @@ class OrdersController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($ord)
+	public function orderDestroy($ord)
 	{
         $kza = Order::where('id','=', $ord)->delete();
-        $ords=Order::paginate(20);
-        return View::make('myadminroom/orders', compact('ords'));
+        $query = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
+        $term = '';
+        if ('POST' == Request::method() && $term = Request::get('email')){
+            $query = $query->whereHas('getcostumer', function($q) use ($term){
+                return $q->where('email', 'LIKE', '%' . $term . '%');
+            });
+        }
+
+        $ords = $query->paginate(5);
+        return View::make('myadminroom/orders', compact('ords', 'term'));
 	}
+
+    public function clientDestroy($client)
+    {
+        $kza = Order::where('id','=', $client)->delete();
+        $query = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
+        $term = '';
+        if ('POST' == Request::method() && $term = Request::get('email')){
+            $query = $query->whereHas('getcostumer', function($q) use ($term){
+                return $q->where('email', 'LIKE', '%' . $term . '%');
+            });
+        }
+
+        $clients = $query->paginate(5);
+        return View::make('myadminroom/clients', compact('clients', 'term'));
+    }
 
 }

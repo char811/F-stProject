@@ -22,6 +22,12 @@ class Order extends \Eloquent {
 		    array(''=>
     }*/
 
+    public static $statmessage=array(
+        'Новый' =>'Новый',
+        'В обработке'=> 'В обработке',
+       'Обработан'=> 'Обработан'
+    );
+
     public function getcostumer()
     {
         return $this->belongsTo('User', 'costumer');

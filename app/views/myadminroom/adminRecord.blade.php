@@ -3,28 +3,27 @@
 @section('content')
 
 {{Form::open(array('url'=>action('UsersController@myRecord'), 'role'=>'record', 'method'=>'post', 'onsubmit' => 'val(this)', 'class' => 'form-horizontal')) }}
-</br>
-</br>
-</br>
-    @if (!$errors->isEmpty())
-    <div class="alert alert-danger">
+</br></br></br></br></br>
 
-        @if($k=$errors->first('mobile'))
-        <p>Поле Мобильный введено: неправильно либо отсутствует</p>
-        @elseif($k=$errors->first('username'))
-        <p>Поле Имя введено: неправильно либо отсутствует</p>
-        @elseif($k=$errors->first('email'))
-        <p>Поле Эмейл введено: неправильно либо отсутствует</p>
-        @elseif($k=$errors->first('first_name'))
-        <p>Поле Фамилия: введено неправильно либо отсутствует</p>
-        @elseif($k=$errors->first('last_name'))
-        <p>Поле Отчество: введено неправильно либо отсутствует</p>
-        @endif
+@if (!$errors->isEmpty())
+<div class="alert alert-danger">
 
-    </div>
+    @if($k=$errors->first('mobile'))
+    <p>Поле Мобильный введено: неправильно либо отсутствует</p>
+    @elseif($k=$errors->first('username'))
+    <p>Поле Имя введено: неправильно либо отсутствует</p>
+    @elseif($k=$errors->first('email'))
+    <p>Поле Эмейл введено: неправильно либо отсутствует</p>
+    @elseif($k=$errors->first('first_name'))
+    <p>Поле Фамилия: введено неправильно либо отсутствует</p>
+    @elseif($k=$errors->first('last_name'))
+    <p>Поле Отчество: введено неправильно либо отсутствует</p>
+    @elseif($k=$errors->first('comment'))
+    <p>Поле Сообщение: введено неправильно либо отсутствует</p>
     @endif
 
-	
+</div>
+@endif
 
       <div class="form-group">
          <div class="col-sm-4">
@@ -33,6 +32,10 @@
              <div class="col-sm-14">
                  <label class="col-sm-4 control-label"> Услуга </label>
                {{ Form::select('service', Service::all()->lists('name', 'id'), null, array('class' => 'form-control')) }}
+                 </br></div>
+              <div class="col-sm-14">
+                  <label class="col-sm-4 control-label"> Статус </label>
+                  {{ Form::select('process', Order::$statmessage, null, array('class' => 'form-control')) }}
                  </br></div>
              <div class="col-sm-14">
                  <label class="col-sm-4 control-label"> Имя </label>

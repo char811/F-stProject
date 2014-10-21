@@ -34,23 +34,26 @@
         {{ HTML::script(URL::asset('styles/bootstrap-3.2.0/js/dropdown.js')) }}
         {{ HTML::script(URL::asset('script/tik.js')) }}
 
+        {{ HTML::script(URL::asset('bootstrap-confirmation.js')) }}
+        {{ HTML::script(URL::asset('tooltip.js.js')) }}
+
         @show
  </head>
     <body>
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/public/">Mysite.ru</a>
+                    <a class="navbar-brand" href="/public/">Сайт</a>
                 </div>
                 <div class="navbar-collapse collapse" id="order">
                     <ul class="nav navbar-nav">
 
-
-	<li><a href="{{action('OrdersController@getService')}}">New</a></li>
-	 	<li><a href="{{action('OrdersController@adminOrders')}}">Orders</a></li>
-		 	<li><a href="{{action('OrdersController@adminClients')}}">Clients</a></li>
+           @if(Auth::check())
+	<li><a href="{{action('OrdersController@getService')}}">Новые услуги</a></li>
+	 	<li><a href="{{action('OrdersController@adminOrders')}}">Заказы</a></li>
+		 	<li><a href="{{action('OrdersController@adminClients')}}">Клиенты</a></li>
                     </ul>
-                   @if(Auth::check())
+
                     <form class="navbar-form navbar-right" role="exit" action="{{ action('UsersController@getLogout') }}" method="post">
                         <button class="btn btn-success">Выйти</button>
                     </form>
