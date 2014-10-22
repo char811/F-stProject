@@ -102,7 +102,8 @@
                 <h3>{{$ord->comment}}</h3>
             </div>
             <div class="modal-footer">
-                <form role="orderUpdate" action="{{ action('OrdersController@orderChange') }}" method="post" class="form-search">
+                <form action="{{ action('OrdersController@orderChange') }}" method="post">
+                    <input type="hidden" name="id" value="{{$ord->id}}" required />
                 <button type="submit" class="btn btn-info btn-sm">Изменить</button>
                 <a class="btn" href="#" data-dismiss="modal">Отмена</a>
                 </form>

@@ -103,8 +103,9 @@
             <h3>{{$client->comment}}</h3>
             </div>
                <div class="modal-footer">
-                   <form role="clientUpdate" action="{{ action('OrdersController@clientChange') }}" method="post" class="form-search">
-               <button type="submit" class="btn btn-info btn-sm" required value="{{ $client->id }}">Изменить</button>
+                   <form action="{{ action('OrdersController@clientChange') }}" method="post">
+                       <input type="hidden" name="id" value="{{$client->getcostumer()->first()->id}}" required />
+               <button type="submit" class="btn btn-info btn-sm" required />Изменить</button>
                <a class="btn" href="#" data-dismiss="modal">Отмена</a>
                        </form>
                </div>

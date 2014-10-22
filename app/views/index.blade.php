@@ -63,7 +63,9 @@ Our company
 </div>
 @endif
 
-
+@if(Session::has('message'))
+{{Session::get('message')}}
+@endif
 
 <div class="form-group">
     <div class="col-sm-4">

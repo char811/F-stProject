@@ -39,20 +39,21 @@ class OrdersController extends \BaseController {
             });
         }
 
-        $ords = $query->paginate(5);
+        $ords = $query->paginate(13);
         return View::make('myadminroom/orders', compact('ords', 'term'));
     }
 
     public function adminClients() {
         $query = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
         $term = '';
+
         if ('POST' == Request::method() && $term = Request::get('email')){
             $query = $query->whereHas('getcostumer', function($q) use ($term){
                 return $q->where('email', 'LIKE', '%' . $term . '%');
             });
         }
 
-        $clients = $query->paginate(5);
+        $clients = $query->paginate(13);
             return View::make('myadminroom/clients', compact('clients','term'));
 
     }
@@ -66,28 +67,43 @@ class OrdersController extends \BaseController {
 
     public function orderChange()
     {
-       //$ch=Input::get('order');
-     // var_dump($ch);
-        //$chan='';
-       // if ('POST' == Request::method() && $chan = Request::get('email')){
-        return View::make('myadminroom/orderchange');
+        $modelorder=Order::where('id','=', Input::get('id'))->first();
+
+        return View::make('myadminroom/orderchange', compact('modelorder'));
     }
 
     public function clientChange()
     {
-        $ch=Input::get('client');
-        var_dump($ch);
-        //$chan='';
-        // if ('POST' == Request::method() && $chan = Request::get('email')){
-         return View::make('myadminroom/clientchange');
+        $model=User::where('id','=', Input::get('id'))->first();
+
+         return View::make('myadminroom/clientchange',compact('model'));
     }
 
-    public function postorderChange(){
-        return View::make('myadminroom/orders');
+    public function postorderChange($modelorder){
+        $neworder=Order::find($modelorder);
+        $orderupdate=Input::all();
+        if(!$neworder->update($orderupdate)){
+        return Redirect::back()->with('message', 'Ошибка сохранения')->withInput();
+        }
+        $neworder->save();
+        $query = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
+        $term='';
+        $ords = $query->paginate(13);
+        return View::make('myadminroom/orders', compact('ords','term'))->with('message', 'Данные успешно изменены');
     }
 
-    public function postclientChange(){
-        return View::make('myadminroom/clients');
+    public function postclientChange($model){
+        $newclient=User::find($model);
+        $clientupdate=Input::all();
+        if(!$newclient->update($clientupdate)) {
+            return Redirect::back()->with('message', 'Ошибка сохранения')->withInput();
+        }
+        $newclient->save();
+        $query = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
+        $term='';
+        $clients = $query->paginate(13);
+        return View::make('myadminroom/clients', compact('clients','term'))->with('message', 'Данные успешно изменены');
+
     }
 
 
@@ -176,7 +192,7 @@ class OrdersController extends \BaseController {
             });
         }
 
-        $ords = $query->paginate(5);
+        $ords = $query->paginate(13);
         return View::make('myadminroom/orders', compact('ords', 'term'));
 	}
 
@@ -191,7 +207,7 @@ class OrdersController extends \BaseController {
             });
         }
 
-        $clients = $query->paginate(5);
+        $clients = $query->paginate(13);
         return View::make('myadminroom/clients', compact('clients', 'term'));
     }
 

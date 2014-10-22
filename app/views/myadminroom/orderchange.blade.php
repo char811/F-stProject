@@ -2,13 +2,12 @@
 
 @section('content')
 
-{{Form::open(array('url'=>action('OrdersController@postorderChange'), 'role'=>'orderUpdate', 'method'=>'post',  'class' => 'form-horizontal')) }}
 </br></br></br></br></br>
 
 <div class="form-group">
     <div class="col-sm-4">
 
-
+        {{Form::model($modelorder, array('route'=>array('myadminroom/orders', $modelorder->id))) }}
         <div class="col-sm-14">
             <label class="col-sm-4 control-label"> Услуга </label>
             {{ Form::select('service', Service::all()->lists('name', 'id'), null, array('class' => 'form-control')) }}
@@ -28,7 +27,6 @@
         </div>
     </div>
 </div>
-
 
 {{Form::close()}}
 

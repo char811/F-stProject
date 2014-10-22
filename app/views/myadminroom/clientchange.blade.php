@@ -2,16 +2,15 @@
 
 @section('content')
 
-{{Form::open(array('url'=>action('OrdersController@postclientChange'), 'role'=>'clientUpdate', 'method'=>'post',  'class' => 'form-horizontal')) }}
 </br></br></br></br></br>
 
 <div class="form-group">
     <div class="col-sm-4">
 
-
+   {{Form::model($model, array('route'=>array('myadminroom/clients', $model->id))) }}
         <div class="col-sm-14">
             <label class="col-sm-4 control-label"> Имя </label>
-            {{ Form::text('username', null, array('class' => 'form-control', 'placeholder' => 'Имя')) }}
+            {{ Form::text('username', null, array('class' => 'form-control', 'placeholder' => 'Имя'))}}
             </br> </div>
         <div class="col-sm-16">
             <label class="col-sm-4 control-label"> Фамилия </label>

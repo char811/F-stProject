@@ -75,10 +75,10 @@ Route::get('myadminroom/clients{id}', array('as'=>'sortclient', 'uses'=> 'Orders
 Route::post('myadminroom/orderchange', array('as'=>'orderchange', 'uses'=>'OrdersController@orderChange'));
 Route::post('myadminroom/clientchange', array('as'=>'clientchange', 'uses'=>'OrdersController@clientChange'));
 
-Route::post('orderUpdate', array('as' => 'orderUpdate',
+Route::post('myadminroom/orders{modelorder}', array('as' => 'myadminroom/orders',
     'uses' => 'OrdersController@postorderChange'
 ));
-Route::post('clientUpdate', array('as' => 'clientUpdate',
+Route::post('myadminroom/clients{model}', array('as' => 'myadminroom/clients',
     'uses' => 'OrdersController@postclientChange'
 ));
 });

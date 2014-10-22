@@ -21,7 +21,7 @@ class UsersController extends BaseController {
         $validation = Validator::make(Input::all(), $rules);
 
         if ($validation->fails()) {
-            return Redirect::to('/')->withErrors($validation)->withInput();
+            return Redirect::to('myadminroom/update')->withErrors($validation)->withInput();
         }
 
         $order=new Order();
@@ -79,7 +79,7 @@ class UsersController extends BaseController {
         $order->costumer = $user->id;
         $order->save();
 
-        return Redirect::to('/');
+        return Redirect::to('/')->with('message','Форма отправлена успешно');
     }
 
 
