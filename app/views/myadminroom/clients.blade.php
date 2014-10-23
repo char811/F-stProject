@@ -40,8 +40,17 @@
 
              </div>
        </div>
+
+      @if(Session::has('message'))
+      <div class="jumbotron" align="center">
+          <p>
+              {{Session::get('message')}}
+          </p>
+      </div>
+      @endif
+
        <div class="row">
-        <table  id="example"  class="table table-striped table-bordered"  data-height="400" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" width="100%" cellspacing="0">
+        <table  id="example"  class="table table-striped table-bordered" class="tablesorter" data-height="400" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" width="100%" cellspacing="0">
               <thead>
                      <tr>
                           <th>Имя</th>
@@ -69,17 +78,17 @@
                <tbody>
                @foreach($clients as $client)
                        <tr>
-                           <td>{{$client->getcostumer()->first()->username}}</td>
-                           <td>{{$client->getcostumer()->first()->first_name}}</td>
-                           <td>{{$client->getcostumer()->first()->last_name}}</td>
-                           <td>{{$client->getcostumer()->first()->email}}</td>
-                           <td>{{$client->getcostumer()->first()->mobile}}</td>
+                           <td>{{{$client->getcostumer()->first()->username}}}</td>
+                           <td>{{{$client->getcostumer()->first()->first_name}}}</td>
+                           <td>{{{$client->getcostumer()->first()->last_name}}}</td>
+                           <td>{{{$client->getcostumer()->first()->email}}}</td>
+                           <td>{{{$client->getcostumer()->first()->mobile}}}</td>
                            <td>{{$client->created_at}}</td>
 
                            <td>
                               <a href="#modal" class="btn btn-info btn-sm" data-toggle="modal"
                                     data-target="#basicModal{{$client->id}}"><i class="glyphicon glyphicon-eye-open"></i></a>
-                              <a href="{{URL::route('clientdelete', array('id'=>$client->id)) }}" onclick="return confirm('Подтвердите?')?true:false;" id="delete"  class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove-sign"></i></a>
+                              <a href="{{URL::route('clientdelete', array('id'=>$client->getcostumer()->first()->id)) }}" onclick="return confirm('Подтвердите?')?true:false;" id="delete"  class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove-sign"></i></a>
                            </td>
                       </tr>
 
@@ -97,15 +106,15 @@
       <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header"><button class="close" type="button" data-dismiss="modal">x</button>
-            <h4 class="modal-title" id="myModalLabel">{{$client->getservice()->first()->name}}</h4>
+            <h4 class="modal-title" id="myModalLabel">{{{$client->getservice()->first()->name}}}</h4>
             </div>
             <div class="modal-body">
-            <h3>{{$client->comment}}</h3>
+            <h3>{{{$client->getcostumer()->first()->mobile}}}</h3>
             </div>
                <div class="modal-footer">
                    <form action="{{ action('OrdersController@clientChange') }}" method="post">
                        <input type="hidden" name="id" value="{{$client->getcostumer()->first()->id}}" required />
-               <button type="submit" class="btn btn-info btn-sm" required />Изменить</button>
+               <button type="submit" class="btn btn-info btn-sm">Изменить</button>
                <a class="btn" href="#" data-dismiss="modal">Отмена</a>
                        </form>
                </div>

@@ -7,7 +7,11 @@ function closeModal(modal_id) {
     $('#basicModal' + modal_id).modal('hide');
     return false;
 }
-
+$(document).ready(function()
+    {
+        $("#example").tablesorter();
+    }
+);
 $(document).ready(function () {
     $('#delete').click(function () {
         confirmBox("Sure wanna delete this?", function () {

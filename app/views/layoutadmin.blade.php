@@ -33,7 +33,7 @@
         {{ HTML::script(URL::asset('styles/bootstrap-3.2.0/js/modal.js')) }}
         {{ HTML::script(URL::asset('styles/bootstrap-3.2.0/js/dropdown.js')) }}
         {{ HTML::script(URL::asset('script/tik.js')) }}
-
+        {{ HTML::script(URL::asset('script/tablesorter-master/js/jquery.tablesorter.js')) }}
         {{ HTML::script(URL::asset('bootstrap-confirmation.js')) }}
         {{ HTML::script(URL::asset('tooltip.js.js')) }}
 
@@ -49,7 +49,7 @@
                     <ul class="nav navbar-nav">
 
            @if(Auth::check())
-	<li><a href="{{action('OrdersController@getService')}}">Новые услуги</a></li>
+	<li><a href="{{action('ServicesController@create')}}">Новые услуги</a></li>
 	 	<li><a href="{{action('OrdersController@adminOrders')}}">Заказы</a></li>
 		 	<li><a href="{{action('OrdersController@adminClients')}}">Клиенты</a></li>
                     </ul>

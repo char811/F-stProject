@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration {
 			
 			$table->string('last_name');
 			
-            $table->integer('mobile')->unique();
+            $table->string('mobile')->unique();
 
             $table->string('admin');
 

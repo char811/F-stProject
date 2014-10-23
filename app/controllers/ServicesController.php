@@ -7,11 +7,6 @@ class ServicesController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-    public function getOrder() {
-        $services=Service::all(array('name'));
-        //return View::make('orders/index', compact('services'));
-        return View::make('orders/index', ['services' => $services]);
-    }
 
 
 	/*public function index()
@@ -54,7 +49,7 @@ class ServicesController extends \BaseController {
         $ser= new Service();
         $ser->fill(Input::all());
         $ser->save();
-        return View::make('services/index');
+        return Redirect::to('services/index')->with('message', 'Данные успешно введены');
 	}
 
 	/**

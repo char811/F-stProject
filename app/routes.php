@@ -19,11 +19,7 @@ Route::any('order', array('as' => 'order',
 Route::post('form', array('as' => 'form',
         'uses' => 'UsersController@Recordic'
     ));
-Route::any('service', array('as' => 'service',
-        'uses' => 'OrdersController@getService'
-    ));
 
-Route::get('orders/index','ServicesController@getOrder');
 Route::get('admin', 'UsersController@Adminka');
 Route::post('my', array('as' => 'my',
         'uses' => 'UsersController@postLogin'
@@ -39,14 +35,15 @@ Route::filter('ka', function()
 Route::group(array('before' => 'ka'), function ()
 {
 
-Route::get('myadminroom/index','OrdersController@getServ');
+ Route::get('process','OrdersController@getProcess');
 
- Route::post('newserv', array('as' => 'newserv',
+
+ Route::post('services/index', array('as' => 'services/index',
         'uses' => 'ServicesController@store'
 ));
 
 Route::get('services/index','ServicesController@create');
-Route::get('process','OrdersController@getProcess');
+
 
 Route::post('exit', array('as'=>'exit', 'uses' => 'UsersController@getLogout'));
 

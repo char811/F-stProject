@@ -14,7 +14,7 @@ class Order extends \Eloquent {
     );
 
 	// Don't forget to fill this array
-	protected $fillable = [ 'created_at', 'service', 'comment', 'process','costumer'];
+	protected $fillable = [ 'created_at', 'service', 'comment', 'process','','costumer'];
 	
    /*public function sendMail() {
 
@@ -37,4 +37,5 @@ class Order extends \Eloquent {
     {
         return $this->belongsTo('Service', 'service');
     }
+
 }

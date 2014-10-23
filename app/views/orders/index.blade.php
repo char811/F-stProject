@@ -83,7 +83,7 @@
                  </br> </div>
              <div class="col-sm-14">
                  <label class="col-sm-4 control-label"> Сообщение </label>
-                 {{ Form::textarea('comment', null, array('class' => 'form-control bbeditor')) }}<br />
+                 {{{ Form::textarea('comment', null, array('class' => 'form-control bbeditor')) }}}<br />
                  </br> </div>
              <div class="col-sm-14">
                  <label class="col-sm-4 control-label">  </label>

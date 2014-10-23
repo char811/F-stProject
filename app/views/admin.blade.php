@@ -17,6 +17,17 @@
         </div>
     @endif
 
+
+    @if(Session::has('message'))
+    <div class="jumbotron" align="center">
+            <p>
+                {{Session::get('message')}}
+            </p>
+    </div>
+    @endif
+
+
+
     @if(!Auth::check())
 	<div class="col-sm-2">
 {{ Form::open(array('url' => action('UsersController@postLogin'), 'method' => 'post', 'role' => 'my', 'class' => 'form-horizontal')) }}

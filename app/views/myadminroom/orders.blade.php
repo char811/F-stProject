@@ -45,13 +45,24 @@
 
         </div>
     </div>
+
+    @if(Session::has('message'))
+    <div class="jumbotron" align="center">
+        <p>
+            {{Session::get('message')}}
+        </p>
+    </div>
+    @endif
+
+
     <div class="row">
-    <table  id="example"  class="table table-striped table-bordered"  data-height="400" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" width="100%" cellspacing="0">
+    <table  id="example"  class="table table-striped table-bordered" class="tablesorter"  data-height="400" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" width="100%" cellspacing="0">
         <thead>
             <tr>
                 <th>Эмейл</th>
                 <th>Услуга</th>
                 <th>Процесс</th>
+                <th>Цена</th>
 				<th>Дата</th>
                 <th></th>
             </tr>
@@ -62,6 +73,7 @@
                 <th>Эмейл</th>
                 <th>Услуга</th>
                 <th>Процесс</th>
+                <th>Цена</th>
 				<th>Дата</th>
                 <th></th>
             </tr>
@@ -70,10 +82,11 @@
         <tbody>
             @foreach($ords as $ord)
 			<tr>
-                <td>{{$ord->getcostumer()->first()->email}}</td>
-                <td>{{$ord->getservice()->first()->name}}</td>
-                <td>{{$ord->process}}</td>
-				<td>{{$ord->created_at}}</td>
+                <td>{{{$ord->getcostumer()->first()->email}}}</td>
+                <td>{{{$ord->getservice()->first()->name}}}</td>
+                <td>{{{$ord->process}}}</td>
+                <td>{{{$ord->price}}}</td>
+				<td>{{{$ord->created_at}}}</td>
 
                 <td>
                     <a href="#modal" class="btn btn-info btn-sm" data-toggle="modal"
@@ -96,10 +109,10 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header"><button class="close" type="button" data-dismiss="modal">x</button>
-                <h4 class="modal-title" id="myModalLabel">{{$ord->getservice()->first()->name}}</h4>
+                <h4 class="modal-title" id="myModalLabel">{{{$ord->getservice()->first()->name}}}</h4>
             </div>
             <div class="modal-body">
-                <h3>{{$ord->comment}}</h3>
+                <h3>{{{$ord->comment}}}</h3>
             </div>
             <div class="modal-footer">
                 <form action="{{ action('OrdersController@orderChange') }}" method="post">

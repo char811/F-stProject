@@ -4,6 +4,14 @@
 
 </br></br></br></br></br>
 
+@if(Session::has('message'))
+<div class="jumbotron" align="center">
+    <p>
+        {{Session::get('message')}}
+    </p>
+</div>
+@endif
+
 <div class="form-group">
     <div class="col-sm-4">
 
@@ -16,6 +24,9 @@
             <label class="col-sm-4 control-label"> Статус </label>
             {{ Form::select('process', Order::$statmessage, null, array('class' => 'form-control')) }}
             </br></div>
+        <label class="col-sm-4 control-label"> Статус </label>
+        {{ Form::text('price', Order::$statmessage, null, array('class' => 'form-control')) }}
+        </br></div>
         <div class="col-sm-14">
             <label class="col-sm-4 control-label"> Сообщение </label>
             {{ Form::textarea('comment', null, array('class' => 'form-control bbeditor')) }}<br />

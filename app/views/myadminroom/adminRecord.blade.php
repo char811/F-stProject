@@ -58,6 +58,10 @@
                  {{ Form::text('mobile',null,  array('class' => 'form-control', 'placeholder' => 'Мобильный')) }}
                  </br> </div>
              <div class="col-sm-14">
+             <label class="col-sm-4 control-label"> Цена </label>
+             {{ Form::text('price', null,  array('class' => 'form-control', 'placeholder' => 'Цена')) }}
+             </br></div>
+             <div class="col-sm-14">
                  <label class="col-sm-4 control-label"> Сообщение </label>
                  {{ Form::textarea('comment', null, array('class' => 'form-control bbeditor')) }}<br />
                  </br> </div>

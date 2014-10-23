@@ -8,15 +8,9 @@ class Service extends \Eloquent {
 	);
 
 	// Don't forget to fill this array
-	protected $fillable = ['id','name'];
+	protected $fillable = ['name'];
 
 	protected $table = 'services';
-	
-	public static function serv() {
 
-    $mays=Service::All();
-
-	return $mays;
-	}
 
 }

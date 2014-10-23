@@ -23,12 +23,6 @@ class OrdersController extends \BaseController {
 
     }
 
-    public function getServ() {
-        return View::make('myadminroom/index');
-    }
-    public function getService() {
-        return View::make('myadminroom/create');
-    }
 
     public function adminOrders() {
         $query = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
@@ -198,7 +192,7 @@ class OrdersController extends \BaseController {
 
     public function clientDestroy($client)
     {
-        $kza = Order::where('id','=', $client)->delete();
+        $kza = User::where('id','=', $client)->delete();
         $query = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
         $term = '';
         if ('POST' == Request::method() && $term = Request::get('email')){

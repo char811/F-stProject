@@ -16,17 +16,12 @@ class UsersController extends BaseController {
 
     public function myRecord(){
 
-        $rules = User::$validation;
 
-        $validation = Validator::make(Input::all(), $rules);
-
-        if ($validation->fails()) {
-            return Redirect::to('myadminroom/update')->withErrors($validation)->withInput();
-        }
 
         $order=new Order();
         $order->comment=Input::get('comment');
         $order->process=Input::get('process');
+        $order->price=Input::get('price');
         $service = Service::find(Input::get('service'));
         $order->service = $service->id;
 
@@ -41,7 +36,7 @@ class UsersController extends BaseController {
         $user->save();
         $order->costumer = $user->id;
         $order->save();
-        return View::make('myadminroom/update');
+        return Redirect::to('admin')->with('message', 'Все отлично!');
     }
 
 

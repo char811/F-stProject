@@ -12,7 +12,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
         'username'  => 'required|alpha_num',
 		
-		'mobile'  => 'required|integer|unique:users',
+		'mobile'  => 'required|alpha_num|unique:users',
 		
 		'first_name'  => 'alpha_num',
 		

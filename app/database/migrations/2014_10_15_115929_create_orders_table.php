@@ -16,18 +16,16 @@ class CreateOrdersTable extends Migration {
 		{
 			$table->increments('id');
 
-            $table->string('date_start');
-
-            $table->string('date_end');
-
             $table->string('comment');
 
             $table->string('process');
 
+            $table->string('price');
+
             $table->unsignedInteger('costumer');
             $table->unsignedInteger('service');
 
-            $table->foreign('costumer')->references('id')->on('users');
+            $table->foreign('costumer')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('service')->references('id')->on('services');
 
 			$table->timestamps();

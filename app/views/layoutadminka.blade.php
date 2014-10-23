@@ -42,7 +42,7 @@
                     <ul class="nav navbar-nav">
 
                     @if(Auth::check())
-                    <li><a href="{{action('OrdersController@getService')}}">Новые услуги</a></li>
+                    <li><a href="{{action('ServicesController@create')}}">Новые услуги</a></li>
                     <li><a href="{{action('OrdersController@adminOrders')}}">Заказы</a></li>
                     <li><a href="{{action('OrdersController@adminClients')}}">Клиенты</a></li>
                     </ul>
@@ -58,10 +58,6 @@
             </div>
 		</div>
 </div>
-
-  <div id="contact">
-      hello
-  </div>
 
 @yield('content')
             

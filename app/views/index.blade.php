@@ -64,7 +64,11 @@ Our company
 @endif
 
 @if(Session::has('message'))
-{{Session::get('message')}}
+<div class="jumbotron" align="center">
+    <p>
+        {{Session::get('message')}}
+    </p>
+</div>
 @endif
 
 <div class="form-group">
