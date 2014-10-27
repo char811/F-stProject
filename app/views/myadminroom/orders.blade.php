@@ -4,13 +4,9 @@
 
 @stop
 
-@section('headExtra')
-    {{ HTML::style('css/signin.css') }}
-@stop
-
 @section('content')
-</br></br></br>
 
+<div class="kit"></div>
 <div class="container">
     <div class="panel panel-default">
         <div class="panel-body">
@@ -57,17 +53,18 @@
 
     <div class="row">
     <table  id="example"  class="table table-striped table-bordered" class="tablesorter"  data-height="400" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" width="100%" cellspacing="0">
+
         <thead>
             <tr>
-                <th>Эмейл</th>
-                <th>Услуга</th>
-                <th>Процесс</th>
-                <th>Цена</th>
-				<th>Дата</th>
+                <th><div class="th111">Эмейл</div></th>
+                <th><div class="th111">Услуга</div></th>
+                <th><div class="th111">Процесс</div></th>
+                <th><div class="th111">Цена</div></th>
+				<th><div class="th111">Дата</div></th>
                 <th></th>
             </tr>
         </thead>
- 
+
         <tfoot>
             <tr>
                 <th>Эмейл</th>
@@ -91,7 +88,7 @@
                 <td>
                     <a href="#modal" class="btn btn-info btn-sm" data-toggle="modal"
                        data-target="#basicModal{{$ord->id}}"><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="{{URL::route('orderdelete', array('id'=>$ord->id)) }}" onclick="return confirm('Подтвердите?')?true:false;" id="delete"  class="btn btn-danger btn-sm"><i class="glyphicon glyphicon-remove-sign"></i></a>
+                    <a href="{{URL::route('orderdelete', array('id'=>$ord->id)) }}" onclick="return confirma('Подтвердите',1);"  class="btn btn-danger btn-sm "><i class="glyphicon glyphicon-remove-sign"></i></a>
                 </td>
             </tr>
 
@@ -127,4 +124,14 @@
 </div>
 @endforeach
 
+
+<div class="confirm">
+    <div class="confirm-text"></div>
+    <form action="{{action('OrdersController@orderDestroy') }}">
+        <input type="hidden" name="id" value=""/>
+        <button type="submit" class="yes">Yes</button>
+        <button class="no">No</button>
+    </form>
+
+</div>
 @stop

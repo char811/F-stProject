@@ -6,19 +6,11 @@ body {
 button {
     cursor:pointer;
 }
-#console {
-    box-shadow: 0 0 12px #DDD;
-    position:absolute;
-    overflow:auto;
-    height:250px;
-    width:500px;
-    bottom:10px;
-    background:#FFF;
-    color:#333;
-}
+
 .confirm {
-    box-shadow: 0 0 12px #000;
-    background:grey;
+    box-shadow: 0 0 100px #000;
+    border-radius: 30px;
+    background: #ff0911;
     width:300px;
     padding:10px;
     display:none;
@@ -26,11 +18,11 @@ button {
     top:50%;
     left:50%;
     margin-top: -150px;
-    margin-left: -135px;
+    margin-left: -150px;
 }
 .confirm-text {
     padding:10px;
-    background:#fff;
+    background: #ff8994;
     border:1px solid #ccc;
 }
 
@@ -38,4 +30,17 @@ button {
     background:darkslategray;
     width:150px;
     height:280px;
+}
+
+#tpp{
+    box-shadow: 0 0 30px #2187e7;
+}
+
+
+
+.otp {
+    margin-bottom: 100px;
+}
+.kit {
+    margin-bottom: 50px;
 }

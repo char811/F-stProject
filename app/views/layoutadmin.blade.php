@@ -7,35 +7,34 @@
 
         @section('styles')
         <!-- DataTables CSS -->
-        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/script/bootstrapvalidator/dist/css/bootstrapValidator.css"/>
+        <link rel="stylesheet" href="/public/css/style.css">
 
-        <link rel="stylesheet" href="/css/style.css">
 
-        {{ HTML::style(URL::asset('styles/bootstrap-3.2.0/dist/css/bootstrap-theme')) }}
-        {{ HTML::style(URL::asset('styles/bootstrap-3.2.0/dist/css/bootstrap-theme.min')) }}
 
-        {{ HTML::style(URL::asset('styles/bootstrap-3.2.0/dist/css/bootstrap')) }}
 
-        {{ HTML::style(URL::asset('styles/modal.css')) }}
 
         <!-- DataTables JS -->
 
         {{ HTML::script(URL::asset('script/jquery-2.1.1.js')) }}
 
-        <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-        {{ HTML::script(URL::asset('styles/bootstrap-3.2.0/dist/js/bootstrap.min.js')) }}
+        <script src="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js" type="text/javascript" charset="utf-8"></script>
 
+        <script type="text/javascript" src="/public/script/bootstrapvalidator/dist/js/bootstrapValidator.js"></script>
+        <script type="text/javascript" src="/public/script/bootstrapvalidator/src/js/language/ru_RU.js"></script>
+        <script type="text/javascript" src="/public/script/jQuery-Mask-Plugin-master/dist/jquery.mask.min.js"></script>
         {{ HTML::script(URL::asset('script/bootstrap-table.js')) }}
 
-        {{ HTML::script(URL::asset('script/admin.js')) }}
 
-        {{ HTML::script(URL::asset('styles/bootstrap-3.2.0/js/button.js')) }}
-        {{ HTML::script(URL::asset('styles/bootstrap-3.2.0/js/modal.js')) }}
-        {{ HTML::script(URL::asset('styles/bootstrap-3.2.0/js/dropdown.js')) }}
-        {{ HTML::script(URL::asset('script/tik.js')) }}
         {{ HTML::script(URL::asset('script/tablesorter-master/js/jquery.tablesorter.js')) }}
-        {{ HTML::script(URL::asset('bootstrap-confirmation.js')) }}
-        {{ HTML::script(URL::asset('tooltip.js.js')) }}
+        {{ HTML::script(URL::asset('script/tooltip.js')) }}
+        {{ HTML::script(URL::asset('script/bootstrap-confirmation.js')) }}
+        {{ HTML::script(URL::asset('script/jquery.popconfirm.js')) }}
+        {{ HTML::script(URL::asset('script/admin.js')) }}
+        {{ HTML::script(URL::asset('script/tik.js')) }}
+        {{ HTML::script(URL::asset('script/mask.js')) }}
 
         @show
  </head>

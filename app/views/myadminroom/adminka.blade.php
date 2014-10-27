@@ -9,7 +9,7 @@
 @stop
 
 @section('content')
-</br></br></br></br>
+<div class="kit"></div>
 <div class="form-group ">
     @if (Session::has('alert'))
         <div class="alert alert-danger">

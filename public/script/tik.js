@@ -1,85 +1,159 @@
 ﻿
 $('document').ready(function(){
     $('#modal').modal();
+    $(".popconfirm").popConfirm({
+        title: "Удалить ?",
+        content: "Я предупреждаю тебя !",
+        placement: "left" // (top, right, bottom, left)
+    });
+    $("#example").tablesorter();
+    $(".th111").bind("mouseover", function(){
+        $(this).css({"background-color":"grey",cursor:"pointer"});
+
+    }).bind("mouseout", function(){
+        $(this).css("background-color", "");
+    });
+
+
+    $('.registrationForm').bootstrapValidator({
+        // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+        feedbackIcons: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            username: {
+                message: 'Имя не действительно',
+                validators: {
+                    notEmpty: {
+                        message: 'Имя обязательно и поле не может быть пустым'
+                    },
+                    stringLength: {
+                        min: 6,
+                        max: 30,
+                        message: 'Имя должно быть не меньше 6 и не длиньше 30'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-ZА-яА-я0-9]+$/,
+                        message: 'Имя может состоять только из букв и цифр'
+                    },
+                    different: {
+                        field: 'password',
+                        message: 'Имя и пароль не могут быть одинаковы'
+                    }
+                }
+            },
+            first_name: {
+                message: 'Фамилия не действительна',
+                validators: {
+                    stringLength: {
+                        min: 1,
+                        max: 30,
+                        message: 'Фамилия должна быть не длиньше 30'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-ZА-яА-я0-9]+$/,
+                        message: 'Фамилия может состоять только из букв и цифр'
+                    }
+                }
+            },
+            last_name: {
+                message: 'Отчество не действительно',
+                validators: {
+                    stringLength: {
+                        min: 1,
+                        max: 30,
+                        message: 'Отчество должно быть не длиньше 30'
+                    },
+                    regexp: {
+                        regexp: /^[a-zA-ZА-яА-я0-9]+$/,
+                        message: 'Отчество может состоять только из букв и цифр'
+                    }
+                }
+            },
+            email: {
+                validators: {
+                    notEmpty: {
+                        message: 'Эмейл обязателен и поле не может быть пустым'
+                    },
+                    emailAddress: {
+                        message: 'Эмейл не действителен'
+                    }
+                }
+            },
+            password: {
+                validators: {
+                    notEmpty: {
+                        message: 'The password is required and cannot be empty'
+                    },
+                    different: {
+                        field: 'username',
+                        message: 'The password cannot be the same as username'
+                    },
+                    stringLength: {
+                        min: 8,
+                        message: 'The password must have at least 8 characters'
+                    }
+                }
+            },
+            mobile: {
+                message: 'Мобильный не действителен',
+                validators: {
+                    notEmpty: {
+                        message: 'Мобильный обязателен и поле не может быть пустым'
+                    },
+                    stringLength: {
+                        min: 16,
+                        max: 16,
+                        message: 'Мобильный должен состоять из 11 цифр'
+                    },
+                    regexp: {
+                        regexp: /^[0-9-()]+$/,
+                        message: 'Мобильный может состоять только из цифр'
+                    }
+                }
+            },
+            comment: {
+                message: 'Сообщение не действенно',
+                validators: {
+                    notEmpty: {
+                        message: 'Сообщение обязательно и поле не может быть пустым'
+                    },
+                    stringLength: {
+                        min: 10,
+                        max: 1000,
+                        message: 'Сообщение должно быть не меньше 10 и не длиньше 1000'
+                    }
+                }
+            }
+        }
+    });
 });
 
 function closeModal(modal_id) {
     $('#basicModal' + modal_id).modal('hide');
     return false;
 }
-$(document).ready(function()
-    {
-        $("#example").tablesorter();
-    }
-);
-$(document).ready(function () {
-    $('#delete').click(function () {
-        confirmBox("Sure wanna delete this?", function () {
-            $('#console').append('deleted<br />');
-            $('.confirm').hide();
-        });
-    });
-    $('.cre').click(function () {
-        confirmBox("Sure wanna append this?", function () {
-            $('#console').append('appended<br />');
-            $('.confirm').hide();
-        });
-    });
-    $('.no').click(function () {
-        $('.confirm').hide();
-    });
-});
 
-function confirmBox(text, callback) {
+
+
+function confirma (text, id) {
     var c = $('.confirm');
     c.children('.confirm-text').text(text);
     c.show();
-    $(document).off('click', '.yes');
-    $(document).on('click', '.no', callback);
-}
-
-function confirmDelete() {
-    if (confirm("Вы подтверждаете удаление?")) {
-        return true;
-    } else {
-        return event.preventDefault();
-    }
-
-}
-
-$('document').ready(function(){
-    $('#delete').bootbox.dialog({
-            title: "This is a form in a modal.",
-            message: '<div class="row"> ' +
-                '<div class="col-md-12"> ' +
-                '<form class="form-horizontal"> ' +
-                '<div class="form-group"> ' +
-                '<label class="col-md-4 control-label" for="name">Name</label> ' +
-                '<div class="col-md-4"> ' +
-                '<input id="name" name="name" type="text" placeholder="Your name" class="form-control input-md"> ' +
-                '<span class="help-block">Here goes your name</span> </div> ' +
-                '</div> ' +
-                '<div class="form-group"> ' +
-                '<label class="col-md-4 control-label" for="awesomeness">How awesome is this?</label> ' +
-                '<div class="col-md-4"> <div class="radio"> <label for="awesomeness-0"> ' +
-                '<input type="radio" name="awesomeness" id="awesomeness-0" value="Really awesome" checked="checked"> ' +
-                'Really awesome </label> ' +
-                '</div><div class="radio"> <label for="awesomeness-1"> ' +
-                '<input type="radio" name="awesomeness" id="awesomeness-1" value="Super awesome"> Super awesome </label> ' +
-                '</div> ' +
-                '</div> </div>' +
-                '</form> </div> </div>',
-            buttons: {
-                success: {
-                    label: "Save",
-                    className: "btn-success",
-                    callback: function () {
-                        var name = $('#name').val();
-                        var answer = $("input[name='awesomeness']:checked").val()
-                        Example.show("Hello " + name + ". You've chosen <b>" + answer + "</b>");
-                    }
-                }
-            }
+    $('.no').click(function () {
+        $('.confirm').hide();
+        return false;
+    });
+    $('.yes').click((function (id) {
+        $(this).parents('form').find('[name="id"]').val(id);
+        return function(){
+            $('.confirm').hide();
+            return true;
         }
-    );
-});
+    })(id));
+    return false;
+
+}
+

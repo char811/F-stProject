@@ -7,12 +7,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
     public static $validation = array(
 
-        'email'     => 'required|email|unique:users',
+        'email'     => 'required|email',
 
 
         'username'  => 'required|alpha_num',
 		
-		'mobile'  => 'required|alpha_num|unique:users',
+		'mobile'  => 'required',
 		
 		'first_name'  => 'alpha_num',
 		
