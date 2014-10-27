@@ -38,24 +38,26 @@ class OrdersController extends \BaseController {
     }
 
     public function adminClients() {
-        $query = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
+        $que = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
+        $query = User::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
         $term = '';
 
         if ('POST' == Request::method() && $term = Request::get('email')){
-            $query = $query->whereHas('getcostumer', function($q) use ($term){
-                return $q->where('email', 'LIKE', '%' . $term . '%');
-            });
+            $query = $query->where('email', 'LIKE', '%' . $term . '%');
         }
 
-        $clients = $query->paginate(13);
-            return View::make('myadminroom/clients', compact('clients','term'));
+        $clients = $que->paginate(13);
+        $clins=$query->paginate(13);
+            return View::make('myadminroom/clients', compact('clients', 'term', 'clins'));
 
     }
 
 
-    public function adminRecord(){
-        $q=Input::get('email');
+    public function adminorderRecord(){
+        return View::make('myadminroom/adminorderRecord');
+    }
 
+    public function adminRecord(){
         return View::make('myadminroom/adminRecord');
     }
 

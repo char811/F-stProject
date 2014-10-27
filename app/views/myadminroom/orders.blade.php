@@ -25,7 +25,7 @@
 
                 </div>
                 <div class="col-lg-2">
-                    <a class="btn btn-success btn-sm pull-right" href="{{ action('OrdersController@adminRecord') }}" onclick="document.form.uni.submit(); "><i class="glyphicon glyphicon-plus"></i></a>
+                    <a class="btn btn-success btn-sm pull-right" href="{{ action('OrdersController@adminorderRecord') }}" onclick="document.form.uni.submit(); "><i class="glyphicon glyphicon-plus"></i></a>
 
                 </div>
 

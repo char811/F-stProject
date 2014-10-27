@@ -76,19 +76,19 @@
                 </tfoot>
 
                <tbody>
-               @foreach($clients as $client)
+               @foreach($clins as $clin)
                        <tr>
-                           <td>{{{$client->getcostumer()->first()->username}}}</td>
-                           <td>{{{$client->getcostumer()->first()->first_name}}}</td>
-                           <td>{{{$client->getcostumer()->first()->last_name}}}</td>
-                           <td>{{{$client->getcostumer()->first()->email}}}</td>
-                           <td>{{{$client->getcostumer()->first()->mobile}}}</td>
-                           <td>{{$client->getcostumer()->first()->created_at}}</td>
+                           <td>{{{$clin->username}}}</td>
+                           <td>{{{$clin->first_name}}}</td>
+                           <td>{{{$clin->last_name}}}</td>
+                           <td>{{{$clin->email}}}</td>
+                           <td>{{{$clin->mobile}}}</td>
+                           <td>{{$clin->created_at}}</td>
 
                            <td>
                               <a href="#modal" class="btn btn-info btn-sm" data-toggle="modal"
-                                    data-target="#basicModal{{$client->id}}"><i class="glyphicon glyphicon-eye-open"></i></a>
-                              <a href="{{URL::route('clientdelete', array('id'=>$client->getcostumer()->first()->id)) }}"  id="delete"  class="btn btn-danger btn-sm popconfirm"><i class="glyphicon glyphicon-remove-sign"></i></a>
+                                    data-target="#basicModal{{$clients->id}}"><i class="glyphicon glyphicon-eye-open"></i></a>
+                              <a href="{{URL::route('clientdelete', array('id'=>$clin->id)) }}"  id="delete"  class="btn btn-danger btn-sm popconfirm"><i class="glyphicon glyphicon-remove-sign"></i></a>
                            </td>
                       </tr>
 

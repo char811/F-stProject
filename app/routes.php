@@ -48,10 +48,15 @@ Route::get('services/index','ServicesController@create');
 Route::post('exit', array('as'=>'exit', 'uses' => 'UsersController@getLogout'));
 
 Route::get('myadminroom/adminRecord', 'OrdersController@adminRecord');
+Route::get('myadminroom/adminorderRecord', 'OrdersController@adminorderRecord');
 
- Route::post('record', array('as' => 'record',
+Route::post('record', array('as' => 'record',
         'uses' => 'UsersController@myRecord'
 ));
+Route::post('recorder', array('as' => 'recorder',
+        'uses' => 'UsersController@myorderRecord'
+));
+
 
 Route::post(
         'myadminroom/clients',
