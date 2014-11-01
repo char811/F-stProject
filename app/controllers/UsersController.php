@@ -32,7 +32,7 @@ class UsersController extends BaseController {
          $user->save();
          $order->costumer = $user->id;
          $order->save();
-         return Redirect::to('admin')->with('message', 'Все отлично!');
+         return Redirect::to('myadminroom/orders')->with('message', 'Все отлично!');
      }
 
     public function myRecord(){
@@ -46,7 +46,7 @@ class UsersController extends BaseController {
         $user->last_name=Input::get('last_name');
         $user->mobile=Input::get('mobile');
         $user->save();
-        return Redirect::to('admin')->with('message', 'Все отлично!');
+        return Redirect::to('myadminroom/clients')->with('message', 'Все отлично!');
     }
 
 

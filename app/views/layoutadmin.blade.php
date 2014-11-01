@@ -7,8 +7,9 @@
 
         @section('styles')
         <!-- DataTables CSS -->
+        <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/themes/smoothness/jquery-ui.css">
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/script/bootstrapvalidator/dist/css/bootstrapValidator.css"/>
+        <link rel="stylesheet" href="/public/script/bootstrapvalidator/dist/css/bootstrapValidator.css"/>
         <link rel="stylesheet" href="/public/css/style.css">
 
 
@@ -26,7 +27,7 @@
         <script type="text/javascript" src="/public/script/bootstrapvalidator/src/js/language/ru_RU.js"></script>
         <script type="text/javascript" src="/public/script/jQuery-Mask-Plugin-master/dist/jquery.mask.min.js"></script>
         {{ HTML::script(URL::asset('script/bootstrap-table.js')) }}
-
+        <!--<script type="text/javascript" src="/public/script/jQuery-Autocomplete-master/dist/jquery.autocomplete.js"></script>-->
 
         {{ HTML::script(URL::asset('script/tablesorter-master/js/jquery.tablesorter.js')) }}
         {{ HTML::script(URL::asset('script/tooltip.js')) }}

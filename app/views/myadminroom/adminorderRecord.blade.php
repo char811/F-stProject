@@ -20,7 +20,7 @@
 
       <div class="form-group">
           <label class="col-sm-2 control-label"> Услуга </label>
-          <div class="col-sm-5">
+              <div class="col-sm-5">
                {{ Form::select('service', Service::all()->lists('name', 'id'), null, array('class' => 'form-control')) }}
       </div></div>
       <div class="form-group">

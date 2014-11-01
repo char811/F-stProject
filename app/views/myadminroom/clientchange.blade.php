@@ -2,7 +2,7 @@
 
 @section('content')
 
-</br></br></br></br></br>
+<div class="kit"></div>
 
 @if(Session::has('message'))
 <div class="jumbotron" align="center">
@@ -12,36 +12,37 @@
 </div>
 @endif
 
+
+   {{Form::model($model, array('route'=>array('myadminroom/clients', $model->id),'class' => 'form-horizontal')) }}
 <div class="form-group">
-    <div class="col-sm-4">
-
-   {{Form::model($model, array('route'=>array('myadminroom/clients', $model->id))) }}
-        <div class="col-sm-14">
-            <label class="col-sm-4 control-label"> Имя </label>
+    <label class="col-sm-2 control-label"> Имя </label>
+    <div class="col-sm-5">
             {{ Form::text('username', null, array('class' => 'form-control', 'placeholder' => 'Имя'))}}
-            </br> </div>
-        <div class="col-sm-16">
-            <label class="col-sm-4 control-label"> Фамилия </label>
+    </div></div>
+<div class="form-group">
+    <label class="col-sm-2 control-label"> Фамилия </label>
+    <div class="col-sm-5">
             {{ Form::text('first_name', null, array('class' => 'form-control', 'placeholder' => 'Фамилия')) }}
-            </br></div>
-        <div class="col-sm-14">
-            <label class="col-sm-4 control-label"> Отчество </label>
+    </div></div>
+<div class="form-group">
+    <label class="col-sm-2 control-label"> Отчество </label>
+    <div class="col-sm-5">
             {{ Form::text('last_name',null,  array('class' => 'form-control', 'placeholder' => 'Отчество')) }}
-            </br> </div>
-        <div class="col-sm-14">
-            <label class="col-sm-4 control-label"> Эмейл </label>
+    </div></div>
+<div class="form-group">
+    <label class="col-sm-2 control-label"> Эмейл </label>
+    <div class="col-sm-5">
             {{ Form::email('email', null, array('class' => 'form-control', 'placeholder' => 'Эмейл')) }}
-            </br>  </div>
-        <div class="col-sm-14">
-            <label class="col-sm-4 control-label"> Телефон </label>
+    </div></div>
+<div class="form-group">
+    <label class="col-sm-2 control-label"> Телефон </label>
+    <div class="col-sm-5">
             {{ Form::text('mobile',null,  array('class' => 'form-control', 'placeholder' => 'Мобильный')) }}
-            </br> </div>
-
-        <div class="col-sm-14">
-            <label class="col-sm-4 control-label">  </label>
-
+    </div></div>
+<div class="form-group">
+    <label class="col-sm-2 control-label"></label>
+    <div class="col-sm-5">
             {{ Form::submit('Отправить', array('class' => 'btn btn-lg btn-primary btn-block')) }}
-        </div>
     </div>
 </div>
 

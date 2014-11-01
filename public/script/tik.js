@@ -1,17 +1,89 @@
-﻿
+﻿function parse_hash(){
+    if (window.location.hash){
+        var matches = /^\#order\_by\=(-*)(.+)/.exec(window.location.hash);
+        return {direction: matches[1]?1:0, field: matches[2]};
+    }
+    return false;
+}
+
+
 $('document').ready(function(){
     $('#modal').modal();
     $(".popconfirm").popConfirm({
         title: "Удалить ?",
         content: "Я предупреждаю тебя !",
-        placement: "left" // (top, right, bottom, left)
+        placement: "left", // (top, right, bottom, left)
+        yesBtn:   'Да',
+        noBtn:    'Нет'
     });
-    $("#example").tablesorter();
-    $(".th111").bind("mouseover", function(){
-        $(this).css({"background-color":"grey",cursor:"pointer"});
+    if ($.fn.autocomplete && $('#email').length){
+        $('#email').autocomplete({
+            source:"/public/mysearch",
+            focus: function( event, ui ) {
+                $( "#email" ).val( ui.item.value );
+                return false;
+            },
+            select: function( event, ui ) {
+                $( "#email" ).val( ui.item.value );
+                $('#email').parents('form').submit();
+                return false;
+            }
+        })
+            .data( "autocomplete" )._renderItem = function( ul, item ) {
+            return $( "<li>" )
+                .append( "<a>" + item.label + "</a>" )
+                .appendTo( ul );
+        };
+    }
 
-    }).bind("mouseout", function(){
-        $(this).css("background-color", "");
+
+
+    $("#example").tablesorter();
+
+
+    var headers = [
+        'username',
+        'first_name',
+        'last_name',
+        'email',
+        'mobile',
+        'created_at'
+    ];
+
+
+
+    (function(){
+
+        var parsed_sort_data = parse_hash();
+        if (parsed_sort_data.field){
+            var field = headers.indexOf(parsed_sort_data.field);
+            var sorting = [[field, parsed_sort_data.direction]];
+            // сортируем по первой колонке
+            $("#example").trigger("sorton",[sorting]);
+            setTimeout(function(){
+                $("#example").find('.tablesorter-headerAsc, .tablesorter-headerDesc').trigger('click');
+            }, 300);
+        }
+    })();
+
+    $("#example").find('.sortable').on('click', function(e){
+        //$("#example").findAll('i').removeClass();
+        setTimeout((function(self){
+            return function(e){
+                var column = $(self);
+                var direction = column.hasClass('tablesorter-headerAsc') ? '' : '-';
+                var arrow_class = column.hasClass('tablesorter-headerAsc') ? 'glyphicon-arrow-up' : 'glyphicon-arrow-down';
+                $('.sortable').find('i').removeClass('glyphicon-arrow-up');
+                $('.sortable').find('i').removeClass('glyphicon-arrow-down');
+                if (arrow_class == 'glyphicon-arrow-up'){
+                    column.find('i').removeClass('glyphicon-arrow-down');
+                }else{
+                    column.find('i').removeClass('glyphicon-arrow-up');
+                }
+                window.location.hash = '#order_by=' + direction + headers[column.data('column')];
+                column.find('i').addClass(arrow_class);
+            }
+        })(this), 50);
     });
 
 
@@ -105,7 +177,7 @@ $('document').ready(function(){
                     },
                     stringLength: {
                         min: 16,
-                        max: 16,
+                        max: 18,
                         message: 'Мобильный должен состоять из 11 цифр'
                     },
                     regexp: {
@@ -138,19 +210,23 @@ function closeModal(modal_id) {
 
 
 
-function confirma (text, id) {
+function confirma (id) {
     var c = $('.confirm');
-    c.children('.confirm-text').text(text);
     c.show();
     $('.no').click(function () {
         $('.confirm').hide();
         return false;
     });
-    $('.yes').click((function (id) {
-        $(this).parents('form').find('[name="id"]').val(id);
-        return function(){
+    $('.yes').on('click', (function (id) {
+        return function(e){
+            e.preventDefault();
+            var form = $('.confirm form');
+            form.find('[name="id"]').val(id);
+            $.get(form.attr('action') + '?' + 'id=' + id, function(){
+               window.location.reload();
+            });
             $('.confirm').hide();
-            return true;
+           return false;
         }
     })(id));
     return false;

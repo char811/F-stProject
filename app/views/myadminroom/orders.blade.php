@@ -7,12 +7,13 @@
 @section('content')
 
 <div class="kit"></div>
+
 <div class="container">
     <div class="panel panel-default">
         <div class="panel-body">
             <div class="row">
                 <div class="col-lg-8">
-                    <form role="searchorder" name="uni"  action="{{ action('OrdersController@adminOrders') }}" method="post" class="form-search" id="orders_search">
+                    <form role="searchorder" name="uni"  action="{{ action('OrdersController@adminOrders') }}" method="get" class="form-search" id="orders_search">
                         <div class="input-group input-group-sm">
                              <input type="text"  class="form-control" placeholder="Имя" name="email" required value="{{ $term }}" />
                              <span class="input-group-addon"><a href="#" onclick="$('#orders_search').submit();">
@@ -25,7 +26,7 @@
 
                 </div>
                 <div class="col-lg-2">
-                    <a class="btn btn-success btn-sm pull-right" href="{{ action('OrdersController@adminorderRecord') }}" onclick="document.form.uni.submit(); "><i class="glyphicon glyphicon-plus"></i></a>
+                    <a class="btn btn-success btn-sm pull-right" href="{{ action('OrdersController@adminorderRecord') }}"><i class="glyphicon glyphicon-plus"></i></a>
 
                 </div>
 
@@ -56,11 +57,11 @@
 
         <thead>
             <tr>
-                <th><div class="th111">Эмейл</div></th>
-                <th><div class="th111">Услуга</div></th>
-                <th><div class="th111">Процесс</div></th>
-                <th><div class="th111">Цена</div></th>
-				<th><div class="th111">Дата</div></th>
+                <th class="sortable"> Эмейл <i class="glyphicon pull-right"></i></th>
+                <th class="sortable"> Услуга <i class="glyphicon pull-right"></i></th>
+                <th class="sortable"> Процесс <i class="glyphicon pull-right"></i></th>
+                <th class="sortable"> Цена <i class="glyphicon pull-right"></i></th>
+				<th class="sortable"> Дата <i class="glyphicon pull-right"></i></th>
                 <th></th>
             </tr>
         </thead>
@@ -88,7 +89,8 @@
                 <td>
                     <a href="#modal" class="btn btn-info btn-sm" data-toggle="modal"
                        data-target="#basicModal{{$ord->id}}"><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="{{URL::route('orderdelete', array('id'=>$ord->id)) }}" onclick="return confirma('Подтвердите',1);"  class="btn btn-danger btn-sm "><i class="glyphicon glyphicon-remove-sign"></i></a>
+                    <a href="#" onclick="return confirma({{$ord->id}});"  class="btn btn-danger btn-sm "><i class="glyphicon glyphicon-remove-sign"></i></a>
+
                 </td>
             </tr>
 
@@ -124,14 +126,13 @@
 </div>
 @endforeach
 
-
-<div class="confirm">
-    <div class="confirm-text"></div>
-    <form action="{{action('OrdersController@orderDestroy') }}">
+<div class="confirm"><p class="mydel" align="center">Удалить?</p>
+    <p class="button-group" align="center">Я предупреждаю тебя!</p>
+    <form action="{{action('OrdersController@orderDestroy') }}" method="get">
         <input type="hidden" name="id" value=""/>
-        <button type="submit" class="yes">Yes</button>
-        <button class="no">No</button>
+        <p align="center"><button class="yes btn btn-small btn-danger">Да</button>
+            <button class="no btn btn-small">Нет</button></p>
     </form>
-
 </div>
+
 @stop

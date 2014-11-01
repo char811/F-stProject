@@ -47,42 +47,42 @@ Our company
         <div class="form-group">
                 <label class="col-sm-2 control-label"> Услуга </label>
             <div class="col-sm-5">
-                {{ Form::select('service', Service::all()->lists('name', 'id'), null, array('class' => 'form-control', 'id'=>'tpp')) }}
+                {{ Form::select('service', Service::all()->lists('name', 'id'), null, array('class' => 'form-control')) }}
             </div>
         </div>
         <div class="form-group">
                 <label class="col-sm-2 control-label">Имя</label>
             <div class="col-sm-5">
-                {{ Form::text('username', null, array('class' => 'form-control','id'=>'tpp', 'placeholder' => 'Имя')) }}
+                {{ Form::text('username', null, array('class' => 'form-control','placeholder' => 'Имя')) }}
             </div>
         </div>
         <div class="form-group">
                 <label class="col-sm-2 control-label"> Фамилия </label>
             <div class="col-sm-5">
-                {{ Form::text('first_name', null, array('class' => 'form-control', 'id'=>'tpp', 'placeholder' => 'Фамилия')) }}
+                {{ Form::text('first_name', null, array('class' => 'form-control',  'placeholder' => 'Фамилия')) }}
             </div>
         </div>
         <div class="form-group">
                 <label class="col-sm-2 control-label"> Отчество </label>
             <div class="col-sm-5">
-                {{ Form::text('last_name', null,  array('class' => 'form-control','id'=>'tpp', 'placeholder' => 'Отчество')) }}
+                {{ Form::text('last_name', null,  array('class' => 'form-control','placeholder' => 'Отчество')) }}
              </div>
         </div>
         <div class="form-group">
                 <label class="col-sm-2 control-label"> Эмейл </label>
             <div class="col-sm-5">
-                {{ Form::email('email', null, array('class' => 'form-control', 'id'=>'tpp', 'placeholder' => 'Эмейл')) }}
+                {{ Form::email('email', null, array('class' => 'form-control',  'placeholder' => 'Эмейл')) }}
               </div>
         </div>
         <div class="form-group">
                <label class="col-sm-2 control-label"> Мобильный </label>
             <div class="col-sm-5">
-                {{ Form::text('mobile', null,  array('class' => 'form-control mobile', 'id'=>'tpp', 'placeholder' => '0(000)-000-00-00')) }}
+                {{ Form::text('mobile', null,  array('class' => 'form-control mobile', 'placeholder' => '0(000)-000-00-00')) }}
             </div> </div>
         <div class="form-group">
                 <label class="col-sm-2 control-label"> Сообщение </label>
             <div class="col-sm-5">
-                {{ Form::textarea('comment', null, array('class' => 'form-control bbeditor', 'id'=>'tpp')) }}<br />
+                {{ Form::textarea('comment', null, array('class' => 'form-control bbeditor')) }}<br />
                 </div> </div>
         <div class="form-group">
                 <label class="col-sm-2 control-label">  </label>

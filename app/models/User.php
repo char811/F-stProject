@@ -10,13 +10,13 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         'email'     => 'required|email',
 
 
-        'username'  => 'required|alpha_num',
+        'username'  => 'required|alpha_num|min:6|max:30',
 		
-		'mobile'  => 'required',
+		'mobile'  => 'required|min:16|max:18',
 		
-		'first_name'  => 'alpha_num',
+		'first_name'  => 'alpha_num|max:30',
 		
-		'last_name'  => 'alpha_num',
+		'last_name'  => 'alpha_num|max:30',
 
 
     );
@@ -106,6 +106,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
     public function orders()
     {
-        return $this->hasMany('Order');
+        return $this->hasMany('Order', 'costumer');
     }
 }

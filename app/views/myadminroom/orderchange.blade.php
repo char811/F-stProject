@@ -2,7 +2,7 @@
 
 @section('content')
 
-</br></br></br></br></br>
+<div class="kit"></div>
 
 @if(Session::has('message'))
 <div class="jumbotron" align="center">
@@ -12,32 +12,36 @@
 </div>
 @endif
 
-<div class="form-group">
-    <div class="col-sm-4">
 
-        {{Form::model($modelorder, array('route'=>array('myadminroom/orders', $modelorder->id))) }}
-        <div class="col-sm-14">
-            <label class="col-sm-4 control-label"> Услуга </label>
+
+        {{Form::model($modelorder, array('route'=>array('myadminroom/orders', $modelorder->id),'class' => 'form-horizontal')) }}
+    <div class="form-group">
+        <label class="col-sm-2 control-label"> Услуга </label>
+        <div class="col-sm-5">
             {{ Form::select('service', Service::all()->lists('name', 'id'), null, array('class' => 'form-control')) }}
-            </br></div>
-        <div class="col-sm-14">
-            <label class="col-sm-4 control-label"> Статус </label>
+        </div></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label"> Статус </label>
+        <div class="col-sm-5">
             {{ Form::select('process', Order::$statmessage, null, array('class' => 'form-control')) }}
-            </br></div>
-        <label class="col-sm-4 control-label"> Статус </label>
-        {{ Form::text('price', Order::$statmessage, null, array('class' => 'form-control')) }}
-        </br></div>
-        <div class="col-sm-14">
-            <label class="col-sm-4 control-label"> Сообщение </label>
-            {{ Form::textarea('comment', null, array('class' => 'form-control bbeditor')) }}<br />
-            </br> </div>
-        <div class="col-sm-14">
-            <label class="col-sm-4 control-label">  </label>
-
+       </div></div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label"> Цена </label>
+        <div class="col-sm-5">
+        {{ Form::text('price',  null, array('class' => 'form-control')) }}
+         </div></div>
+    <div class="form-group">
+         <label class="col-sm-2 control-label"> Сообщение </label>
+         <div class="col-sm-5">
+            {{ Form::textarea('comment', null, array('class' => 'form-control bbeditor')) }}
+         </div></div>
+    <div class="form-group">
+         <label class="col-sm-2 control-label"></label>
+         <div class="col-sm-5">
             {{ Form::submit('Отправить', array('class' => 'btn btn-lg btn-primary btn-block')) }}
         </div>
     </div>
-</div>
+
 
 {{Form::close()}}
 

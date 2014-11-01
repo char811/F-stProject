@@ -23,11 +23,21 @@ class OrdersController extends \BaseController {
 
     }
 
+    public function myajaxsearch(){
+        $term=Request::get('term');
+
+        $users = User::where('email','LIKE', '%' . $term . '%' )->limit(10)->get();
+        $response = array();
+        foreach ($users as $user) {
+            $response[] =  array('label'=> $user->email.'&nbsp -мобила-'.$user->mobile, "value" =>$user->email );
+        }
+        return Response::json($response);
+    }
 
     public function adminOrders() {
         $query = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
         $term = '';
-        if ('POST' == Request::method() && $term = Request::get('email')){
+        if ($term = Request::get('email')){
             $query = $query->whereHas('getcostumer', function($q) use ($term){
                return $q->where('email', 'LIKE', '%' . $term . '%');
             });
@@ -38,17 +48,15 @@ class OrdersController extends \BaseController {
     }
 
     public function adminClients() {
-        $que = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
         $query = User::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
         $term = '';
 
-        if ('POST' == Request::method() && $term = Request::get('email')){
+        if ($term = Request::get('email')){
             $query = $query->where('email', 'LIKE', '%' . $term . '%');
         }
 
-        $clients = $que->paginate(13);
-        $clins=$query->paginate(13);
-            return View::make('myadminroom/clients', compact('clients', 'term', 'clins'));
+        $clients=$query->paginate(13);
+            return View::make('myadminroom/clients', compact('clients', 'term'));
 
     }
 
@@ -177,34 +185,16 @@ class OrdersController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function orderDestroy($ord)
+	public function orderDestroy()
 	{
-        $kza = Order::where('id','=', $ord)->delete();
-        $query = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
-        $term = '';
-        if ('POST' == Request::method() && $term = Request::get('email')){
-            $query = $query->whereHas('getcostumer', function($q) use ($term){
-                return $q->where('email', 'LIKE', '%' . $term . '%');
-            });
-        }
-
-        $ords = $query->paginate(13);
-        return View::make('myadminroom/orders', compact('ords', 'term'));
+        Order::where('id','=', Input::get('id'))->delete();
+        return Redirect::to('myadminroom/orders');
 	}
 
     public function clientDestroy($client)
     {
         $kza = User::where('id','=', $client)->delete();
-        $query = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
-        $term = '';
-        if ('POST' == Request::method() && $term = Request::get('email')){
-            $query = $query->whereHas('getcostumer', function($q) use ($term){
-                return $q->where('email', 'LIKE', '%' . $term . '%');
-            });
-        }
-
-        $clients = $query->paginate(13);
-        return View::make('myadminroom/clients', compact('clients', 'term'));
+        return Redirect::back();
     }
 
 }

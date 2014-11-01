@@ -103,7 +103,7 @@
           container: options.container,
           content: options.content + '\
           <p class="button-group" style="margin-top: 10px; text-align: center;">\
-          <button type="button" class="btn btn-small btn-danger confirm-dialog-btn-confirm">' + options.yesBtn + '</button>\
+          <button type="button" id="ccc" class="btn btn-small btn-danger confirm-dialog-btn-confirm">' + options.yesBtn + '</button>\
           <button type="button" class="btn btn-small confirm-dialog-btn-abord">' + options.noBtn + '</button>\
           </p>'
         }).click(function(e) {

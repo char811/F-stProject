@@ -66,22 +66,40 @@ Route::post(
         )
 );
 
-Route::any('myadminroom/orders','OrdersController@adminOrders');
-Route::any('myadminroom/clients','OrdersController@adminClients');
+Route::get('myadminroom/orders',array('as'=>'myadminroom/orders', 'uses'=> 'OrdersController@adminOrders'));
+Route::get('myadminroom/clients',array('as'=>'clients', 'uses'=>'OrdersController@adminClients'));
 
-Route::get('myadminroom/orders{ord}', array('as'=>'orderdelete', 'uses'=> 'OrdersController@orderDestroy'));
-Route::get('myadminroom/clients{client}', array('as'=>'clientdelete', 'uses'=> 'OrdersController@clientDestroy'));
-Route::get('myadminroom/orders{id}', array('as'=>'sortorder', 'uses'=> 'OrdersController@adminOrders'));
+Route::get('myadminroom/orders/delete', array('as'=>'orderdelete', 'uses'=> 'OrdersController@orderDestroy'));
+Route::get('myadminroom/clients{client}', array('as'=>'clientdelete', function($client){
+    $kza = User::where('id','=', $client)->delete();
+    return Redirect::back();
+}));
+Route::get('myadminroom/orders/{id}', array('as'=>'sortorder', 'uses'=> 'OrdersController@adminOrders'));
 Route::get('myadminroom/clients{id}', array('as'=>'sortclient', 'uses'=> 'OrdersController@adminClients'));
 
 Route::post('myadminroom/orderchange', array('as'=>'orderchange', 'uses'=>'OrdersController@orderChange'));
 Route::post('myadminroom/clientchange', array('as'=>'clientchange', 'uses'=>'OrdersController@clientChange'));
 
 Route::post('myadminroom/orders{modelorder}', array('as' => 'myadminroom/orders',
-    'uses' => 'OrdersController@postorderChange'
+   'uses' => 'OrdersController@postorderChange'
 ));
 Route::post('myadminroom/clients{model}', array('as' => 'myadminroom/clients',
     'uses' => 'OrdersController@postclientChange'
 ));
+
+    Route::any('search', function() {
+        $term=Request::get('term');
+        $users = User::where('email','LIKE', '%' . $term . '%')->take(10)->get();
+        $response = array(
+           "suggestions"=>array()
+        );
+        foreach ($users as $user) {
+            array_push($response["suggestions"], array("value" => $user->email, "data"=>$user->mobile));
+        }
+
+        return Response::json($response);
+    });
+
+    Route::any('mysearch', array('uses'=>'OrdersController@myajaxsearch'));
 });
 

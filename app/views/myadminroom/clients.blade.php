@@ -15,9 +15,9 @@
             <div class="panel-body">
                  <div class="row">
                      <div class="col-lg-8">
-                         <form role="searchclient" action="{{ action('OrdersController@adminClients') }}" method="post" class="form-search" id="clients_search">
+                         <form role="searchclient" action="{{ action('OrdersController@adminClients') }}" method="get" class="form-search" id="clients_search">
                              <div class="input-group input-group-sm">
-                                <input type="text"  class="form-control" placeholder="Имя" name="email" required value="{{ $term }}" />
+                                <input type="text" id="email" class="form-control" placeholder="Имя" name="email" required value="{{ $term }}" />
                                 <span class="input-group-addon"><a href="#" onclick="$('#clients_search').submit();">
                                 <i class="glyphicon glyphicon-search"></i></a>
                                 </span>
@@ -53,12 +53,12 @@
         <table  id="example"  class="table table-striped table-bordered" class="tablesorter" data-height="400" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" width="100%" cellspacing="0">
               <thead>
                      <tr>
-                          <th>Имя</th>
-                          <th>Фамилия</th>
-                          <th>Отчество</th>
-                          <th>Эмейл</th>
-                          <th>Мобильный</th>
-                          <th>Дата</th>
+                          <th class="sortable"> Имя <i class="glyphicon pull-right"></i></th>
+                          <th class="sortable"> Фамилия <i class="glyphicon pull-right"></i></th>
+                          <th class="sortable"> Отчество <i class="glyphicon pull-right"></i></th>
+                          <th class="sortable"> Эмейл <i class="glyphicon pull-right"></i></th>
+                          <th class="sortable"> Мобильный <i class="glyphicon pull-right"></i></th>
+                          <th class="sortable"> Дата <i class="glyphicon pull-right"></i></th>
                           <th></th>
                      </tr>
                </thead>
@@ -76,19 +76,24 @@
                 </tfoot>
 
                <tbody>
-               @foreach($clins as $clin)
+               @foreach($clients as $client)
                        <tr>
-                           <td>{{{$clin->username}}}</td>
-                           <td>{{{$clin->first_name}}}</td>
-                           <td>{{{$clin->last_name}}}</td>
-                           <td>{{{$clin->email}}}</td>
-                           <td>{{{$clin->mobile}}}</td>
-                           <td>{{$clin->created_at}}</td>
+                           <td>{{{$client->username}}}</td>
+                           <td>{{{$client->first_name}}}</td>
+                           <td>{{{$client->last_name}}}</td>
+                           <td>{{{$client->email}}}</td>
+                           <td>{{{$client->mobile}}}</td>
+                           @if(($client->orders->count())!=0)
+                           <td>{{{$client->orders->first()->created_at}}}</td>
+                           @else
+                           <td></td>
+                           @endif
+                           <td>{{$client->created_at}}</td>
 
                            <td>
                               <a href="#modal" class="btn btn-info btn-sm" data-toggle="modal"
-                                    data-target="#basicModal{{$clients->id}}"><i class="glyphicon glyphicon-eye-open"></i></a>
-                              <a href="{{URL::route('clientdelete', array('id'=>$clin->id)) }}"  id="delete"  class="btn btn-danger btn-sm popconfirm"><i class="glyphicon glyphicon-remove-sign"></i></a>
+                                    data-target="#basicModal{{$client->id}}"><i class="glyphicon glyphicon-eye-open"></i></a>
+                              <a href="{{URL::route('clientdelete', array('id'=>$client->id)) }}"  id="delete"  class="btn btn-danger btn-sm popconfirm"><i class="glyphicon glyphicon-remove-sign"></i></a>
                            </td>
                       </tr>
 
@@ -106,14 +111,14 @@
       <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header"><button class="close" type="button" data-dismiss="modal">x</button>
-            <h4 class="modal-title" id="myModalLabel">{{{$client->getservice()->first()->name}}}</h4>
+            <h4 class="modal-title" id="myModalLabel">{{{$client->username}}}</h4>
             </div>
             <div class="modal-body">
-            <h3>{{{$client->getcostumer()->first()->mobile}}}</h3>
+            <h3>{{{$client->mobile}}}</h3>
             </div>
                <div class="modal-footer">
                    <form action="{{ action('OrdersController@clientChange') }}" method="post">
-                       <input type="hidden" name="id" value="{{$client->getcostumer()->first()->id}}" required />
+                       <input type="hidden" name="id" value="{{$client->id}}" required />
                <button type="submit" class="btn btn-info btn-sm">Изменить</button>
                <a class="btn" href="#" data-dismiss="modal">Отмена</a>
                        </form>
