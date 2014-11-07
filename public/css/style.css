@@ -48,7 +48,9 @@ th.sortable:hover{
     background-color: #f5f5f5;
 }
 
-
+.growl{
+    margin-bottom: 150px;
+}
 
 .otp {
     margin-bottom: 100px;
@@ -57,6 +59,17 @@ th.sortable:hover{
     margin-bottom: 50px;
 }
 
+.sel{
+    padding:13px;
+    margin-top: 45px;
+}
+
+#oneweek{
+    background:orange;
+}
+#twoweek{
+    background:red;
+}
 
 .autocomplete-suggestions { border: 1px solid #999; background: #fff; cursor: default; overflow: auto; }
 .autocomplete-suggestion { padding: 10px 5px; font-size: 1.2em; white-space: nowrap; overflow: hidden; }

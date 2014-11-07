@@ -14,14 +14,6 @@ class OrdersController extends \BaseController {
 		return View::make('orders.index', compact('orders'));
 	}
 
-    public function user() {
-        return $this->belongsTo('User', 'username');
-    }
-
-
-    public function getProcess() {
-
-    }
 
     public function myajaxsearch(){
         $term=Request::get('term');
@@ -37,26 +29,75 @@ class OrdersController extends \BaseController {
     public function adminOrders() {
         $query = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
         $term = '';
+        $allothers=Order::where('process','=','Новый')
+            ->orWhere('process','=','Обработан')->get();
+        $dateoneday=Carbon::now();
+        $datesevenday=Carbon::now()->subDays(3);
+        $ones=Order::where('process','=','В обработке')
+            ->where('created_at', '>=', $datesevenday)
+            ->where('created_at', '<=', $dateoneday)->get();
+        $dateoneweek=Carbon::now()->subDays(3);
+        $datetwoweek=Carbon::now()->subDays(5);
+        $oneweeks=Order::where('process','=','В обработке')
+            ->where('created_at', '>=', $datetwoweek)
+            ->where('created_at', '<=', $dateoneweek)->get();
+        $twoweek=Carbon::now()->subDays(5);
+        $ninemonth=Carbon::now()->subWeeks(300);
+        $twoweeks=Order::where('process','=','В обработке')
+            ->where('created_at', '>=', $ninemonth)
+            ->where('created_at', '<=', $twoweek)->get();
+
+
+        $kart=Auth::user()->admin;
+        $lll=Auth::user()->username;
+        if($kart==$lll) {
+            if ($term = Request::get('email')){
+                $query = $query->whereHas('getcostumer', function($q) use ($term){
+                    return $q->where('email', 'LIKE', '%' . $term . '%');
+                });
+            }
+            $ords = $query->get();
+            return View::make('myadminroom/orders', compact('ords', 'term', 'ones', 'oneweeks', 'twoweeks', 'allothers'));
+        }
+
+        if($kart!=$lll){
+            $ccc=Auth::user()->city;
+            $query = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc')->whereHas('getcostumer', function($k) use ($ccc){
+                return $k->where('city','=', $ccc);});
         if ($term = Request::get('email')){
             $query = $query->whereHas('getcostumer', function($q) use ($term){
                return $q->where('email', 'LIKE', '%' . $term . '%');
             });
         }
-
-        $ords = $query->paginate(13);
-        return View::make('myadminroom/orders', compact('ords', 'term'));
+        $ords = $query->get();
+        return View::make('myadminroom/orders', compact('ords', 'term', 'ones', 'oneweeks', 'twoweeks', 'allothers'));
+        }
     }
 
     public function adminClients() {
-        $query = User::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
-        $term = '';
 
+        $term = '';
+        $kart=Auth::user()->admin;
+        $lll=Auth::user()->username;
+        if($kart==$lll) {
+            $query = User::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
+            if ($term = Request::get('email')){
+                $query = $query->where('email', 'LIKE', '%' . $term . '%');
+            }
+            $clients=$query->get();
+            return View::make('myadminroom/clients', compact('clients', 'term'));
+        }
+        if($kart!=$lll){
+        $ccc=Auth::user()->city;
+        $query = User::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc')->where('city','=', $ccc);
         if ($term = Request::get('email')){
-            $query = $query->where('email', 'LIKE', '%' . $term . '%');
+            $query = $query->where('email', 'LIKE', '%' . $term . '%')
+            ->where('city','=', $ccc);
         }
 
-        $clients=$query->paginate(13);
+        $clients=$query->get();
             return View::make('myadminroom/clients', compact('clients', 'term'));
+        }
 
     }
 
@@ -90,23 +131,20 @@ class OrdersController extends \BaseController {
         return Redirect::back()->with('message', 'Ошибка сохранения')->withInput();
         }
         $neworder->save();
-        $query = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
-        $term='';
-        $ords = $query->paginate(13);
-        return View::make('myadminroom/orders', compact('ords','term'))->with('message', 'Данные успешно изменены');
+
+        return Redirect::to('myadminroom/orders')->with('message', 'Данные успешно изменены');
     }
 
     public function postclientChange($model){
         $newclient=User::find($model);
+
         $clientupdate=Input::all();
         if(!$newclient->update($clientupdate)) {
             return Redirect::back()->with('message', 'Ошибка сохранения')->withInput();
         }
         $newclient->save();
-        $query = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
-        $term='';
-        $clients = $query->paginate(13);
-        return View::make('myadminroom/clients', compact('clients','term'))->with('message', 'Данные успешно изменены');
+
+        return Redirect::to('myadminroom/clients')->with('message', 'Данные успешно изменены');
 
     }
 
@@ -187,14 +225,15 @@ class OrdersController extends \BaseController {
 	 */
 	public function orderDestroy()
 	{
-        Order::where('id','=', Input::get('id'))->delete();
+      //  Order::where('id','=', Input::get('id'))->delete();
         return Redirect::to('myadminroom/orders');
 	}
 
     public function clientDestroy($client)
     {
-        $kza = User::where('id','=', $client)->delete();
-        return Redirect::back();
+       // $kza = User::where('id','=', $client)->delete();
+        $message="Клиент удален, как и все его заказы!";
+        return Redirect::back()->with('error',"Клиент удален, как и все его заказы!")->withInput();
     }
 
 }

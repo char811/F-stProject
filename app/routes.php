@@ -35,14 +35,20 @@ Route::filter('ka', function()
 Route::group(array('before' => 'ka'), function ()
 {
 
- Route::get('process','OrdersController@getProcess');
+Route::get('newmanager', 'UsersController@newManager');
 
-
- Route::post('services/index', array('as' => 'services/index',
+Route::post('services/index', array('as' => 'services/index',
         'uses' => 'ServicesController@store'
 ));
 
 Route::get('services/index','ServicesController@create');
+
+Route::post('cities/index', array('as' => 'cities/index',
+        'uses' => 'CitiesController@store'
+));
+
+Route::get('cities/index','CitiesController@create');
+
 
 
 Route::post('exit', array('as'=>'exit', 'uses' => 'UsersController@getLogout'));
@@ -56,7 +62,9 @@ Route::post('record', array('as' => 'record',
 Route::post('recorder', array('as' => 'recorder',
         'uses' => 'UsersController@myorderRecord'
 ));
-
+Route::post('manager', array('as' => 'manager',
+        'uses' => 'UsersController@managerRecord'
+));
 
 Route::post(
         'myadminroom/clients',
@@ -71,8 +79,8 @@ Route::get('myadminroom/clients',array('as'=>'clients', 'uses'=>'OrdersControlle
 
 Route::get('myadminroom/orders/delete', array('as'=>'orderdelete', 'uses'=> 'OrdersController@orderDestroy'));
 Route::get('myadminroom/clients{client}', array('as'=>'clientdelete', function($client){
-    $kza = User::where('id','=', $client)->delete();
-    return Redirect::back();
+    //$kza = User::where('id','=', $client)->delete();
+    return Redirect::back()->with('clidel',"Клиент удален, как и все его заказы!")->withInput();
 }));
 Route::get('myadminroom/orders/{id}', array('as'=>'sortorder', 'uses'=> 'OrdersController@adminOrders'));
 Route::get('myadminroom/clients{id}', array('as'=>'sortclient', 'uses'=> 'OrdersController@adminClients'));
@@ -87,19 +95,17 @@ Route::post('myadminroom/clients{model}', array('as' => 'myadminroom/clients',
     'uses' => 'OrdersController@postclientChange'
 ));
 
-    Route::any('search', function() {
-        $term=Request::get('term');
-        $users = User::where('email','LIKE', '%' . $term . '%')->take(10)->get();
-        $response = array(
-           "suggestions"=>array()
-        );
-        foreach ($users as $user) {
-            array_push($response["suggestions"], array("value" => $user->email, "data"=>$user->mobile));
-        }
 
-        return Response::json($response);
+Route::any('mysearch', array('uses'=>'OrdersController@myajaxsearch'));
+
+Route::get('kuk',array('as'=>'kuk',function(){
+    $rere=Input::get('city');
+    return Redirect::route('su',array('city'=>$rere));
+}));
+
+    Route::group(['as' => 'su', 'domain' => '{city}.lara/public'], function () {
+        Route::get('admin', 'UsersController@Adminka');
     });
 
-    Route::any('mysearch', array('uses'=>'OrdersController@myajaxsearch'));
 });
 

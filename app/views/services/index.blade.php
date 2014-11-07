@@ -11,11 +11,9 @@
     @endif
 
 @if(Session::has('message'))
-<div class="jumbotron" align="center">
-    <p>
-        {{Session::get('message')}}
-    </p>
-</div>
+<script type="text/javascript">
+    $.growl.notice({message: "Данные успешно занесены в базу данных..." });
+</script>
 @endif
 
 

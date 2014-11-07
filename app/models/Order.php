@@ -1,5 +1,7 @@
 <?php
 
+
+
 class Order extends \Eloquent {
 
     protected $table = 'orders';
@@ -14,7 +16,7 @@ class Order extends \Eloquent {
     );
 
 	// Don't forget to fill this array
-	protected $fillable = [ 'created_at', 'service', 'comment', 'process','','costumer'];
+	protected $fillable = [ 'created_at', 'service', 'comment', 'process','price','costumer'];
 	
    /*public function sendMail() {
 

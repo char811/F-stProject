@@ -16,7 +16,7 @@ class CreateUsersTable extends Migration {
 
             $table->increments('id');
 
-            $table->string('email')->unique();
+            $table->string('email');
 
             $table->string('username');
 			
@@ -24,13 +24,17 @@ class CreateUsersTable extends Migration {
 			
 			$table->string('last_name');
 			
-            $table->string('mobile')->unique();
+            $table->string('mobile');
 
             $table->string('admin');
 
             $table->string('password');
 
             $table->string('remember_token')->nullable();
+
+            $table->unsignedInteger('city');
+
+            $table->foreign('city')->references('id')->on('cities');
 
             $table->timestamps();
         });

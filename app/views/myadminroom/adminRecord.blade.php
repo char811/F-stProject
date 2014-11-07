@@ -50,6 +50,11 @@
                  {{ Form::text('mobile',null,  array('class' => 'form-control', 'placeholder' => 'Мобильный')) }}
       </div></div>
       <div class="form-group">
+          <label class="col-sm-2 control-label"> Город </label>
+          <div class="col-sm-5">
+                {{ Form::select('city', City::all()->lists('engname', 'id'), null, array('class' => 'form-control')) }}
+      </div></div>
+      <div class="form-group">
           <label class="col-sm-2 control-label"></label>
           <div class="col-sm-5">
 		         {{ Form::submit('Отправить', array('class' => 'btn btn-lg btn-primary btn-block')) }}

@@ -42,15 +42,14 @@
        </div>
 
       @if(Session::has('message'))
-      <div class="jumbotron" align="center">
-          <p>
-              {{Session::get('message')}}
-          </p>
-      </div>
+      <script type="text/javascript">
+          $.growl.notice({message: "Новый клиент успешно занесен в базу данных..." });
+      </script>
       @endif
 
-       <div class="row">
-        <table  id="example"  class="table table-striped table-bordered" class="tablesorter" data-height="400" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" width="100%" cellspacing="0">
+
+       <div class="row" >
+        <table  id="example1" class="table table-striped table-bordered" class="tablesorter" data-height="400" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" width="100%" cellspacing="0">
               <thead>
                      <tr>
                           <th class="sortable"> Имя <i class="glyphicon pull-right"></i></th>
@@ -78,43 +77,67 @@
                <tbody>
                @foreach($clients as $client)
                        <tr>
+
                            <td>{{{$client->username}}}</td>
                            <td>{{{$client->first_name}}}</td>
                            <td>{{{$client->last_name}}}</td>
                            <td>{{{$client->email}}}</td>
                            <td>{{{$client->mobile}}}</td>
-                           @if(($client->orders->count())!=0)
-                           <td>{{{$client->orders->first()->created_at}}}</td>
-                           @else
-                           <td></td>
-                           @endif
                            <td>{{$client->created_at}}</td>
 
                            <td>
-                              <a href="#modal" class="btn btn-info btn-sm" data-toggle="modal"
+
+                             <div style="position: relative">  <a href="#modal" class="btn btn-info btn-sm" data-toggle="modal"
                                     data-target="#basicModal{{$client->id}}"><i class="glyphicon glyphicon-eye-open"></i></a>
-                              <a href="{{URL::route('clientdelete', array('id'=>$client->id)) }}"  id="delete"  class="btn btn-danger btn-sm popconfirm"><i class="glyphicon glyphicon-remove-sign"></i></a>
+
+                               <form class="ajaxForm" action="{{URL::route('clientdelete', array('id'=>$client->id)) }}">
+                                   <button type="submit" class="btn btn-danger btn-sm popconfirm" style="position: absolute; top: 0px; left: 38px;"><i class="glyphicon glyphicon-remove-sign"></i></button>
+                               </form>
+                             </div>
+
                            </td>
                       </tr>
 
                @endforeach
                </tbody>
-        </table>
-        </div>
+       </div>
+         </table>
+</div>
 
-{{$clients->links()}}
+<div style="position:relative">
+    <div id="pager" class="pager" style="top: 30px; position: absolute; ">
+        <form>
+            <img src="/public/script/tablesorter-master/addons/pager/icons/first.png" class="first">
+            <img src="/public/script/tablesorter-master/addons/pager/icons/prev.png" class="prev">
+            <input type="text" class="pagedisplay">
+            <img src="/public/script/tablesorter-master/addons/pager/icons/next.png" class="next">
+            <img src="/public/script/tablesorter-master/addons/pager/icons/last.png" class="last">
+            <select class="pagesize">
+                <option selected="selected" value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+            </select>
+        </form>
+    </div>
+</div>
 
- </div>
+
 
 @foreach($clients as $client)
 <div class="modal" id="basicModal{{ $client->id }}" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header"><button class="close" type="button" data-dismiss="modal">x</button>
-            <h4 class="modal-title" id="myModalLabel">{{{$client->username}}}</h4>
+            <h4 class="modal-title" id="myModalLabel"><p>Эмейл - {{{$client->email}}} </p></h4>
             </div>
             <div class="modal-body">
-            <h3>{{{$client->mobile}}}</h3>
+            <h3>
+               <p>Имя:  {{{$client->username}}} </p>
+               <p>Фамилия:  {{{$client->first_name}}} </p>
+               <p>Отчество:  {{{$client->last_name}}} </p>
+               <p>Мобильный:  {{{$client->mobile}}} </p>
+            </h3>
             </div>
                <div class="modal-footer">
                    <form action="{{ action('OrdersController@clientChange') }}" method="post">

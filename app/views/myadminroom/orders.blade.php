@@ -44,13 +44,15 @@
     </div>
 
     @if(Session::has('message'))
-    <div class="jumbotron" align="center">
-        <p>
-            {{Session::get('message')}}
-        </p>
-    </div>
+    <script type="text/javascript">
+        $.growl.notice({message: "Новый заказ успешно занесен в базу данных..." });
+    </script>
     @endif
-
+    @if(Session::has('men'))
+    <script type="text/javascript">
+        $.growl.notice({message: "Новый менеджер успешно занесен в базу данных..." });
+    </script>
+    @endif
 
     <div class="row">
     <table  id="example"  class="table table-striped table-bordered" class="tablesorter"  data-height="400" data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]" width="100%" cellspacing="0">
@@ -76,31 +78,80 @@
                 <th></th>
             </tr>
         </tfoot>
- 
+
         <tbody>
             @foreach($ords as $ord)
 			<tr>
-                <td>{{{$ord->getcostumer()->first()->email}}}</td>
-                <td>{{{$ord->getservice()->first()->name}}}</td>
-                <td>{{{$ord->process}}}</td>
-                <td>{{{$ord->price}}}</td>
-				<td>{{{$ord->created_at}}}</td>
+                @foreach($allothers as $allother)
+                    @if(($ord->id)==($allother->id))
+                        <td>{{{$ord->getcostumer()->first()->email}}}</td>
+                        <td>{{{$ord->getservice()->first()->name}}}</td>
+                        <td>{{{$ord->process}}}</td>
+                        <td>{{{$ord->price}}}</td>
+                        <td>{{{$ord->created_at}}}</td>
+                     @endif
+                @endforeach
+
+                @foreach($ones as $one)
+                    @if(($ord->id)==($one->id))
+                        <td>{{{$ord->getcostumer()->first()->email}}}</td>
+                        <td>{{{$ord->getservice()->first()->name}}}</td>
+                        <td>{{{$ord->process}}}</td>
+                        <td>{{{$ord->price}}}</td>
+                        <td>{{{$ord->created_at}}}</td>
+                    @endif
+                @endforeach
+
+                @foreach($oneweeks as $oneweek)
+                    @if(($oneweek->id)==($ord->id))
+                        <td id="oneweek">{{{$ord->getcostumer()->first()->email}}}</td>
+                        <td id="oneweek">{{{$ord->getservice()->first()->name}}}</td>
+                        <td id="oneweek">{{{$ord->process}}}</td>
+                        <td id="oneweek">{{{$ord->price}}}</td>
+                        <td id="oneweek">{{{$ord->created_at}}}</td>
+                    @endif
+                @endforeach
+
+
+                @foreach($twoweeks as $twoweek)
+                    @if(($twoweek->id)==($ord->id))
+                        <td id="twoweek">{{{$ord->getcostumer()->first()->email}}}</td>
+                        <td id="twoweek">{{{$ord->getservice()->first()->name}}}</td>
+                        <td id="twoweek">{{{$ord->process}}}</td>
+                        <td id="twoweek">{{{$ord->price}}}</td>
+                        <td id="twoweek">{{{$ord->created_at}}}</td>
+                    @endif
+                @endforeach
 
                 <td>
                     <a href="#modal" class="btn btn-info btn-sm" data-toggle="modal"
                        data-target="#basicModal{{$ord->id}}"><i class="glyphicon glyphicon-eye-open"></i></a>
-                    <a href="#" onclick="return confirma({{$ord->id}});"  class="btn btn-danger btn-sm "><i class="glyphicon glyphicon-remove-sign"></i></a>
+                    <a href="#" onclick="return confirma({{$ord->id}});" id="ddd{{$ord->id}}" class="btn btn-danger btn-sm "><i class="glyphicon glyphicon-remove-sign"></i></a>
 
                 </td>
             </tr>
-
 			@endforeach
         </tbody>
-    </table>
-        </div>
+    </div>
+      </table>
+</div>
 
-    {{$ords->links()}}
-
+<div style="position:relative">
+    <div id="pager" class="pager" style="top: 30px; position: absolute; ">
+        <form>
+            <img src="/public/script/tablesorter-master/addons/pager/icons/first.png" class="first">
+            <img src="/public/script/tablesorter-master/addons/pager/icons/prev.png" class="prev">
+            <input type="text" class="pagedisplay">
+            <img src="/public/script/tablesorter-master/addons/pager/icons/next.png" class="next">
+            <img src="/public/script/tablesorter-master/addons/pager/icons/last.png" class="last">
+            <select class="pagesize">
+                <option selected="selected" value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+            </select>
+        </form>
+    </div>
 </div>
 
 @foreach($ords as $ord)
@@ -108,10 +159,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header"><button class="close" type="button" data-dismiss="modal">x</button>
-                <h4 class="modal-title" id="myModalLabel">{{{$ord->getservice()->first()->name}}}</h4>
+                <h4 class="modal-title" id="myModalLabel"><p>Услуга - {{{$ord->getservice()->first()->name}}} </p></h4>
             </div>
             <div class="modal-body">
-                <h3>{{{$ord->comment}}}</h3>
+                <h3>
+                    <p>Эмейл:  {{{$ord->getcostumer()->first()->email}}} </p>
+                    <p>Стоимость:  {{{$ord->price}}} </p>
+                    <p>Комментарий:  {{{$ord->comment}}} </p>
+                </h3>
             </div>
             <div class="modal-footer">
                 <form action="{{ action('OrdersController@orderChange') }}" method="post">

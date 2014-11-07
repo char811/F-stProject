@@ -11,9 +11,23 @@ class UsersController extends BaseController {
 
 
 	public function Adminka() {
-	             return View::make('admin');
+        $cities=City::all();
+	    return View::make('admin',compact('cities'));
 	}
 
+    public function newManager(){
+        return View::make('newmanager');
+    }
+
+    public function managerRecord(){
+        $newman=new User();
+        $newman->username=Input::get('username');
+        $newman->password=Hash::make(Input::get('password'));
+        $city = City::find(Input::get('city'));
+        $newman->city = $city->id;
+        $newman->save();
+        return Redirect::to('myadminroom/orders')->with('men', 'Все отлично!');
+    }
 
      public function myorderRecord() {
 
@@ -45,6 +59,8 @@ class UsersController extends BaseController {
         $user->first_name=Input::get('first_name');
         $user->last_name=Input::get('last_name');
         $user->mobile=Input::get('mobile');
+        $city=City::find(Input::get('city'));
+        $user->city = $city->id;
         $user->save();
         return Redirect::to('myadminroom/clients')->with('message', 'Все отлично!');
     }
@@ -80,6 +96,8 @@ class UsersController extends BaseController {
         $user->first_name=Input::get('first_name');
         $user->last_name=Input::get('last_name');
         $user->mobile=Input::get('mobile');
+        $city=City::find(Input::get('city'));
+        $user->city = $city->id;
         $user->save();
         $order->costumer = $user->id;
         $order->save();
@@ -99,14 +117,17 @@ class UsersController extends BaseController {
 
         $user=User::where('username','=', $bc)->first();
         if(!$user){
-        $user = User::firstOrCreate(array('username' => $bc, 'password'=>Hash::make($ab)));
+
+        $user = User::firstOrCreate(array('username' => $bc, 'password'=>Hash::make($ab), 'admin'=>$bc));
+
         $user->save();}
 
         $creds = array(
 		    'username'  => Input::get('username'),
             'password' => Input::get('password'),
-        ); 
+        );
 		//var_dump(Auth::validate($creds));var_dump($creds);die();
+
         if (Auth::attempt($creds, Input::has('remember'))) {
             Log::info("User [{$creds['username']}] successfully logged in.");
  		    return Redirect::to('myadminroom/orders ');

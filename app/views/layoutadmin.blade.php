@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="/public/script/bootstrapvalidator/dist/css/bootstrapValidator.css"/>
         <link rel="stylesheet" href="/public/css/style.css">
-
+        <link rel="stylesheet" href="/public/script/jquerygrowl/stylesheets/jquery.growl.css">
 
 
 
@@ -28,12 +28,12 @@
         <script type="text/javascript" src="/public/script/jQuery-Mask-Plugin-master/dist/jquery.mask.min.js"></script>
         {{ HTML::script(URL::asset('script/bootstrap-table.js')) }}
         <!--<script type="text/javascript" src="/public/script/jQuery-Autocomplete-master/dist/jquery.autocomplete.js"></script>-->
-
+        {{ HTML::script(URL::asset('script/jquerygrowl/javascripts/jquery.growl.js')) }}
         {{ HTML::script(URL::asset('script/tablesorter-master/js/jquery.tablesorter.js')) }}
+        {{ HTML::script(URL::asset('script/tablesorter-master/addons/pager/jquery.tablesorter.pager.js')) }}
         {{ HTML::script(URL::asset('script/tooltip.js')) }}
         {{ HTML::script(URL::asset('script/bootstrap-confirmation.js')) }}
         {{ HTML::script(URL::asset('script/jquery.popconfirm.js')) }}
-        {{ HTML::script(URL::asset('script/admin.js')) }}
         {{ HTML::script(URL::asset('script/tik.js')) }}
         {{ HTML::script(URL::asset('script/mask.js')) }}
 

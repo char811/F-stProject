@@ -10,7 +10,8 @@
         "rhumsaa/uuid": "~2.7",
         "jenssegers/agent": "~2.1",
         "bllim/datatables": "1.4.*",
-        "barryvdh/laravel-ide-helper":"dev-master"
+        "barryvdh/laravel-ide-helper":"dev-master",
+        "nesbot/Carbon": "*"
 	},
 	    "suggest": {
         "geoip/geoip": "~1.14"

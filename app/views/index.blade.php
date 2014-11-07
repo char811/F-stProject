@@ -37,11 +37,9 @@ Our company
 @endif
 
 @if(Session::has('message'))
-<div class="jumbotron" align="center">
-    <p>
-        {{Session::get('message')}}
-    </p>
-</div>
+<script type="text/javascript">
+    $.growl.notice({message: "Данные успешно занесены в базу данных..." });
+</script>
 @endif
 
         <div class="form-group">
@@ -49,6 +47,12 @@ Our company
             <div class="col-sm-5">
                 {{ Form::select('service', Service::all()->lists('name', 'id'), null, array('class' => 'form-control')) }}
             </div>
+        </div>
+        <div class="form-group">
+                <label class="col-sm-2 control-label"> Город </label>
+             <div class="col-sm-5">
+                 {{ Form::select('city', City::all()->lists('engname', 'id'), null, array('class' => 'form-control')) }}
+             </div>
         </div>
         <div class="form-group">
                 <label class="col-sm-2 control-label">Имя</label>

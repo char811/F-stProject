@@ -1,7 +1,9 @@
-﻿function parse_hash(){
+﻿
+
+function parse_hash(){
     if (window.location.hash){
-        var matches = /^\#order\_by\=(-*)(.+)/.exec(window.location.hash);
-        return {direction: matches[1]?1:0, field: matches[2]};
+        var matcheorders = /^\#order\_by\=(-*)(.+)/.exec(window.location.hash);
+        return {direction: matcheorders[1]?1:0, field: matcheorders[2]};
     }
     return false;
 }
@@ -10,12 +12,24 @@
 $('document').ready(function(){
     $('#modal').modal();
     $(".popconfirm").popConfirm({
-        title: "Удалить ?",
-        content: "Я предупреждаю тебя !",
-        placement: "left", // (top, right, bottom, left)
-        yesBtn:   'Да',
-        noBtn:    'Нет'
+            title: "Удалить ?",
+            content: "Я предупреждаю тебя !",
+            placement: "left", // (top, right, bottom, left)
+            yesBtn:   'Да',
+            noBtn:    'Нет'
     });
+
+    $('.ajaxForm').on('submit', function(e){
+        e.preventDefault();
+        var url = $(this).attr('action');
+        $.get(url, function(){
+           window.location.reload();
+           contact();
+        });
+    });
+    function contact(){
+    $.growl.notice({message: "Клиент удален, как и все его заказы!" });
+    }
     if ($.fn.autocomplete && $('#email').length){
         $('#email').autocomplete({
             source:"/public/mysearch",
@@ -37,8 +51,66 @@ $('document').ready(function(){
     }
 
 
+    $("#example").tablesorter({
+        headers: { 3: { sorter: 'digit'}, 5: { sorter: false} },
+        usNumberFormat : true,
+        numberSorter: function (a, b, direction) {
+           // console.log(a, b);
+            if (a >= 0 && b >= 0) { return direction ? a - b : b - a; }
+            if (a >= 0) { return -1; }
+            if (b >= 0) { return 1; }
+            return direction ? b - a : a - b;
+        }
+    });
+    $("#example1").tablesorter();
 
-    $("#example").tablesorter();
+    if ($.fn.tablesorterPager){
+    $("#example").tablesorterPager({container: $("#pager")});
+    $("#example1").tablesorterPager({container: $("#pager")});
+    }
+
+
+    var orderheaders = [
+        'email',
+        'service',
+        'process',
+        'price',
+        'created_at'
+    ];
+
+
+    (function(){
+        var parsed_sort_data = parse_hash();
+        if (parsed_sort_data.field){
+            var field = orderheaders.indexOf(parsed_sort_data.field);
+            var sorting = [[field, parsed_sort_data.direction]];
+            // сортируем по первой колонке
+            $("#example").trigger("sorton",[sorting]);
+            setTimeout(function(){
+                $("#example").find('.sortable.tablesorter-headerAsc, .sortable.tablesorter-headerDesc').trigger('click');
+            }, 300);
+        }
+    })();
+
+
+    $("#example").find('.sortable').on('click', function(e){
+        setTimeout((function(self){
+            return function(e){
+                var column = $(self);
+                var direction = column.hasClass('tablesorter-headerAsc') ? '' : '-';
+                var arrow_class = column.hasClass('tablesorter-headerAsc') ? 'glyphicon-arrow-up' : 'glyphicon-arrow-down';
+                $('.sortable').find('i').removeClass('glyphicon-arrow-up');
+                $('.sortable').find('i').removeClass('glyphicon-arrow-down');
+                if (arrow_class == 'glyphicon-arrow-up'){
+                    column.find('i').removeClass('glyphicon-arrow-down');
+                }else{
+                    column.find('i').removeClass('glyphicon-arrow-up');
+                }
+                window.location.hash = '#order_by=' + direction + orderheaders[column.data('column')];
+                column.find('i').addClass(arrow_class);
+            }
+        })(this), 50);
+    });
 
 
     var headers = [
@@ -53,21 +125,20 @@ $('document').ready(function(){
 
 
     (function(){
-
         var parsed_sort_data = parse_hash();
         if (parsed_sort_data.field){
             var field = headers.indexOf(parsed_sort_data.field);
             var sorting = [[field, parsed_sort_data.direction]];
             // сортируем по первой колонке
-            $("#example").trigger("sorton",[sorting]);
+            $("#example1").trigger("sorton",[sorting]);
             setTimeout(function(){
-                $("#example").find('.tablesorter-headerAsc, .tablesorter-headerDesc').trigger('click');
+                $("#example1").find('.tablesorter-headerAsc, .tablesorter-headerDesc').trigger('click');
             }, 300);
         }
     })();
 
-    $("#example").find('.sortable').on('click', function(e){
-        //$("#example").findAll('i').removeClass();
+
+    $("#example1").find('.sortable').on('click', function(e){
         setTimeout((function(self){
             return function(e){
                 var column = $(self);
@@ -85,6 +156,8 @@ $('document').ready(function(){
             }
         })(this), 50);
     });
+
+
 
 
     $('.registrationForm').bootstrapValidator({
