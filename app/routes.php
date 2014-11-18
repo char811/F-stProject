@@ -25,7 +25,23 @@ Route::post('my', array('as' => 'my',
         'uses' => 'UsersController@postLogin'
     ));
 
+Route::filter('men', function()
+{
+    if (!Auth::check()) return Redirect::to('/');
+    else {
+    $kart=Auth::user()->admin;
+    $lll=Auth::user()->username;
+    if ($kart!=$lll) return Redirect::to('admin');
+    }
+});
+Route::group(array('before' => 'men'), function ()
+{
+Route::get('newmanager', 'UsersController@newManager');
+Route::post('manager', array('as'=>'manager',
+    'uses' => 'UsersController@managerRecord'
+));
 
+});
 Route::filter('ka', function()
 {
    // if (Auth::guest()) return Redirect::guest('orders/index');
@@ -35,7 +51,6 @@ Route::filter('ka', function()
 Route::group(array('before' => 'ka'), function ()
 {
 
-Route::get('newmanager', 'UsersController@newManager');
 
 Route::post('services/index', array('as' => 'services/index',
         'uses' => 'ServicesController@store'
@@ -49,8 +64,6 @@ Route::post('cities/index', array('as' => 'cities/index',
 
 Route::get('cities/index','CitiesController@create');
 
-
-
 Route::post('exit', array('as'=>'exit', 'uses' => 'UsersController@getLogout'));
 
 Route::get('myadminroom/adminRecord', 'OrdersController@adminRecord');
@@ -62,24 +75,17 @@ Route::post('record', array('as' => 'record',
 Route::post('recorder', array('as' => 'recorder',
         'uses' => 'UsersController@myorderRecord'
 ));
-Route::post('manager', array('as' => 'manager',
-        'uses' => 'UsersController@managerRecord'
-));
 
-Route::post(
-        'myadminroom/clients',
-        array(
-            'as' => 'myadminroom/clients',
-            'uses' => 'UsersController@adminClients'
-        )
-);
+/*Route::post('myadminroom/clients',array('as' => 'myadminroom/clients',
+            'uses' => 'UsersController@adminClients')
+);*/
 
 Route::get('myadminroom/orders',array('as'=>'myadminroom/orders', 'uses'=> 'OrdersController@adminOrders'));
 Route::get('myadminroom/clients',array('as'=>'clients', 'uses'=>'OrdersController@adminClients'));
 
 Route::get('myadminroom/orders/delete', array('as'=>'orderdelete', 'uses'=> 'OrdersController@orderDestroy'));
 Route::get('myadminroom/clients{client}', array('as'=>'clientdelete', function($client){
-    //$kza = User::where('id','=', $client)->delete();
+   // $kza = User::where('id','=', $client)->delete();
     return Redirect::back()->with('clidel',"Клиент удален, как и все его заказы!")->withInput();
 }));
 Route::get('myadminroom/orders/{id}', array('as'=>'sortorder', 'uses'=> 'OrdersController@adminOrders'));
@@ -98,14 +104,89 @@ Route::post('myadminroom/clients{model}', array('as' => 'myadminroom/clients',
 
 Route::any('mysearch', array('uses'=>'OrdersController@myajaxsearch'));
 
-Route::get('kuk',array('as'=>'kuk',function(){
-    $rere=Input::get('city');
-    return Redirect::route('su',array('city'=>$rere));
-}));
 
     Route::group(['as' => 'su', 'domain' => '{city}.lara/public'], function () {
         Route::get('admin', 'UsersController@Adminka');
     });
+
+Route::get('orders/statistics',array('as'=>'orders/statistics', 'uses'=> 'OrdersController@statistics'));
+
+Route::any('orders/chart', array('as'=>'chart', function(){
+    //$marketing=array();
+    /*$marketing['Новые']=Order::where('service','=','Marketing')
+        ->where('process','=', 'Новый')->count();
+    $marketing['В обработке']=Order::where('service','=','Marketing')
+        ->where('process','=', 'В обработке')->count();
+    $marketing['Обработано']=Order::where('service','=','Marketing')
+        ->where('process','=', 'Обработан')->count();
+    $marketing['Отклонено']=Order::where('service','=','Marketing')
+        ->where('process','=', 'Отклонен')->count();
+    $mark=Order::where('service','=','Marketing')->count();
+    $char=$marketing['Новые'];
+    $kit=floor(($char/$mark)*100);
+    $marketing['Новые']=$kit;*/
+   /* $mar=Order::where('service','=','Marketing')
+        ->where('process','=', 'Новый')->count();
+    $marke['В обработке']=Order::where('service','=','Marketing')
+        ->where('process','=', 'В обработке')->count();
+    $mat['Обработано']=Order::where('service','=','Marketing')
+        ->where('process','=', 'Обработан')->count();
+    $marketi['Отклонено']=Order::where('service','=','Marketing')
+        ->where('process','=', 'Отклонен')->count();
+    $mark=Order::where('service','=','Marketing')->count();
+    $char=$mark;
+   // $kit=floor(($char/$mark)*100);
+    $manka=array();
+    //$manka['success']=array('name'=>'old', 'data'=>351);
+    $manka['data']=[['name'=>'new', 'data'=>100], ['name'=>'old', 'data'=>351]];
+//$manka['data']=351;
+    return Response::json($manka);
+   */
+
+    //$mar=Order::where('service','=','Marketing')->get();
+   /* $serv= Service::all();
+    $ser= Service::all();
+    $services=Service::all()->count();
+    $servicefirst=$serv->first()->id;
+    for($serv->first()->name=$servicefirst;   $serv->first()->name<=$services;   $serv->first()->name++)  {
+        $ser= Service::where('id','=', $serv->first()->name);
+        $m=$ser->first()->name;
+        $mar=Order::where('service','=', $serv->first()->name)
+            ->where('process','=', 'Новый')->count();
+        $marke=Order::where('service','=', $serv->first()->name)
+            ->where('process','=', 'В обработке')->count();
+        $mat=Order::where('service','=', $serv->first()->name)
+            ->where('process','=', 'Обработан')->count();
+        $marketi=Order::where('service','=', $serv->first()->name)
+            ->where('process','=', 'Отклонен')->count();
+        $mark=Order::where('service','=', $serv->first()->name)->count();
+        $manka[$m]=[['name'=>'new', 'data'=>$mar], ['name'=>'obrabotke', 'data'=>$marke] , ['name'=>'obrabotan', 'data'=>$mat], ['name'=>'otklonen', 'data'=>$marketi]];
+    }*/
+
+    $serv=Input::get('name');
+    //echo $serv;
+    //var_dump($serv);
+    $mar=Order::where('service','=', $serv)
+        ->where('process','=', 'Новый')->count();
+    $marke=Order::where('service','=', $serv)
+        ->where('process','=', 'В обработке')->count();
+    $mat=Order::where('service','=', $serv)
+        ->where('process','=', 'Обработан')->count();
+    $marketi=Order::where('service','=', $serv)
+        ->where('process','=', 'Отклонен')->count();
+    $mark=Order::where('service','=',$serv)->count();
+    $char=$mar;
+    if($char!=0) $k=floor(($char/$mark)*100); else $k=0;
+    $char=$marke;
+    if($char!=0) $ki=floor(($char/$mark)*100); else $ki=0;
+    $char=$mat;
+    if($char!=0) $kit=floor(($char/$mark)*100); else $kit=0;
+    $char=$marketi;
+    if($char!=0) $kits=floor(($char/$mark)*100); else $kits=0;
+    $manka=[['name'=>'new', 'data'=>$mar, 'pro'=>$k, 'my'=>$serv], ['name'=>'v obrabotke', 'data'=>$marke, 'pro'=>$ki] , ['name'=>'obrabotan', 'data'=>$mat, 'pro'=>$kit], ['name'=>'otklonen', 'data'=>$marketi, 'pro'=>$kits]];
+    return Response::json($manka);
+
+}));
 
 });
 

@@ -12,8 +12,8 @@
         <link rel="stylesheet" href="/public/script/bootstrapvalidator/dist/css/bootstrapValidator.css"/>
         <link rel="stylesheet" href="/public/css/style.css">
         <link rel="stylesheet" href="/public/script/jquerygrowl/stylesheets/jquery.growl.css">
-
-
+        <link rel="stylesheet" href="/public/script/pyramid/css/structure/infragistics.css">
+        <link rel="stylesheet" href="/public/script/pyramid/css/themes/infragistics/infragistics.theme.css">
 
 
 
@@ -28,6 +28,13 @@
         <script type="text/javascript" src="/public/script/jQuery-Mask-Plugin-master/dist/jquery.mask.min.js"></script>
 
         {{ HTML::script(URL::asset('script/bootstrap-table.js')) }}
+       <script type="text/javascript" src="/public/script/pyramid/infragistics.js"></script>
+
+        <script src="/public/script/pyramid/highcharts.js"></script>
+        <script src="/public/script/pyramid/funnel.js"></script>
+
+        <!--<script src="/public/script/pyramid/amcharts_3.11.3.free/amcharts/amcharts.js"></script>
+        <script src="/public/script/pyramid/amcharts_3.11.3.free/amcharts/funnel.js"></script>-->
 
 
         {{ HTML::script(URL::asset('script/tablesorter-master/js/jquery.tablesorter.js')) }}

@@ -57,11 +57,4 @@
 
 @endif
 
-
-<style type="text/css">
-    label.swap {
-        left:70%;
-        position:relative;
-    }
-</style>
 @stop

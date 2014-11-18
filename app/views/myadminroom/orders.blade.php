@@ -181,7 +181,7 @@
 </div>
 @endforeach
 
-<div class="confirm"><p class="mydel" align="center">Удалить?</p>
+<div class="confirm" id="non" ><p class="mydel" align="center">Удалить?</p>
     <p class="button-group" align="center">Я предупреждаю тебя!</p>
     <form action="{{action('OrdersController@orderDestroy') }}" method="get">
         <input type="hidden" name="id" value=""/>

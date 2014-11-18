@@ -26,6 +26,8 @@
         <script type="text/javascript" src="/public/script/bootstrapvalidator/dist/js/bootstrapValidator.js"></script>
         <script type="text/javascript" src="/public/script/bootstrapvalidator/src/js/language/ru_RU.js"></script>
         <script type="text/javascript" src="/public/script/jQuery-Mask-Plugin-master/dist/jquery.mask.min.js"></script>
+        <script src="/public/script/pyramid/highcharts.js"></script>
+        <script src="/public/script/pyramid/funnel.js"></script>
         {{ HTML::script(URL::asset('script/bootstrap-table.js')) }}
         <!--<script type="text/javascript" src="/public/script/jQuery-Autocomplete-master/dist/jquery.autocomplete.js"></script>-->
         {{ HTML::script(URL::asset('script/jquerygrowl/javascripts/jquery.growl.js')) }}
@@ -34,6 +36,11 @@
         {{ HTML::script(URL::asset('script/tooltip.js')) }}
         {{ HTML::script(URL::asset('script/bootstrap-confirmation.js')) }}
         {{ HTML::script(URL::asset('script/jquery.popconfirm.js')) }}
+
+
+        <script src="/public/script/pyramid/amcharts_3.11.3.free/amcharts/amcharts.js"></script>
+        <script src="/public/script/pyramid/amcharts_3.11.3.free/amcharts/funnel.js"></script>
+        {{ HTML::script(URL::asset('script/admin.js')) }}
         {{ HTML::script(URL::asset('script/tik.js')) }}
         {{ HTML::script(URL::asset('script/mask.js')) }}
 
@@ -49,9 +56,13 @@
                     <ul class="nav navbar-nav">
 
            @if(Auth::check())
-	<li><a href="{{action('ServicesController@create')}}">Новые услуги</a></li>
 	 	<li><a href="{{action('OrdersController@adminOrders')}}">Заказы</a></li>
 		 	<li><a href="{{action('OrdersController@adminClients')}}">Клиенты</a></li>
+                    <li><a href="{{action('OrdersController@statistics')}}">Статистика</a></li>
+                        @if (Auth::user()->admin==Auth::user()->username)
+                            <li><a href="{{action('ServicesController@create')}}">Новые услуги</a></li>
+                            <li><a href="/public/newmanager">Добавить менеджера</a></li>
+                        @endif
                     </ul>
 
                     <form class="navbar-form navbar-right" role="exit" action="{{ action('UsersController@getLogout') }}" method="post">

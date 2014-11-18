@@ -8,7 +8,7 @@
 
 <div class="form-group">
     <label class="col-sm-2 control-label"> Город </label>
-    <div class="col-sm-5">
+    <div class="col-sm-3">
         {{ Form::select('city', City::all()->lists('engname', 'id'), null, array('class' => 'form-control')) }}
     </div>
 </div>

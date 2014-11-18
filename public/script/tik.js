@@ -8,8 +8,48 @@ function parse_hash(){
     return false;
 }
 
+function setCookie(name, value, options) {
+    options = options || {};
+
+    var expires = options.expires;
+
+    if (typeof expires == "number" && expires) {
+        var d = new Date();
+        d.setTime(d.getTime() + expires*1000);
+        expires = options.expires = d;
+    }
+    if (expires && expires.toUTCString) {
+        options.expires = expires.toUTCString();
+    }
+
+    value = encodeURIComponent(value);
+
+    var updatedCookie = name + "=" + value;
+
+    for(var propName in options) {
+        updatedCookie += "; " + propName;
+        var propValue = options[propName];
+        if (propValue !== true) {
+            updatedCookie += "=" + propValue;
+        }
+    }
+
+    document.cookie = updatedCookie;
+}
+
+function getCookie(name) {
+    var matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
 
 $('document').ready(function(){
+    if (0 !== parseInt(getCookie('flash'))) {
+        setCookie('flash', 0);
+        cont();
+    }
+
     $('#modal').modal();
     $(".popconfirm").popConfirm({
             title: "Удалить ?",
@@ -22,14 +62,23 @@ $('document').ready(function(){
     $('.ajaxForm').on('submit', function(e){
         e.preventDefault();
         var url = $(this).attr('action');
-        $.get(url, function(){
+        $.ajax({
+            url:url,
+            success:function(){
+                window.location.reload();
+            },
+            complete:contact()
+        });
+       /* $.get(url, function(){
            window.location.reload();
            contact();
-        });
+        });*/
     });
     function contact(){
     $.growl.notice({message: "Клиент удален, как и все его заказы!" });
     }
+
+
     if ($.fn.autocomplete && $('#email').length){
         $('#email').autocomplete({
             source:"/public/mysearch",
@@ -249,8 +298,8 @@ $('document').ready(function(){
                         message: 'Мобильный обязателен и поле не может быть пустым'
                     },
                     stringLength: {
-                        min: 16,
-                        max: 18,
+                        min: 15,
+                        max: 100,
                         message: 'Мобильный должен состоять из 11 цифр'
                     },
                     regexp: {
@@ -296,6 +345,7 @@ function confirma (id) {
             var form = $('.confirm form');
             form.find('[name="id"]').val(id);
             $.get(form.attr('action') + '?' + 'id=' + id, function(){
+               setCookie('flash', 1);
                window.location.reload();
             });
             $('.confirm').hide();
@@ -305,4 +355,13 @@ function confirma (id) {
     return false;
 
 }
+function cont(){
+    $.growl.notice({message: "Заказ успешно удален !" });
+}
+$(document).mouseup(function (e) {
+    var container = $("#non");
+    if (container.has(e.target).length === 0){
+        container.hide();
+    }
+});
 

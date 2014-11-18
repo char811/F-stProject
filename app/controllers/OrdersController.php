@@ -14,6 +14,30 @@ class OrdersController extends \BaseController {
 		return View::make('orders.index', compact('orders'));
 	}
 
+    public function statistics(){
+        $service=Service::all()->count();
+        $servs=Service::all();
+        $kart=Auth::user()->admin;
+        $lll=Auth::user()->username;
+        if($kart==$lll) {
+        $towns=City::all()->count();
+        $counts=User::all();
+        $countclients=User::where('mobile','!=','')->count();
+        $countmanagers=User::where('mobile','=','')->count();
+        $countorders=Order::all()->count();
+        return View::make('orders.statistics', compact('towns', 'counts', 'countclients', 'countmanagers', 'countorders', 'servs', 'service'));
+        }
+        if($kart!=$lll){
+            $kkk=Auth::user()->city;
+            $towns=City::where('engname','=', $kkk)->count();
+            $countclients=User::where('mobile','!=','')
+                              ->where('city','=', $kkk)->count();
+            $countmanagers=User::where('mobile','=','')
+                              ->where('city','=', $kkk)->count();
+            $countorders=Order::where('city','=', $kkk)->count();
+            return View::make('orders.statistics', compact('towns', 'counts', 'countclients', 'countmanagers', 'countorders', 'servs', 'service'));
+        }
+    }
 
     public function myajaxsearch(){
         $term=Request::get('term');
@@ -30,7 +54,8 @@ class OrdersController extends \BaseController {
         $query = Order::OrderBy('created_at',(Input::get('id')=='old')?'asc':'desc');
         $term = '';
         $allothers=Order::where('process','=','Новый')
-            ->orWhere('process','=','Обработан')->get();
+            ->orWhere('process','=','Обработан')
+            ->orWhere('process','=','Отклонен')->get();
         $dateoneday=Carbon::now();
         $datesevenday=Carbon::now()->subDays(3);
         $ones=Order::where('process','=','В обработке')
@@ -127,6 +152,22 @@ class OrdersController extends \BaseController {
     public function postorderChange($modelorder){
         $neworder=Order::find($modelorder);
         $orderupdate=Input::all();
+        $prov=Order::where('id','=',$modelorder)->first();
+        $coco=Input::get('process');
+
+        if(($prov->process)!=$coco){
+           $ppp=User::where('id','=',$prov->costumer)->first();
+           if($coco == 'В обработке') {
+              Mail::send('emails/test', array('data'=>Input::get('price')), function($message)use($ppp){
+              $message->to($ppp->email)->subject('Заказ!');
+             });
+           };
+           if($coco =='Отклонен') {
+               Mail::send('emails/test', array('data'=>Input::get('id')), function($message)use($ppp){
+                   $message->to($ppp->email)->subject('Заказ!');
+               });
+           }
+        }
         if(!$neworder->update($orderupdate)){
         return Redirect::back()->with('message', 'Ошибка сохранения')->withInput();
         }
@@ -225,14 +266,13 @@ class OrdersController extends \BaseController {
 	 */
 	public function orderDestroy()
 	{
-      //  Order::where('id','=', Input::get('id'))->delete();
+        //Order::where('id','=', Input::get('id'))->delete();
         return Redirect::to('myadminroom/orders');
 	}
 
     public function clientDestroy($client)
     {
-       // $kza = User::where('id','=', $client)->delete();
-        $message="Клиент удален, как и все его заказы!";
+        $kza = User::where('id','=', $client)->delete();
         return Redirect::back()->with('error',"Клиент удален, как и все его заказы!")->withInput();
     }
 

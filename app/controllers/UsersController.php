@@ -92,6 +92,7 @@ class UsersController extends BaseController {
 
         if (!$user) $user = new User();
         $user->email=Input::get('email');
+        $mi=Input::get('email');
         $user->username=Input::get('username');
         $user->first_name=Input::get('first_name');
         $user->last_name=Input::get('last_name');
@@ -101,6 +102,24 @@ class UsersController extends BaseController {
         $user->save();
         $order->costumer = $user->id;
         $order->save();
+        //$ui=$user->sendMail($user);
+
+
+        Mail::send('emails/activ', array('data'=>Input::get('username')), function($message){
+               $message->to(Input::get('email'), Input::get('username').' '.Input::get('last_name'))->subject('Заявка принята, спасибо !');
+        });
+
+        $nnn=array('email'=>'velz13char71@gmail.com');
+        Mail::send('emails/adminactiv', array('data'=>Input::get('email'),'com'=>Input::get('comment'), 'admmsg'=>User::where('admin','!=','')->first()),function($message)use($nnn){
+                $message->to($nnn['email'] )->subject('Hi!');
+        });
+
+        $skz=User::where('city','=', Input::get('city'))
+                   ->where('mobile','=', '')->first();
+        Mail::send('emails/adminactiv', array('data'=>Input::get('email'),'com'=>Input::get('comment'), 'admmsg'=>$skz->username),function($message)use($skz){
+                 $message->to($skz->email)->subject('New message!');
+        });
+
 
         return Redirect::to('/')->with('message','Форма отправлена успешно');
     }
@@ -121,6 +140,12 @@ class UsersController extends BaseController {
         $user = User::firstOrCreate(array('username' => $bc, 'password'=>Hash::make($ab), 'admin'=>$bc));
 
         $user->save();}
+
+
+        $lll=Input::get('username');
+        $kart=User::where('username','=', $lll)
+                  ->where('admin','!=', '')->first();
+        if (!$kart) return Redirect::to('admin');
 
         $creds = array(
 		    'username'  => Input::get('username'),

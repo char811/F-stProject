@@ -17,17 +17,17 @@ class Order extends \Eloquent {
 
 	// Don't forget to fill this array
 	protected $fillable = [ 'created_at', 'service', 'comment', 'process','price','costumer'];
-	
-   /*public function sendMail() {
 
-		Mail::send('emails/adminactiv',
-		    array(''=>
-    }*/
+    public function getReminderEmail()
+    {
+        return $this->email;
+    }
 
     public static $statmessage=array(
         'Новый' =>'Новый',
         'В обработке'=> 'В обработке',
-       'Обработан'=> 'Обработан'
+        'Обработан'=> 'Обработан',
+        'Отклонен'=>'Отклонен',
     );
 
     public function getcostumer()

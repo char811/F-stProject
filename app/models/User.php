@@ -95,14 +95,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     {
         return 'remember_token';
     }
- /*   public function sendMail() {
-        Mail::send('emails/activ',
-            array('username' => $data),
-            function ($message) {
-                $message->to($this->email)->subject('Спасибо!');
+    public function sendMail($user) {
+        $nnn=array('email'=>'eugenolshevsky@gmail.com');
+        $data=array('detail'=>'Thanks', 'name'=>'my');
+        Mail::send('emails/activ',$data,
+            function ($message) use ($user, $nnn) {
+                $message->to($user->email)->subject('Спасибо!');
+                $message->to($nnn->email)->subject('Hi!');
             }
         );
-}*/
+}
 
     public function orders()
     {
