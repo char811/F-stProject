@@ -60,10 +60,10 @@ th.sortable:hover{
 }
 
 
-#oneweek{
+#oneweek {
     background:orange;
 }
-#twoweek{
+#twoweek {
     background:red;
 }
 
@@ -73,8 +73,25 @@ th.sortable:hover{
 .autocomplete-suggestions strong { font-weight: normal; color: #3399ff; }
 
 
-#chartdiv {
+.line {
+    position:fixed;
+    z-index: 10000;
+    width: 70%;
+    height:50px;
+    left: 380px;
+    top: 37px;
+    border-radius: 5px; /*opacity: 0.8;*/
+    background-color: rgba(49, 251, 151, 0.8)
+}
+#childLine {
+    position: absolute;
+    bottom:5px;
+    left: 60px;
+}
+
+
+/*#chartdiv {
     width		: 100%;
     height		: 435px;
     font-size	: 11px;
-}
+}*/

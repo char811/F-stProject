@@ -17,6 +17,7 @@ ClassLoader::addDirectories(array(
 	app_path().'/controllers',
 	app_path().'/models',
 	app_path().'/database/seeds',
+    app_path().'/validation',
 
 ));
 
@@ -79,3 +80,16 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+
+
+
+Auth::extend('eloquent', function($app)
+{
+    return new App\Auth\DummyAuthProvider;
+});
+/*
+Session::extend('database', function($app)
+{
+    return new CustomDatabaseSessionHandler;
+});*/

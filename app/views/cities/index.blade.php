@@ -19,15 +19,22 @@
 
 {{ Form::open(array('url' => action('CitiesController@store'), 'method' => 'post',  'class' => 'form-horizontal')) }}
 <div class="form-group">
-    <label class="col-sm-2 control-label"></label>
+    <label class="col-sm-2 control-label">City</label>
     <div class="col-sm-2">
         {{ Form::text('engname', null, array('class' => 'form-control', 'placeholder' => 'City')) }}
     </div>
 </div>
 <div class="form-group">
-    <label class="col-sm-2 control-label"></label>
+    <label class="col-sm-2 control-label">город</label>
     <div class="col-sm-2">
         {{ Form::text('rusname', null, array('class' => 'form-control', 'placeholder' => 'Город')) }}
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-sm-2 control-label"> Мэнеджер </label>
+
+    <div class="col-sm-2">
+        {{ Form::select('city', User::where('admin','=','0')->lists('username', 'id'), null, array('class' => 'form-control')) }}
     </div>
 </div>
 <div class="form-group">

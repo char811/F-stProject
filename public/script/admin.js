@@ -1,55 +1,42 @@
 ﻿
 $(document).ready(function(){
-//var myname = input[2].getAttribute("name");
-    // var name = document.getElementsByName('name').nextElementSibling;
     if ($('#chartdiv').length){
     var inputs = document.getElementsByTagName("input");
     for (var i=0; i<inputs.length;i++){
-       // var elem = document.getElementById(myname[i].id);
-
-        var myname= document.getElementsByTagName('input')[i].name;
-        console.info(myname);
-        addEventListener("load", ajarx(myname));
-    }
-    }
+        var service= document.getElementsByTagName('input')[i].name;
+        addEventListener("load", ajarx(service));
+    } }
 });
-//var a=document.getElementsByName("name").onload = function() {ajarx(name)};
-/*window.onload=k();
-function k(){
-    var name = document.getElementsByName('name');
-}*/
 
-function ajarx(myname){
+function ajarx(service){
     var data;
     $.ajax({
         url: 'chart',
-        data: { name: myname },
-        success: function(manka) {
-           return data=manka;
+        data: { service: service },
+        success: function(orders) {
+           return data=orders;
         },
 
     complete:
         function(data){
             var n=$.map(data.responseJSON,function(i){
-                return i.my;
+                return i.service;
             });
-            console.log(n);
             $(n).highcharts({
                 chart: {
                     type: 'pyramid',
-                    marginRight: 100,
-                    options3d:{
-                        depth: 100
-                    }
+                    marginRight: 100
                 },
+                colors: ["#ff3831", "#0000ff", "#fff709", "#32cd32", "#aaeeee", "#ff0066", "#eeaaee",
+                    "#55BF3B", "#DF5353", "#7798BF", "#aaeeee"],
                 title: {
                     text: '',
                     x: -50
                 },
                 plotOptions: {
                     pyramid: {
-                        reversed:false
-
+                        reversed:false,
+                        depth: 300
                     },
                     series: {
                         dataLabels: {
@@ -59,11 +46,6 @@ function ajarx(myname){
                             softConnector: true
                         }
                     }
-                },
-                tooltip: {
-                    headerFormat:  $.map(data.responseJSON,function(i){
-                        return i.pro;
-                    })
                 },
                 legend: {
                     enabled: false
@@ -76,6 +58,9 @@ function ajarx(myname){
                 }]
             });
         }
+    });
+    return data;
+}
            // var inputs = document.getElementsByTagName("input");
           // var dat=document.getElementsByTagName('div')[3].id;
             //var dat=document.getElementById("chartdiv").nextElementSibling;
@@ -130,9 +115,7 @@ function ajarx(myname){
         target[property] = value;
         chart.validateNow();
     });}*/
-    });
-    return data;
-}
+
 /*
 $(document).ready(function(){
     if ($('#chartdiv').length){

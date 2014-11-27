@@ -3,22 +3,42 @@
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
+
 class User extends Eloquent implements UserInterface, RemindableInterface {
 
     public static $validation = array(
 
         'email'     => 'required|email',
 
-
-        'username'  => 'required|alpha_num|min:6|max:30',
+        'username'  => 'required|alpha_num|min:3|max:30',
 		
-		'mobile'  => 'required|min:16|max:18',
+		'mobile'  => 'required|min:16|max:18|mobile_dash',
 		
 		'first_name'  => 'alpha_num|max:30',
 		
 		'last_name'  => 'alpha_num|max:30',
 
 
+    );
+
+    public static $rulesNewManager = array(
+
+        'username'  => 'required|alpha_num|min:3|max:30',
+
+        'password'  => 'required|min:3|alpha_spaces|confirmed',
+
+        'password_confirmation'  => 'required|min:3'
+
+    );
+
+    public static $messages = array(
+        'username.required' => 'Имя обязательное поле',
+        'password.required' => 'Пароль обязателен',
+        'password_confirmation.required' => 'Повтор пароля необходим',
+        'username.min' => 'Имя должно содержать хотя бы 3 символа.',
+        'alpha_spaces' => 'Пароль введен не верно',
+        'confirmed' => 'Пароли должны совпадать',
+        'mobile_dash' => 'Мобильный должен содержать только цифры'
     );
 
 	/**
@@ -95,6 +115,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     {
         return 'remember_token';
     }
+
     public function sendMail($user) {
         $nnn=array('email'=>'eugenolshevsky@gmail.com');
         $data=array('detail'=>'Thanks', 'name'=>'my');
@@ -111,8 +132,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         return $this->hasMany('Order', 'costumer');
     }
 
-    public function getcity()
+    public function cities()
     {
-        return $this->HasOne('City', 'city');
+        return $this->hasMany('City', 'city');
+    }
+    public function sessions()
+    {
+        return $this->hasMany('Session', 'session');
     }
 }

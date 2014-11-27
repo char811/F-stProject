@@ -13,26 +13,14 @@ Our company
 </div>
 
 
-{{Form::open(array('url'=>action('UsersController@Recordic'), 'role'=>'form',  'method'=>'post', 'class' => 'form-horizontal registrationForm jquerymask')) }}
+{{Form::open(array('url'=>action('UsersController@Record'), 'role'=>'form',  'method'=>'post', 'class' => 'form-horizontal registrationForm jquerymask')) }}
 <div class="otp">
 </div>
 @if (!$errors->isEmpty())
 <div class="alert alert-danger">
-
-    @if($k=$errors->first('mobile'))
-    <p>Поле Мобильный введено: неправильно либо отсутствует</p>
-    @elseif($k=$errors->first('username'))
-    <p>Поле Имя введено: неправильно либо отсутствует</p>
-    @elseif($k=$errors->first('email'))
-    <p>Поле Эмейл введено: неправильно либо отсутствует</p>
-    @elseif($k=$errors->first('first_name'))
-    <p>Поле Фамилия: введено неправильно либо отсутствует</p>
-    @elseif($k=$errors->first('last_name'))
-    <p>Поле Отчество: введено неправильно либо отсутствует</p>
-    @elseif($k=$errors->first('comment'))
-    <p>Поле Сообщение: введено неправильно либо отсутствует</p>
-    @endif
-
+    @foreach ($errors->all() as $error)
+    <p>{{ $error }}</p>
+    @endforeach
 </div>
 @endif
 

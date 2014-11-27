@@ -5,16 +5,14 @@
 <div class="kit"></div>
 
 @if(Session::has('message'))
-<div class="jumbotron" align="center">
-    <p>
-        {{Session::get('message')}}
-    </p>
-</div>
+<script type="text/javascript">
+    $.growl.error({message: "Ошибка сохранения !" });
+</script>
 @endif
 
 
 
-        {{Form::model($modelorder, array('route'=>array('myadminroom/orders', $modelorder->id),'class' => 'form-horizontal')) }}
+        {{Form::model($modelOrder, array('route'=>array('orders/index', $modelOrder->id),'class' => 'form-horizontal')) }}
     <div class="form-group">
         <label class="col-sm-2 control-label"> Услуга </label>
         <div class="col-sm-5">

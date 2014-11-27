@@ -26,15 +26,15 @@ class CreateUsersTable extends Migration {
 			
             $table->string('mobile');
 
-            $table->string('admin');
+            $table->tinyInteger('admin')->default(0);
+
+            $table->tinyInteger('manager')->default(0);
 
             $table->string('password');
 
             $table->string('remember_token')->nullable();
 
-            $table->unsignedInteger('city');
-
-            $table->foreign('city')->references('id')->on('cities');
+            $table->integer('city');//->default(NULL)
 
             $table->timestamps();
         });

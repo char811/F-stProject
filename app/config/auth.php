@@ -14,8 +14,7 @@ return array(
 	| Supported: "database", "eloquent"
 	|
 	*/
-
-	'driver' => 'eloquent',
+    'driver' => 'eloquent',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -71,5 +70,5 @@ return array(
 		'expire' => 60,
 
 	),
-
 );
+

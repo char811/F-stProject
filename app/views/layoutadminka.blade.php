@@ -33,10 +33,6 @@
         <script src="/public/script/pyramid/highcharts.js"></script>
         <script src="/public/script/pyramid/funnel.js"></script>
 
-        <!--<script src="/public/script/pyramid/amcharts_3.11.3.free/amcharts/amcharts.js"></script>
-        <script src="/public/script/pyramid/amcharts_3.11.3.free/amcharts/funnel.js"></script>-->
-
-
         {{ HTML::script(URL::asset('script/tablesorter-master/js/jquery.tablesorter.js')) }}
         {{ HTML::script(URL::asset('script/tooltip.js')) }}
         {{ HTML::script(URL::asset('script/bootstrap-confirmation.js')) }}
@@ -57,8 +53,8 @@
                     <ul class="nav navbar-nav">
                     @if(Auth::check())
                     <li><a href="{{action('ServicesController@create')}}">Новые услуги</a></li>
-                    <li><a href="{{action('OrdersController@adminOrders')}}">Заказы</a></li>
-                    <li><a href="{{action('OrdersController@adminClients')}}">Клиенты</a></li>
+                    <li><a href="{{action('OrdersController@Orders')}}">Заказы</a></li>
+                    <li><a href="{{action('UsersController@Clients')}}">Клиенты</a></li>
                     </ul>
 
                     <form class="navbar-form navbar-right" role="exit" action="{{ action('UsersController@getLogout') }}" method="post">

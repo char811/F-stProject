@@ -109,8 +109,9 @@ return array(
         'Cartalyst\Sentry\SentryServiceProvider',
         'Way\Generators\GeneratorsServiceProvider',
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
-
-
+        'App\Validation\ValidationServiceProvider',
+        //'App\Auth\DummyAuthProvider',
+        'App\Session\CustomSessionServiceProvider'
 	),
 
 	/*
