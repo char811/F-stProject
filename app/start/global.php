@@ -83,7 +83,7 @@ require app_path().'/filters.php';
 
 
 
-
+/*
 Auth::extend('eloquent', function($app)
 {
     return new App\Auth\DummyAuthProvider;

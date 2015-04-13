@@ -31,7 +31,7 @@ class CitiesController extends \BaseController {
 	 */
 	public function store()
 	{
-		$validator = Validator::make($data = Input::all(), City::$rules, City::$mark);
+		$validator = Validator::make($data = Input::all(), City::$validate, City::$rulesNewManager);
 
 		if ($validator->fails())
 		{
@@ -42,6 +42,11 @@ class CitiesController extends \BaseController {
         $ci->engname=Input::get('engname');
         $ci->rusname=Input::get('rusname');
         $user = User::find(Input::get('city'));
+        if (!isset($user))
+        {
+            $user = 'Choose Manager';
+            return Redirect::to('cities/index')->withErrors($user)->withInput();
+        }
         $ci->city = $user->id;
         $ci->save();
         $user->city=$ci->id;

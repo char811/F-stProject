@@ -6,28 +6,37 @@
  */
 class Order extends \Eloquent {
 
-    const STATUS_NEW = 'Новый';
+    const STATUS_NEW = 'Новые';
     const STATUS_IN_PROCESS = 'В обработке';
-    const STATUS_PROCESSED = 'Обработан';
-    const STATUS_REJECTED = 'Отклонен';
+    const STATUS_PROCESSED = 'Обработано';
+    const STATUS_REJECTED = 'Отклонено';
 
     protected $table = 'orders';
 
 	// Add your validation rules here
     public static $validate = array(
-		'service'=>'required|alpha|unique:orders',
+		'service'=>'required',
+
+        'comment' => 'required',
+    );
+
+    public static $rulesNewManager = array(
+
+        'service'=>'required|unique:orders',
 
         'comment' => 'required',
 
+    );
 
+    public static $messages = array(
+        'service.required' => 'Please choose new service',
+        'comment.required' => 'Field with message required coz how should we know your wishes?',
     );
 
 	// Don't forget to fill this array
 	protected $fillable = [ 'created_at', 'service', 'comment', 'process','price','costumer'];
 
     /**
-     *
-     * Функция возвращает Email пользователя
      *
      * @return mixed
      */

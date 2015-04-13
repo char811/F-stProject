@@ -11,24 +11,31 @@ class OrdersController extends \BaseController
     {
         $query = Order::OrderBy('created_at', (Input::get('id') == 'old') ? 'asc' : 'desc');
         $term = '';
-        $allothers = Order::where('process', '=', 'Новый')
-            ->orWhere('process', '=', 'Обработан')
-            ->orWhere('process', '=', 'Отклонен')->get();
+/*        $allothers = Order::where('process', '=', Order::STATUS_NEW)
+            ->orWhere('process', '=', Order::STATUS_PROCESSED)
+            ->orWhere('process', '=', Order::STATUS_REJECTED)->get();
         $dateoneday = Carbon::now();
         $datesevenday = Carbon::now()->subDays(7);
-        $ones = Order::where('process', '=', 'В обработке')
+        $ones = Order::where('process', '=', Order::STATUS_IN_PROCESS)
             ->where('created_at', '>=', $datesevenday)
             ->where('created_at', '<=', $dateoneday)->get();
         $dateoneweek = Carbon::now()->subDays(7);
         $datetwoweek = Carbon::now()->subDays(14);
-        $oneweeks = Order::where('process', '=', 'В обработке')
+        $oneweeks = Order::where('process', '=', Order::STATUS_IN_PROCESS)
             ->where('created_at', '>=', $datetwoweek)
             ->where('created_at', '<=', $dateoneweek)->get();
         $twoweek = Carbon::now()->subDays(14);
         $ninemonth = Carbon::now()->subWeeks(300);
-        $twoweeks = Order::where('process', '=', 'В обработке')
+        $twoweeks = Order::where('process', '=', Order::STATUS_IN_PROCESS)
             ->where('created_at', '>=', $ninemonth)
             ->where('created_at', '<=', $twoweek)->get();
+*/
+
+        $ok=Order::select( DB::raw('CASE
+                         WHEN DATEDIFF(NOW(), created_at)>=3 AND DATEDIFF(NOW(), created_at)<14 THEN IF(process = "Новые" OR process ="В обработке", "oneweek", "new")
+                         WHEN DATEDIFF(NOW(), created_at)>=14 AND DATEDIFF(NOW(), created_at)<21 THEN IF(process = "Новые" OR process ="В обработке", "twoweek", "new")
+                         ELSE "new"
+                         END AS old, id'))->get();
 
 
         if(Auth::user()->admin && !Session::has('id')){
@@ -39,7 +46,7 @@ class OrdersController extends \BaseController
                 });
             }
             $ords = $query->get();
-            return View::make('orders.index', compact('ords', 'term', 'ones', 'oneweeks', 'twoweeks', 'allothers'));
+            return View::make('orders.index', compact('ords', 'term', 'ok'));
         }
 
         if(!Auth::user()->admin || Session::has('id')) {
@@ -62,7 +69,7 @@ class OrdersController extends \BaseController
                 });
             }
             $ords = $query->get();
-            return View::make('orders.index', compact('ords', 'term', 'ones', 'oneweeks', 'twoweeks', 'allothers'));
+            return View::make('orders.index', compact('ords', 'term', 'ok'));
         }
     }
 
@@ -140,10 +147,10 @@ class OrdersController extends \BaseController
         /*
          * create array for return back json data
          */
-        $orders = [['name' => 'Новые:  ' . $newPercent . '%  ', 'data' => $new,'service' => $service],
-                   ['name' => 'В обработке:  ' . $processPercent . '%  ', 'data' => $process],
-                   ['name' => 'Обработано:  ' . $processedPercent . '%  ', 'data' => $processed],
-                   ['name' => 'Отклонено:  ' . $rejectedPercent . '%  ', 'data' => $rejected]];
+        $orders = [['name' => Order::STATUS_NEW.':  ' . $newPercent . '%  ', 'data' => $new,'service' => $service],
+                   ['name' => Order::STATUS_IN_PROCESS.':  ' . $processPercent . '%  ', 'data' => $process],
+                   ['name' => Order::STATUS_PROCESSED.':  ' . $processedPercent . '%  ', 'data' => $processed],
+                   ['name' => Order::STATUS_REJECTED.':  ' . $rejectedPercent . '%  ', 'data' => $rejected]];
 
         return Response::json($orders);
 
@@ -172,7 +179,7 @@ class OrdersController extends \BaseController
             $countManagers = User::where('manager', '=', '1')
                 ->where('city', '=', $city)->count();
             $countOrders = Order::whereHas('getcostumer', function ($y) use ($city) {
-                return $y->where('city', '=', $city);
+                    return $y->where('city', '=', $city);
             })->count();
         }
         if (Auth::user()->admin && Session::has('id'))
@@ -226,12 +233,30 @@ class OrdersController extends \BaseController
      */
     public function orderRecord()
     {
+        $rules = Order::$validate;
+        $parameters=Order::$messages;
+        $validation = Validator::make(Input::all(), $rules, $parameters);
+
+        if ($validation->fails())
+        {
+            return Redirect::to('orders/orderRecord')->withErrors($validation)->withInput();
+        }
+        if (Input::get('process')=='default')
+        {
+            $validate = 'Choose Process';
+            return Redirect::to('orders/orderRecord')->withErrors($validate)->withInput();
+        }
 
         $order = new Order();
         $order->comment = Input::get('comment');
         $order->process = Input::get('process');
         $order->price = Input::get('price');
         $service = Service::find(Input::get('service'));
+        if (!isset($service))
+        {
+            $validate = 'Choose Service';
+            return Redirect::to('orders/orderRecord')->withErrors($validate)->withInput();
+        }
         $order->service = $service->id;
 
         $user = User::where('email', '=', Input::get('email'))->first();
@@ -269,13 +294,13 @@ class OrdersController extends \BaseController
         if (($thisOrder->process) != $process)
         {
             $userMail = User::where('id', '=', $thisOrder->costumer)->first();
-            if ($process == 'В обработке')
+            if ($process == Order::STATUS_IN_PROCESS)
             {
                 Mail::send('emails/test', array('data' => Input::get('price')), function ($message) use ($userMail) {
                     $message->to($userMail->email)->subject('Заказ!');
                 });
             };
-            if ($process == 'Отклонен')
+            if ($process == Order::STATUS_REJECTED)
             {
                 Mail::send('emails/test', array('data' => Input::get('id')), function ($message) use ($userMail) {
                     $message->to($userMail->email)->subject('Заказ!');

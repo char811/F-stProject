@@ -8,7 +8,12 @@ class UsersController extends BaseController
      */
     public function getIndex()
     {
-        return View::make('index');
+        $services = Service::all();
+        if(!isset($services))
+        {
+            $services = "К сожалению услуги на данный момент не доступны...";
+        }
+        return View::make('index', compact('services'));
     }
 
     /**
@@ -102,10 +107,7 @@ class UsersController extends BaseController
         $newManager->email = Input::get('email');
         $newManager->password = Hash::make(Input::get('password'));
         $newManager->manager = true;
-      //  $city=new City();
-       // $city->city = $newManager->id;
-      //  $newManager->city=$city->id;
-      //  $city->save();
+
         $newManager->save();
         return Redirect::to('users/showManagers')->with('manager', 'Все отлично!');
     }
@@ -126,6 +128,7 @@ class UsersController extends BaseController
         $manager = User::find($model);
 
         $managerUpdate = Input::all();
+        var_dump($managerUpdate);
         if (!$manager->update($managerUpdate))
         {
             return Redirect::back()->with('message', 'Ошибка сохранения')->withInput();
@@ -156,6 +159,9 @@ class UsersController extends BaseController
         return Response::json($response);
     }
 
+    /*
+     * now i'm a manager
+     */
     public function shadow($id)
     {
         Session::forget('id');
@@ -168,10 +174,13 @@ class UsersController extends BaseController
          $admin->manager=true;
          $admin->city=$user->city;
          $admin->save();
-       // Session::token('id');
+
         return Redirect::to('users/index');
     }
 
+    /*
+     * now i'm again admin
+     */
     public function shadowDelete()
     {
         $admin=User::where('id', '=', Auth::user()->id)->first();
@@ -218,6 +227,11 @@ class UsersController extends BaseController
         $user->mobile = Input::get('mobile');
         $city=new City();
         $user = User::find(Input::get('city'));
+        if (!isset($user))
+        {
+            $validate = 'Choose Manager';
+            return Redirect::to('users/clientRecord')->withErrors($validate)->withInput();
+        }
         $city->city = $user->id;
         $city->save();
         $user->city=$city->id;
@@ -257,7 +271,7 @@ class UsersController extends BaseController
 
 
     /*
-     * here record orders from clients and send message email
+     * record orders from clients and send message email
      */
     public function Record()
     {
@@ -271,11 +285,33 @@ class UsersController extends BaseController
             return Redirect::to('/')->withErrors($validation)->withInput();
         }
 
+        $rules2 = Order::$validate;
+        $parameters2=Order::$messages;
+        $validation2 = Validator::make(Input::all(), $rules2, $parameters2);
+
+        if ($validation2->fails())
+        {
+            return Redirect::to('/')->withErrors($validation2)->withInput();
+        }
+
+
+        $rules3 = City::$validate2;
+        $parameters3=City::$messages;
+        $validation3 = Validator::make(Input::all(), $rules3, $parameters3);
+        if ($validation3->fails())
+        {
+            return Redirect::to('/')->withErrors($validation3)->withInput();
+        }
 
         $order = new Order();
         $order->comment = Input::get('comment');
         $order->process = Order::STATUS_NEW;
         $service = Service::find(Input::get('service'));
+        if (!isset($service))
+        {
+            $validate = 'Choose Service';
+            return Redirect::to('/')->withErrors($validate)->withInput();
+        }
         $order->service = $service->id;
 
         $user = User::where('email', '=', Input::get('email'))->first();
@@ -290,14 +326,19 @@ class UsersController extends BaseController
         $user->last_name = Input::get('last_name');
         $user->mobile = Input::get('mobile');
         $city = City::find(Input::get('city'));
+        if (!isset($city))
+        {
+            $validate = 'Choose City';
+            return Redirect::to('/')->withErrors($validate)->withInput();
+        }
         $user->city = $city->id;
         $user->save();
         $order->costumer = $user->id;
         $order->save();
-        //$ui=$user->sendMail($user);
 
         /*
         * message for client
+        *
         */
         Mail::send('emails/client', array('name' => Input::get('username')), function ($message) {
             $message->to(Input::get('email'), Input::get('username') . ' ' . Input::get('last_name'))->subject('Заявка принята, спасибо !');

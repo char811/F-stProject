@@ -8,27 +8,18 @@
 
 @if (!$errors->isEmpty())
 <div class="alert alert-danger">
-
-    @if($k=$errors->first('mobile'))
-    <p>Поле Мобильный введено: неправильно либо отсутствует</p>
-    @elseif($k=$errors->first('username'))
-    <p>Поле Имя введено: неправильно либо отсутствует</p>
-    @elseif($k=$errors->first('email'))
-    <p>Поле Эмейл введено: неправильно либо отсутствует</p>
-    @elseif($k=$errors->first('first_name'))
-    <p>Поле Фамилия: введено неправильно либо отсутствует</p>
-    @elseif($k=$errors->first('last_name'))
-    <p>Поле Отчество: введено неправильно либо отсутствует</p>
-    @endif
-
+    @foreach ($errors->all() as $error)
+    <p>{{ $error }}</p>
+    @endforeach
 </div>
 @endif
 
 <div class="form-group">
     <label class="col-sm-2 control-label"> Мэнеджер </label>
 
-    <div class="col-sm-2">
-        {{ Form::select('city', User::where('admin','=','0')->lists('username', 'id'), null, array('class' => 'form-control')) }}
+    <div class="col-sm-5">
+        {{ Form::select('city', array('default' => 'Please Select')
+        +User::where('admin','=','0')->where('manager','=','1')->lists('username', 'id'), null, array('class' => 'form-control')) }}
     </div>
 </div>
 <div class="form-group">

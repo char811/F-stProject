@@ -17,6 +17,7 @@
                 <div class="col-lg-8">
                     <form role="searchclient" action="{{ action('UsersController@clients') }}" method="get"
                           class="form-search" id="clients_search">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="input-group input-group-sm">
                             <input type="text" id="email" class="form-control" placeholder="Имя" name="email" required
                                    value="{{ $term }}"/>
@@ -61,11 +62,6 @@
         $.growl.notice({message: "Новый менеджер успешно занесен в базу данных..." });
     </script>
     @endif
-
-
-    {{ Session::get('id') }}
-    {{ var_dump( Session::all()); }}
-
 
 
     <div class="row">
@@ -114,6 +110,7 @@
                                 class="glyphicon glyphicon-eye-open"></i></a>
 
                         <form class="ajaxForm" action="{{URL::route('clientDelete', array('id'=>$client->id)) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <button type="submit" class="btn btn-danger btn-sm popconfirm"
                                     style="position: absolute; top: 0px; left: 38px;"><i
                                     class="glyphicon glyphicon-remove-sign"></i></button>
@@ -167,6 +164,7 @@
             </div>
             <div class="modal-footer">
                 <form action="{{ action('UsersController@clientChange') }}" method="post">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="id" value="{{$client->id}}" required />
                     <button type="submit" class="btn btn-info btn-sm">Изменить</button>
                     <a class="btn" href="#" data-dismiss="modal">Отмена</a>

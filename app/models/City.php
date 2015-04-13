@@ -2,22 +2,32 @@
 
 class City extends \Eloquent {
 
-	// Add your validation rules here
-	public static $rules = [
-         'engname' => 'required',
-         'rusname' => 'required',
-		 'city' => 'required'
-	];
-
 	// Don't forget to fill this array
 	protected $fillable = ['engname','rusname'];
 
 
-    public static $mark=[
-        'engname.required' => 'Имя на англ обязательно',
-        'rusname.required' => 'Имя на рус обязательно',
-        'city.required' => 'Менеджер для города обязателен',
-    ];
+    public static $validate = array(
+        'city'=>'required',
+
+        'engname' => 'required',
+    );
+
+    public static $validate2 = array(
+        'city'=>'required',
+    );
+
+    public static $rulesNewManager = array(
+
+        'city'=>'required',
+
+        'engname' => 'required:unique',
+
+    );
+
+    public static $messages = array(
+        'city.required' => 'Please choose your city',
+        'engname.required' => 'Укажите имя на англ.',
+    );
 
     public function users()
     {

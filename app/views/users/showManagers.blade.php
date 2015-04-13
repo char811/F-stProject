@@ -10,6 +10,7 @@
                 <div class="col-lg-8">
                     <form name="uni" action="{{ action('UsersController@showManagers') }}" method="get"
                           class="form-search" id="orders_search">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="input-group input-group-sm">
                             <input type="text" id="emailManager" class="form-control" placeholder="Имя" name="email" required
                                    value="{{ $term }}"/>
@@ -58,7 +59,7 @@
             <tr>
                 <td>{{{$manager->username}}}</td>
                 <td>{{{$manager->email}}}</td>
-                @if($manager->city!='')
+                @if($manager->city!=0)
                 <td>{{{$manager->cities()->first()->engname}}}</td>
                 @else
                 <td></td>
@@ -69,12 +70,14 @@
                            data-target="#basicModal{{$manager->id}}"><i class="glyphicon glyphicon-eye-open"></i></a>
 
                         <form action="{{ URL::route('shadow', array('id' => $manager->id)) }} ">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <button type="submit" class="btn btn-primary btn-sm"
                                     style="position: absolute; top: 0px; left: 50px;"><i
                                     class="glyphicon glyphicon-user"></i></button>
                         </form>
                         <form class="managerDelete"
                               action="{{URL::route('managerDelete', array('id'=>$manager->id)) }}">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <button type="submit" class="btn btn-danger btn-sm popconfirm"
                                     style="position: absolute; top: 0px; left: 100px;"><i
                                     class="glyphicon glyphicon-remove-sign"></i></button>
@@ -120,13 +123,14 @@
             <div class="modal-body">
                 <h3>
                     <p>Имя:  {{{$manager->username}}} </p>
-                    @if($manager->city!='')
+                    @if($manager->city!=0)
                     <p>Город:  {{{$manager->cities()->first()->engname}}} </p>
                     @endif
                 </h3>
             </div>
             <div class="modal-footer">
                 <form action="{{ action('UsersController@managerChange') }}" method="post">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="id" value="{{$manager->id}}" required />
                     <button type="submit" class="btn btn-info btn-sm">Изменить</button>
                     <a class="btn" href="#" data-dismiss="modal">Отмена</a>

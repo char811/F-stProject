@@ -3,6 +3,7 @@
     <head>
         <meta content="text/html; charset=utf-8" http-equiv="content-type">
         <meta charset="utf-8">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 		<title>@yield('title') MyName!</title>
 
         @section('styles')
@@ -47,23 +48,23 @@
         <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="/public/">Сайт</a>
+                    <a class="navbar-brand" href="/public/">Главная</a>
+
+                    <button type="button" class="navbar-toggle" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
                 </div>
-                <div class="navbar-collapse collapse" id="order">
-                    <ul class="nav navbar-nav">
+                <div id="bs-example-navbar-collapse-1" class="navbar-collapse collapse" style="height: 1px;">
+                <ul class="nav navbar-nav">
                     @if(Auth::check())
                     <li><a href="{{action('ServicesController@create')}}">Новые услуги</a></li>
                     <li><a href="{{action('OrdersController@Orders')}}">Заказы</a></li>
                     <li><a href="{{action('UsersController@Clients')}}">Клиенты</a></li>
                     </ul>
-
-                    <form class="navbar-form navbar-right" role="exit" action="{{ action('UsersController@getLogout') }}" method="post">
-                        <button class="btn btn-success">Выйти</button>
-                    </form>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#"><strong>{{ Auth::user()->username }}</strong></a></li>
-                    </ul>
-                    @endif
 
                     <ul class="nav navbar-nav">
                         <li class="dropdown">
@@ -75,7 +76,15 @@
                             </ul>
                         </li>
                     </ul>
+
+                    <form class="navbar-form navbar-right" role="exit" action="{{ action('UsersController@getLogout') }}" method="post">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <button class="btn btn-success">Выйти</button>
+                    </form>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#"><strong>{{ Auth::user()->username }}</strong></a></li>
                     </ul>
+                    @endif
             </div>
 
 

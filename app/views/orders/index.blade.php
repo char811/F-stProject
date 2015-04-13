@@ -15,6 +15,7 @@
                 <div class="col-lg-8">
                     <form role="searchorder" name="uni" action="{{ action('OrdersController@orders') }}" method="get"
                           class="form-search" id="orders_search">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="input-group input-group-sm">
                             <input type="text" id="email" class="form-control" placeholder="Имя" name="email" required
                                    value="{{ $term }}"/>
@@ -58,7 +59,6 @@
     </script>
     @endif
 
-
     <div class="row">
         <table id="example" class="table table-striped table-bordered orderTable" class="tablesorter" data-height="400"
                data-side-pagination="server" data-pagination="true" data-page-list="[5, 10, 20, 50, 100, 200]"
@@ -89,48 +89,17 @@
             <tbody>
             @foreach($ords as $ord)
             <tr>
-                @foreach($allothers as $allother)
-                @if(($ord->id)==($allother->id))
-                <td>{{{$ord->getcostumer()->first()->email}}}</td>
-                <td>{{{$ord->getservice()->first()->name}}}</td>
-                <td>{{{$ord->process}}}</td>
-                <td>{{{$ord->price}}}</td>
-                <td>{{{$ord->created_at}}}</td>
+                @foreach($ok as $all)
+                @if(($all->id)==($ord->id))
+                {{ ""; $for_id = $all->old }}
+                <td id="{{$for_id}}">{{{$ord->getcostumer()->first()->email}}}</td>
+                <td id="{{$for_id}}">{{{$ord->getservice()->first()->name}}}</td>
+                <td id="{{$for_id}}">{{{$ord->process}}}</td>
+                <td id="{{$for_id}}">{{{$ord->price}}}</td>
+                <td id="{{$for_id}}">{{{$ord->created_at}}}</td>
                 @endif
                 @endforeach
-
-                @foreach($ones as $one)
-                @if(($ord->id)==($one->id))
-                <td>{{{$ord->getcostumer()->first()->email}}}</td>
-                <td>{{{$ord->getservice()->first()->name}}}</td>
-                <td>{{{$ord->process}}}</td>
-                <td>{{{$ord->price}}}</td>
-                <td>{{{$ord->created_at}}}</td>
-                @endif
-                @endforeach
-
-                @foreach($oneweeks as $oneweek)
-                @if(($oneweek->id)==($ord->id))
-                <td id="oneweek">{{{$ord->getcostumer()->first()->email}}}</td>
-                <td id="oneweek">{{{$ord->getservice()->first()->name}}}</td>
-                <td id="oneweek">{{{$ord->process}}}</td>
-                <td id="oneweek">{{{$ord->price}}}</td>
-                <td id="oneweek">{{{$ord->created_at}}}</td>
-                @endif
-                @endforeach
-
-
-                @foreach($twoweeks as $twoweek)
-                @if(($twoweek->id)==($ord->id))
-                <td id="twoweek">{{{$ord->getcostumer()->first()->email}}}</td>
-                <td id="twoweek">{{{$ord->getservice()->first()->name}}}</td>
-                <td id="twoweek">{{{$ord->process}}}</td>
-                <td id="twoweek">{{{$ord->price}}}</td>
-                <td id="twoweek">{{{$ord->created_at}}}</td>
-                @endif
-                @endforeach
-
-                <td>
+                <td id="{{@$for_id}}">
                     <a href="#modal" class="btn btn-info btn-sm" data-toggle="modal"
                        data-target="#basicModal{{$ord->id}}"><i class="glyphicon glyphicon-eye-open"></i></a>
                     <a href="#" onclick="return confirma({{$ord->id}});" id="ddd{{$ord->id}}"
@@ -179,6 +148,7 @@
             </div>
             <div class="modal-footer">
                 <form action="{{ action('OrdersController@orderChange') }}" method="post">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="id" value="{{$ord->id}}" required />
                     <button type="submit" class="btn btn-info btn-sm">Изменить</button>
                     <a class="btn" href="#" data-dismiss="modal">Отмена</a>
@@ -193,6 +163,7 @@
 <div class="confirm" id="non" ><p class="mydel" align="center">Удалить?</p>
     <p class="button-group" align="center">Я предупреждаю тебя!</p>
     <form action="{{action('OrdersController@orderDestroy') }}" method="get">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <input type="hidden" name="id" value=""/>
         <p align="center"><button class="yes btn btn-small btn-danger">Да</button>
             <button class="no btn btn-small">Нет</button></p>

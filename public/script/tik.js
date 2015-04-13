@@ -1,4 +1,8 @@
-﻿
+﻿$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
 
 function parse_hash()
 {
@@ -53,23 +57,26 @@ function getCookie(name)
 }
 
 $('document').ready(function(){
-    if (0 !== parseInt(getCookie('flash')))
+    if (1 === parseInt(getCookie('flash')))
     {
-        setCookie('flash', 0);
+        //setCookie('flash', 0);
+        document.cookie = 'flash' + "=" + "; expires=Thu, 01 Jan 1970 00:00:01 GMT";
         deleteOrderMsg();
     }
-    if (0 !== parseInt(getCookie('dash')))
+    if (1 === parseInt(getCookie('dash')))
     {
-        setCookie('dash', 0);
+       // setCookie('dash', 0);
+        document.cookie = 'dash' + "=" + "; expires=Thu, 01 Jan 1970 00:00:01 GMT";
         function deleteManagerMsg(){
             $.growl.notice({message: "Менеджер удален !" });
         }
     }
-
-    if (0 !== parseInt(getCookie('managerDelete'))) {
-        setCookie('managerDelete', 0);
+    if (1 === parseInt(getCookie('managerDelete'))) {
+        //setCookie('managerDelete', 0);
+        document.cookie = 'managerDelete' + "=" + "; expires=Thu, 01 Jan 1970 00:00:01 GMT";
         deleteManagerMsg();
     }
+
 
     $('#modal').modal();
     $(".popconfirm").popConfirm({
@@ -91,38 +98,46 @@ $('document').ready(function(){
      */
     $('.ajaxForm').on('submit', function(e)
     {
-        e.preventDefault();
-        var url = $(this).attr('action');
-        $.ajax({
-            url:url,
-            success:function()
-            {
-                setCookie('dash',1);
-                window.location.reload();
-            }
-        });
+        return function(e){
+            e.preventDefault();
+            var url = $(this).attr('action');
+            $.ajax({
+                url:url,
+                success:function()
+                {
+                    setCookie('dash',1);
+                    window.location.reload();
+                }
+            });
+            return false;
+        }
     });
 
+    if ($('.clientTable').length)
+    {
     function deleteClientMsg()
     {
     $.growl.notice({message: "Клиент удален, как и все его заказы!" });
     }
-
+    }
     /*
      delete manager button
      */
     $('.managerDelete').on('submit', function(e)
     {
-        e.preventDefault();
-        var url = $(this).attr('action');
-        $.ajax({
-            url:url,
-            success:function()
-            {
-                setCookie('managerDelete',1);
-                window.location.reload();
-            }
-        });
+        return function(e){
+            e.preventDefault();
+            var url = $(this).attr('action');
+            $.ajax({
+                url:url,
+                success:function()
+                {
+                    setCookie('managerDelete',1);
+                    window.location.reload();
+                }
+            });
+            return false;
+        }
     });
 
     /*
@@ -251,7 +266,7 @@ $('document').ready(function(){
             var sorting = [
                 [field, parsed_sort_data.direction]
             ];
-            // сортируем по первой колонке
+
             $("#example").trigger("sorton", [sorting]);
             setTimeout(function ()
             {
@@ -317,8 +332,11 @@ function confirma (id) {
     return false;
 
 }
+if ($('.orderTable').length)
+{
 function deleteOrderMsg(){
     $.growl.notice({message: "Заказ успешно удален !" });
+}
 }
 $(document).mouseup(function (e) {
     var container = $("#non");

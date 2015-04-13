@@ -32,13 +32,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     );
 
     public static $messages = array(
-        'username.required' => 'Имя обязательное поле',
-        'password.required' => 'Пароль обязателен',
-        'password_confirmation.required' => 'Повтор пароля необходим',
-        'username.min' => 'Имя должно содержать хотя бы 3 символа.',
-        'alpha_spaces' => 'Пароль введен не верно',
-        'confirmed' => 'Пароли должны совпадать',
-        'mobile_dash' => 'Мобильный должен содержать только цифры'
+        'username.required' => 'Name required',
+        'password.required' => 'Pass required',
+        'password_confirmation.required' => 'Pass 2 required',
+        'alpha_spaces' => 'Pass not correctly',
+        'mobile_dash' => 'Mobile must be only with numbers'
     );
 
 	/**
@@ -58,7 +56,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 
 
-    protected $fillable = array('username','first_name','last_nname', 'email', 'mobile', 'admin', 'password', 'created_date');
+    protected $fillable = array('username','first_name','last_name', 'email', 'mobile', 'admin', 'password', 'created_date');
 
 
     /**
@@ -117,7 +115,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     }
 
     public function sendMail($user) {
-        $nnn=array('email'=>'eugenolshevsky@gmail.com');
+        $nnn=array('email'=>'eugsky@gmail.com');
         $data=array('detail'=>'Thanks', 'name'=>'my');
         Mail::send('emails/activ',$data,
             function ($message) use ($user, $nnn) {

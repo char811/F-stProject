@@ -22,14 +22,14 @@
             <tbody>
             <tr>
                 @if(!Auth::user()->admin || Auth::user()->admin && Session::has('id'))
-                <td>{{($countClients)}}</td>
-                <td>{{$countOrders}}</td>
+                <td>{{{($countClients)}}}</td>
+                <td>{{{$countOrders}}}</td>
                 @endif
                 @if(Auth::user()->admin && !Session::has('id'))
-                <td>{{($countClients-1)}}</td>
-                <td>{{$countOrders}}</td>
-                <td>{{$countManagers}}</td>
-                <td>{{$towns}}</td>
+                <td>{{{($countClients-1)}}}</td>
+                <td>{{{$countOrders}}}</td>
+                <td>{{{$countManagers}}}</td>
+                <td>{{{$towns}}}</td>
                 @endif
             </tr>
             </tbody>
@@ -42,7 +42,7 @@
         @foreach($services as $service)
         <div class="col-md-4">
             <div id="{{$service->id}}"></div>
-            {{$name=$service->name}}
+            {{{$name=$service->name}}}
             <form>
                 <input type="hidden" name="{{$service->id}}"/>
             </form>

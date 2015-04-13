@@ -73,8 +73,36 @@ Route::filter('guest', function()
 
 Route::filter('csrf', function()
 {
-	if (Session::token() != Input::get('_token'))
+    if (Request::ajax()) {
+        if(Session::token() != Request::header('X-CSRF-Token')){
+            return Redirect::to('/');
+            //throw new Illuminate\Session\TokenMismatchException;
+        }
+    }
+	elseif (Session::token() != Input::get('_token'))
 	{
-		throw new Illuminate\Session\TokenMismatchException;
+        return Redirect::to('/');
+		//throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+Route::filter('manager', function()
+{
+    if (!Auth::check())
+    {
+        return Redirect::to('/');
+    }
+    else
+    {
+        if (!Auth::user()->admin) return Redirect::to('admin');
+    }
+});
+
+Route::filter('users', function()
+{
+    if (!Auth::check())
+    {
+        return Redirect::to('/');
+    }
+});
+

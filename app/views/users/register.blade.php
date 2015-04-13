@@ -12,7 +12,7 @@
 @section('content')
 
 <div class="container">
-</br></br>
+<br /><br />
     @if ($errors->all())
         <div class="alert alert-danger">
             @foreach ($errors->all() as $error)
@@ -55,5 +55,5 @@
     </div>
 
 {{ Form::close() }}
-
+</div>
 @stop

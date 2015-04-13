@@ -8,13 +8,9 @@
 
 @if (!$errors->isEmpty())
 <div class="alert alert-danger">
-
-    @if($k=$errors->first('email'))
-    <p>Поле Эмейл введено: неправильно либо отсутствует</p>
-    @elseif($k=$errors->first('comment'))
-    <p>Поле Сообщение: введено неправильно либо отсутствует</p>
-    @endif
-
+    @foreach ($errors->all() as $error)
+    <p>{{ $error }}</p>
+    @endforeach
 </div>
 @endif
 
@@ -22,14 +18,16 @@
     <label class="col-sm-2 control-label"> Услуга </label>
 
     <div class="col-sm-5">
-        {{ Form::select('service', Service::all()->lists('name', 'id'), null, array('class' => 'form-control')) }}
+        {{ Form::select('service', array('default' => 'Please Select')
+        +Service::all()->lists('name', 'id'), null, array('class' => 'form-control')) }}
     </div>
 </div>
 <div class="form-group">
     <label class="col-sm-2 control-label"> Статус </label>
 
     <div class="col-sm-5">
-        {{ Form::select('process', Order::$statmessage, null, array('class' => 'form-control')) }}
+        {{ Form::select('process', array('default' => 'Please Select')
+        +Order::$statmessage, null, array('class' => 'form-control')) }}
     </div>
 </div>
 <div class="form-group">

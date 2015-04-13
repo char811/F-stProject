@@ -2,21 +2,6 @@
 
 class ServicesController extends \BaseController {
 
-	/**
-	 * Display a listing of services
-	 *
-	 * @return Response
-	 */
-
-
-	/*public function index()
-	{
-		$services = Service::all();
-        //$uss=User::all();
-
-		return View::make('services.index', compact('services'));
-        //return View::make('services.index', ['services' => $services]);
-	}*/
 
 	/**
 	 * Show the form for creating a new service

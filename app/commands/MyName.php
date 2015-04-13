@@ -4,6 +4,9 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 
+/*
+ * class for create admin with artisan
+ */
 
 class MyName extends Command {
 

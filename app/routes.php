@@ -12,32 +12,25 @@
 
 Route::get('/', 'UsersController@getIndex');
 
-Route::post('form', array('as' => 'form',
+
+Route::post('form', array('before'=>'csrf', 'as' => 'form',
     'uses' => 'UsersController@Record'
 ));
 
 Route::get('admin', 'UsersController@admin');
-Route::post('my', array('as' => 'my',
+Route::post('my', array('before'=>'csrf', 'as' => 'my',
     'uses' => 'UsersController@postLogin'
 ));
 
-Route::filter('manager', function()
-{
-    if (!Auth::check())
-    {
-        return Redirect::to('/');
-    }
-    else
-    {
-        if (!Auth::user()->admin) return Redirect::to('admin');
-    }
-});
+
 Route::group(array('before' => 'manager'), function () {
     Route::get('users/newManager', 'UsersController@newManager');
+
+    Route::get('users/showManagers', 'UsersController@showManagers');
+    Route::group(array('before' => 'csrf'), function () {
     Route::post('manager', array('as' => 'manager',
         'uses' => 'UsersController@managerRecord'
     ));
-    Route::get('users/showManagers', 'UsersController@showManagers');
     Route::get('users/shadow{id}', array('as' => 'shadow', 'uses' => 'UsersController@shadow'));
 
     Route::get('users/showManagers{manager}', array('as' => 'managerDelete', 'uses' => 'UsersController@managerDelete'));
@@ -46,41 +39,42 @@ Route::group(array('before' => 'manager'), function () {
         'uses' => 'UsersController@useManagerChange'
     ));
     Route::get('searchManager', array('uses' => 'UsersController@ajaxSearchManagers'));
-});
-Route::filter('users', function()
-{
-     if (!Auth::check())
-     {
-         return Redirect::to('/');
-     }
+    });
 });
 
 Route::group(array('before' => 'users'), function ()
 {
-    Route::get('shadow', array('as' => 'shadowDelete', 'uses' => 'UsersController@shadowDelete'));
-    Route::group(['as' => 'su', 'domain' => '{city}.lara/public'], function ()
-    {
-        Route::get('admin', 'UsersController@admin');
-    });
+    Route::get('users/indexDelete{client}', array('as' => 'clientDelete', 'uses' => 'UsersController@clientDestroy'));
 
     Route::get('users/index', array('as' => 'users/index',
         'uses' => 'UsersController@clients'));
     Route::get('orders/index', array('as' => 'orders/index',
         'uses' => 'OrdersController@orders'));
-    Route::post('services/index', array('as' => 'services/index',
+    Route::get('services/index', 'ServicesController@create');
+    Route::get('cities/index', 'CitiesController@create');
+    Route::get('orders/index', array('as' => 'sortOrder', 'uses' => 'OrdersController@Orders'));
+    Route::get('users/index{id}', array('as' => 'sortClient', 'uses' => 'UsersController@Clients'));
+    Route::get('orders/statistics', array('as' => 'orders/statistics', 'uses' => 'OrdersController@statistics'));
+    Route::get('users/clientRecord', 'UsersController@newClientCreate');
+    Route::get('orders/orderRecord', 'OrdersController@newOrderCreate');
+
+    Route::group(['as' => 'su', 'domain' => '{city}.lara/public'], function ()
+    {
+        Route::get('admin', 'UsersController@admin');
+    });
+
+    Route::group(array('before' => 'csrf'), function ()
+    {
+
+    Route::get('shadow', array('as' => 'shadowDelete', 'uses' => 'UsersController@shadowDelete'));
+
+     Route::post('services/index', array('as' => 'services/index',
         'uses' => 'ServicesController@store'
     ));
-
-    Route::get('services/index', 'ServicesController@create');
 
     Route::post('cities/index', array('as' => 'cities/index',
         'uses' => 'CitiesController@store'
     ));
-
-    Route::get('cities/index', 'CitiesController@create');
-
-    Route::get('users/clientRecord', 'UsersController@newClientCreate');
-    Route::get('orders/orderRecord', 'OrdersController@newOrderCreate');
 
     Route::post('record', array('as' => 'record',
         'uses' => 'UsersController@clientRecord'
@@ -90,10 +84,7 @@ Route::group(array('before' => 'users'), function ()
     ));
 
     Route::get('orders/delete', array('as' => 'orderDelete', 'uses' => 'OrdersController@orderDestroy'));
-    Route::get('users/index{client}', array('as' => 'clientDelete', 'uses' => 'UsersController@clientDestroy'));
 
-    Route::get('orders/index', array('as' => 'sortOrder', 'uses' => 'OrdersController@Orders'));
-    Route::get('users/index{id}', array('as' => 'sortClient', 'uses' => 'UsersController@Clients'));
 
     Route::post('orders/orderChange', array('as' => 'orderChange', 'uses' => 'OrdersController@orderChange'));
     Route::post('users/clientChange', array('as' => 'clientChange', 'uses' => 'UsersController@clientChange'));
@@ -107,11 +98,10 @@ Route::group(array('before' => 'users'), function ()
 
     Route::get('search', array('uses' => 'OrdersController@ajaxSearchClientsOrOrders'));
 
-    Route::get('orders/statistics', array('as' => 'orders/statistics', 'uses' => 'OrdersController@statistics'));
-
     Route::any('orders/chart', array('as' => 'chart', 'uses' => 'OrdersController@pyramid'));
 
     Route::post('exit', array('as' => 'exit', 'uses' => 'UsersController@getLogout'));
 
+    });
 });
 

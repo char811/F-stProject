@@ -6,7 +6,7 @@ Our company
 @stop
 
 @section('content')
-</br></br></br>
+<br /><br /><br />
 
 <div class="jumbotron">
     <div class="container">
